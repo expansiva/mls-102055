@@ -1,0 +1,67 @@
+/// <mls fileReference="_102055_/l2/molecules/grouptriggeraction/ml-split-button-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// SPLIT BUTTON — GLASSMORPHISM  (botão + menu popover)
+// Fundo escuro/rico atrás. Tamanho/layout via Tailwind.
+// =============================================================================
+grouptriggeraction--ml-split-button-glass {
+  display: inline-block;
+
+  .glass-split-primary,
+  .glass-split-chevron {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(99, 102, 241, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    cursor: pointer;
+    transition: background 200ms ease, box-shadow 200ms ease;
+
+    &:hover:not(:disabled) {
+      background: rgba(99, 102, 241, 0.64);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.5);
+    }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+  .glass-split-primary {
+    border-radius: 12px 0 0 12px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+  }
+  .glass-split-chevron {
+    border-radius: 0 12px 12px 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    margin-left: -1px;
+  }
+
+  // ---- menu (popover translúcido, base 0.85) ----
+  .glass-split-menu {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: rgba(30, 27, 75, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  .glass-split-option {
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: background 150ms ease;
+    &:not(.is-disabled):hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    &.is-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+}

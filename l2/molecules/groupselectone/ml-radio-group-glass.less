@@ -1,0 +1,116 @@
+/// <mls fileReference="_102055_/l2/molecules/groupselectone/ml-radio-group-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// RADIO GROUP — GLASSMORPHISM
+// Aparência self-contained, escopada sob a tag real. Fundo escuro/rico atrás.
+// Layout via Tailwind no template.
+// =============================================================================
+groupselectone--ml-radio-group-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  &.is-disabled,
+  .is-disabled {
+    // estado tratado por classe abaixo
+  }
+
+  .glass-rg-label {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .glass-required {
+    color: #ffb4ab;
+  }
+
+  // ---- opção (cartão de vidro) ----
+  .glass-rg-option {
+    position: relative;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+
+    &.is-selected {
+      background: rgba(99, 102, 241, 0.4);
+      border-color: rgba(199, 210, 254, 0.8);
+    }
+    &.is-focused {
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.8);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    &:not(.is-disabled):not(.is-selected):hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+  }
+
+  // ---- indicador radio ----
+  .glass-rg-radio {
+    border-radius: 9999px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    transition: border-color 200ms ease, background 200ms ease;
+
+    &.is-selected {
+      border-color: #c7d2fe;
+      background: rgba(99, 102, 241, 0.9);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+    }
+  }
+  .glass-rg-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: #fff;
+  }
+
+  // ---- texto ----
+  .glass-rg-text {
+    color: rgba(255, 255, 255, 0.9);
+    transition: color 200ms ease;
+    &.is-selected {
+      color: #fff;
+      font-weight: 500;
+    }
+    &.is-disabled {
+      color: rgba(255, 255, 255, 0.45);
+    }
+  }
+
+  .glass-rg-group-label {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .glass-rg-empty {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  // ---- loading ----
+  .glass-rg-spinner {
+    border: 2px solid rgba(199, 210, 254, 0.9);
+    border-top-color: transparent;
+  }
+  .glass-rg-loading-text {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  // ---- feedback / view ----
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-rg-view-value {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}

@@ -1,0 +1,140 @@
+/// <mls fileReference="_102055_/l2/molecules/groupentertime/ml-clock-time-picker-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// CLOCK TIME PICKER — GLASSMORPHISM
+// Campo translúcido + painel popover com grade de horas/minutos/segundos.
+// =============================================================================
+groupentertime--ml-clock-time-picker-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-tp-label {
+    color: rgba(255, 255, 255, 0.7);
+    display: block;
+  }
+  .glass-tp-req {
+    color: #ffb4ab;
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-tp-view {
+    color: #fff;
+  }
+  .glass-tp-loading {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-tp-step {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  // ---- input ----
+  .glass-tp-input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+    &:focus {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.7);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+  .glass-tp-clock {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- painel ----
+  .glass-tp-panel {
+    background: rgba(30, 27, 75, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  // ---- opções (relógio) ----
+  .glass-tp-option {
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+
+    &:hover:not(.is-disabled):not(.is-selected) {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    &.is-selected {
+      background: rgba(199, 210, 254, 0.2);
+      border-color: rgba(199, 210, 254, 0.9);
+      color: #e0e7ff;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- AM/PM ----
+  .glass-tp-ampm {
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+
+    &.is-active {
+      background: rgba(199, 210, 254, 0.2);
+      border-color: rgba(199, 210, 254, 0.9);
+      color: #e0e7ff;
+    }
+  }
+
+  // ---- ações ----
+  .glass-tp-clear {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    &:hover {
+      color: #fff;
+    }
+  }
+  .glass-tp-confirm {
+    border-radius: 8px;
+    border: 1px solid rgba(199, 210, 254, 0.6);
+    background: rgba(129, 140, 248, 0.85);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.12s ease;
+    &:hover {
+      background: rgba(129, 140, 248, 1);
+    }
+  }
+}

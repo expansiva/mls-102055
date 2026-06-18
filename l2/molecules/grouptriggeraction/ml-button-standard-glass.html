@@ -1,0 +1,66 @@
+<!-- Fundo rico = contrato de container do glassmorphism (sem ele o blur não aparece). -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0f172a 0%,#312e81 45%,#7e22ce 100%); background-attachment:fixed;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Button Standard</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupTriggerAction · glassmorphism · 102055 (herança)</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"state":{"loading":false,"disabled":false}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Variants</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+          <grouptriggeraction--ml-button-standard-glass data-variant="primary"><Label>Primary</Label></grouptriggeraction--ml-button-standard-glass>
+          <grouptriggeraction--ml-button-standard-glass data-variant="secondary"><Label>Secondary</Label></grouptriggeraction--ml-button-standard-glass>
+          <grouptriggeraction--ml-button-standard-glass data-variant="danger"><Label>Danger</Label></grouptriggeraction--ml-button-standard-glass>
+          <grouptriggeraction--ml-button-standard-glass data-variant="ghost"><Label>Ghost</Label></grouptriggeraction--ml-button-standard-glass>
+          <grouptriggeraction--ml-button-standard-glass data-variant="link"><Label>Link</Label></grouptriggeraction--ml-button-standard-glass>
+        </div>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Sizes</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+          <grouptriggeraction--ml-button-standard-glass data-variant="primary" size="xs"><Label>Extra small</Label></grouptriggeraction--ml-button-standard-glass>
+          <grouptriggeraction--ml-button-standard-glass data-variant="primary" size="sm"><Label>Small</Label></grouptriggeraction--ml-button-standard-glass>
+          <grouptriggeraction--ml-button-standard-glass data-variant="primary" size="md"><Label>Medium</Label></grouptriggeraction--ml-button-standard-glass>
+          <grouptriggeraction--ml-button-standard-glass data-variant="primary" size="lg"><Label>Large</Label></grouptriggeraction--ml-button-standard-glass>
+        </div>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">With Icon</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+          <grouptriggeraction--ml-button-standard-glass data-variant="primary">
+            <Icon><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="100%" height="100%"><path d="M5 12h14M12 5l7 7-7 7"/></svg></Icon>
+            <Label>Icon start</Label>
+          </grouptriggeraction--ml-button-standard-glass>
+          <grouptriggeraction--ml-button-standard-glass data-variant="secondary" icon-position="end">
+            <Icon><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="100%" height="100%"><path d="M5 12h14M12 5l7 7-7 7"/></svg></Icon>
+            <Label>Icon end</Label>
+          </grouptriggeraction--ml-button-standard-glass>
+        </div>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Loading / Disabled</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+          <grouptriggeraction--ml-button-standard-glass data-variant="primary" loading="{{playground.state.loading}}" disabled="{{playground.state.disabled}}">
+            <Label>Submit</Label>
+          </grouptriggeraction--ml-button-standard-glass>
+        </div>
+        <details style="margin-top:1rem;">
+          <summary style="cursor:pointer; font-size:0.875rem; color:rgba(255,255,255,0.7);">Properties</summary>
+          <div style="margin-top:0.5rem; padding:1rem; border:1px solid rgba(255,255,255,0.15); border-radius:0.5rem;">
+            <widget-playground-state-boolean-102020 label="loading" value="{{playground.state.loading}}"></widget-playground-state-boolean-102020>
+            <widget-playground-state-boolean-102020 label="disabled" value="{{playground.state.disabled}}"></widget-playground-state-boolean-102020>
+          </div>
+        </details>
+      </article>
+
+    </section>
+  </div>
+</div>

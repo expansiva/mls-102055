@@ -1,0 +1,78 @@
+/// <mls fileReference="_102055_/l2/molecules/groupenternumber/ml-number-stepper-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// NUMBER STEPPER — GLASSMORPHISM (102055, por herança)
+// =============================================================================
+groupenternumber--ml-number-stepper-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-ns-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-ns-affix {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .glass-ns-input {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.95);
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    &:focus {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.3);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.85);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      cursor: default;
+    }
+  }
+
+  .glass-ns-btn {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    cursor: pointer;
+    transition: background 200ms ease;
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+    }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .glass-ns-view {
+    color: rgba(255, 255, 255, 0.95);
+  }
+  .glass-ns-loading {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+}

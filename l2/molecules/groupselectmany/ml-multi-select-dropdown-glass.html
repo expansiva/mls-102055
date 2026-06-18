@@ -1,0 +1,79 @@
+<!-- Fundo rico = contrato de container do glassmorphism. -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#312e81 45%,#7e22ce 100%); background-attachment:fixed;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Multi Select Dropdown</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupSelectMany · glassmorphism · 102055 (herança)</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"value":"br,us"},"search":{"value":""},"groups":{"value":"fe"},"error":{"value":"","error":""},"viewmode":{"value":"br,pt"}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Basic (chips)</h3>
+        <demo id="demo-basic">
+          <groupselectmany--ml-multi-select-dropdown-glass value="{{playground.basic.value}}">
+            <Label>Países</Label>
+            <Helper>Selecione um ou mais</Helper>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+            <Item value="pt">Portugal</Item>
+            <Item value="jp" disabled>Japão (indisponível)</Item>
+          </groupselectmany--ml-multi-select-dropdown-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Searchable + máx 2</h3>
+        <demo id="demo-search">
+          <groupselectmany--ml-multi-select-dropdown-glass value="{{playground.search.value}}" searchable="true" max-selection="2">
+            <Label>Tecnologias</Label>
+            <Helper>Escolha até 2</Helper>
+            <Item value="ts">TypeScript</Item>
+            <Item value="js">JavaScript</Item>
+            <Item value="py">Python</Item>
+            <Item value="go">Go</Item>
+            <Item value="rs">Rust</Item>
+          </groupselectmany--ml-multi-select-dropdown-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Com grupos</h3>
+        <demo id="demo-groups">
+          <groupselectmany--ml-multi-select-dropdown-glass value="{{playground.groups.value}}">
+            <Label>Times</Label>
+            <Group label="Engenharia">
+              <Item value="fe">Front-end</Item>
+              <Item value="be">Back-end</Item>
+            </Group>
+            <Group label="Produto">
+              <Item value="pm">PM</Item>
+              <Item value="ux">UX</Item>
+            </Group>
+          </groupselectmany--ml-multi-select-dropdown-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Required (mín 1) / View</h3>
+        <demo id="demo-error">
+          <groupselectmany--ml-multi-select-dropdown-glass value="{{playground.error.value}}" required="true" min-selection="1">
+            <Label>Países</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+          </groupselectmany--ml-multi-select-dropdown-glass>
+        </demo>
+        <div style="margin-top:1rem;">
+          <groupselectmany--ml-multi-select-dropdown-glass value="{{playground.viewmode.value}}" is-editing="false">
+            <Label>Países (view)</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="pt">Portugal</Item>
+          </groupselectmany--ml-multi-select-dropdown-glass>
+        </div>
+      </article>
+
+    </section>
+  </div>
+</div>

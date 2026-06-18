@@ -1,0 +1,26 @@
+<!-- Fundo rico = contrato de container do glassmorphism. -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#312e81 45%,#7e22ce 100%); background-attachment:fixed;">
+  <div style="max-width:48rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Profile Card</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupViewCard · glassmorphism · 102055 (herança)</span>
+    </header>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;">
+      <groupviewcard--ml-profile-card-glass>
+        <CardTitle>Ada Lovelace</CardTitle>
+        <CardDescription>Engenheira de software</CardDescription>
+        <CardContent>Primeira programadora da história, pioneira da computação.</CardContent>
+        <CardFooter>Membro desde 2021</CardFooter>
+      </groupviewcard--ml-profile-card-glass>
+
+      <groupviewcard--ml-profile-card-glass selected="true" clickable="true">
+        <CardTitle>Alan Turing</CardTitle>
+        <CardDescription>Matemático (selecionado)</CardDescription>
+        <CardContent>Card clicável e selecionado.</CardContent>
+      </groupviewcard--ml-profile-card-glass>
+
+      <groupviewcard--ml-profile-card-glass loading="true"></groupviewcard--ml-profile-card-glass>
+    </section>
+  </div>
+</div>

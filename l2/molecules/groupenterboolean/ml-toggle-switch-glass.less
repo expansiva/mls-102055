@@ -1,0 +1,63 @@
+/// <mls fileReference="_102055_/l2/molecules/groupenterboolean/ml-toggle-switch-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// TOGGLE SWITCH — GLASSMORPHISM (102055, por herança)
+// Trilho translúcido + thumb de vidro. Estado "on" em accent índigo.
+// =============================================================================
+groupenterboolean--ml-toggle-switch-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-tg-label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .glass-tg-view {
+    color: #fff;
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+
+  // ---- trilho ----
+  .glass-tg-track {
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
+    }
+    &.is-on {
+      background: rgba(129, 140, 248, 0.65);
+      border-color: rgba(199, 210, 254, 0.9);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.7);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- thumb ----
+  .glass-tg-thumb {
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    transform: translateX(0.25rem);
+    transition: transform 0.2s ease;
+
+    &.is-on {
+      transform: translateX(1.5rem);
+    }
+  }
+}

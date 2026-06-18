@@ -1,0 +1,140 @@
+/// <mls fileReference="_102055_/l2/molecules/groupselectmany/ml-multi-select-dropdown-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// MULTI SELECT DROPDOWN — GLASSMORPHISM por HERANÇA (102055, popover glass, base 0.85)
+// Aparência self-contained, escopada sob a tag -glass. Fundo escuro/rico atrás.
+// Layout/posicionamento via Tailwind no template.
+// =============================================================================
+groupselectmany--ml-multi-select-dropdown-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-label {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .glass-placeholder {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .glass-count {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  // ---- chips selecionados ----
+  .glass-tag {
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.45);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  // ---- trigger ----
+  .glass-trigger {
+    position: relative;
+    color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
+    text-align: left;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.45);
+      pointer-events: none;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.3), 0 4px 16px rgba(0, 0, 0, 0.16);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.85);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- painel (popover translúcido, base 0.85) ----
+  .glass-panel {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
+    background: rgba(30, 27, 75, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  // ---- busca ----
+  .glass-search-wrap {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .glass-search {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    outline: none;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    &:focus {
+      border-color: rgba(199, 210, 254, 0.8);
+    }
+  }
+
+  // ---- itens ----
+  .glass-item {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.9);
+    background: transparent;
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+
+    &:not(.is-disabled):not(.is-selected):hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    &.is-selected {
+      background: rgba(99, 102, 241, 0.4);
+      border-color: rgba(199, 210, 254, 0.7);
+      color: #fff;
+    }
+    &.is-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+  .glass-check {
+    color: #c7d2fe;
+  }
+
+  .glass-group-label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-empty {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  // ---- feedback / view ----
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-view-box {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.95);
+  }
+}

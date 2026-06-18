@@ -1,0 +1,82 @@
+/// <mls fileReference="_102055_/l2/molecules/groupnavigatesection/ml-breadcrumb-trail-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// BREADCRUMB TRAIL — GLASSMORPHISM
+// Trilha translúcida discreta. Fundo escuro/rico atrás. Layout via Tailwind.
+// =============================================================================
+groupnavigatesection--ml-breadcrumb-trail-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-bc-label {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-bc-muted {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-bc-item {
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.65);
+    transition: background 150ms ease, color 150ms ease;
+
+    &.is-active {
+      color: #fff;
+      font-weight: 500;
+    }
+    &.is-interactive {
+      cursor: pointer;
+    }
+    &.is-interactive:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .glass-bc-sep {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .glass-bc-overflow-btn {
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // overflow popover
+  .glass-bc-menu {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(30, 27, 75, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
+  }
+
+  .glass-bc-panel {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+}

@@ -1,0 +1,88 @@
+/// <mls fileReference="_102055_/l2/molecules/groupentertext/ml-floating-text-input-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// ML FLOATING TEXT INPUT — GLASSMORPHISM (102055, por herança)
+// =============================================================================
+groupentertext--ml-floating-text-input-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  // ---- campo (superfície de vidro) ----
+  .glass-input-container {
+    position: relative;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+    transition: border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
+    cursor: text;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.45);
+      pointer-events: none;
+    }
+
+    &:focus-within:not(.is-error) {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.35), 0 4px 16px rgba(0, 0, 0, 0.16);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.85);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- input ----
+  .glass-input-field {
+    color: rgba(255, 255, 255, 0.95);
+    caret-color: rgba(199, 210, 254, 1);
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+    &.is-readonly {
+      cursor: default;
+    }
+  }
+
+  // ---- labels ----
+  .glass-input-inline-label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-input-floating-label {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  // ---- prefix / suffix ----
+  .glass-input-affix {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-input-spinner {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: rgba(255, 255, 255, 0.9);
+  }
+
+  // ---- feedback ----
+  .glass-input-error {
+    color: #ffb4ab;
+  }
+  .glass-input-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  // ---- view mode ----
+  .glass-input-view-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-input-view-value {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}

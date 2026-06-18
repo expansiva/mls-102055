@@ -1,0 +1,80 @@
+/// <mls fileReference="_102055_/l2/molecules/groupnotifyuser/ml-toast-notification-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// TOAST NOTIFICATION — GLASSMORPHISM
+// Toast translúcido tonalizado por tipo. Fundo escuro/rico atrás.
+// Layout/posição/animação via Tailwind no template.
+// =============================================================================
+groupnotifyuser--ml-toast-notification-glass {
+  display: contents;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-toast {
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(30, 27, 75, 0.78);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.92);
+
+    &.is-success {
+      background: rgba(16, 80, 60, 0.8);
+    }
+    &.is-warning {
+      background: rgba(100, 75, 18, 0.8);
+    }
+    &.is-error {
+      background: rgba(110, 35, 45, 0.82);
+    }
+    &.is-info {
+      background: rgba(40, 50, 110, 0.8);
+    }
+  }
+
+  .glass-toast-icon {
+    color: #fff;
+  }
+  .is-success .glass-toast-icon {
+    color: #6ee7b7;
+  }
+  .is-warning .glass-toast-icon {
+    color: #fcd34d;
+  }
+  .is-error .glass-toast-icon {
+    color: #fca5a5;
+  }
+  .is-info .glass-toast-icon {
+    color: #c7d2fe;
+  }
+
+  .glass-toast-title {
+    color: #fff;
+  }
+  .glass-toast-message {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .glass-toast-action {
+    color: #c7d2fe;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .glass-toast-close {
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.7);
+    }
+  }
+}

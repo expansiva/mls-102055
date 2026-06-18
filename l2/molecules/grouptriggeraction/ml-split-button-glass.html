@@ -1,0 +1,33 @@
+<!-- Fundo rico = contrato de container do glassmorphism. -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#312e81 45%,#7e22ce 100%); background-attachment:fixed;">
+  <div style="max-width:48rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Split Button</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupTriggerAction · glassmorphism · 102055 (herança)</span>
+    </header>
+
+    <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+      <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Salvar com opções</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:1rem; align-items:center;">
+        <grouptriggeraction--ml-split-button-glass>
+          <Label value="save">Salvar</Label>
+          <span value="save-new">Salvar e criar novo</span>
+          <span value="save-copy">Salvar como cópia</span>
+          <span value="save-template" disabled>Salvar como template</span>
+        </grouptriggeraction--ml-split-button-glass>
+
+        <grouptriggeraction--ml-split-button-glass size="sm">
+          <Label value="export">Exportar</Label>
+          <span value="pdf">PDF</span>
+          <span value="csv">CSV</span>
+          <span value="xlsx">Excel</span>
+        </grouptriggeraction--ml-split-button-glass>
+
+        <grouptriggeraction--ml-split-button-glass disabled="true">
+          <Label value="save">Desabilitado</Label>
+          <span value="a">Opção A</span>
+        </grouptriggeraction--ml-split-button-glass>
+      </div>
+    </article>
+  </div>
+</div>

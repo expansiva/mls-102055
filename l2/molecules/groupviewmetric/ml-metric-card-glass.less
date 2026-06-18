@@ -1,0 +1,70 @@
+/// <mls fileReference="_102055_/l2/molecules/groupviewmetric/ml-metric-card-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// METRIC CARD — GLASSMORPHISM (102055, por herança)
+// Card translúcido com valor em destaque e badge de tendência semântica.
+// =============================================================================
+groupviewmetric--ml-metric-card-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-mc {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    color: #fff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .glass-mc-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-mc-value {
+    color: #fff;
+  }
+  .glass-mc-helper {
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .glass-mc-icon {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  // ---- tendência ----
+  .glass-mc-trend {
+    border-radius: 8px;
+    border: 1px solid transparent;
+
+    &.is-up {
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    &.is-down {
+      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+    &.is-neutral {
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  // ---- skeleton ----
+  .glass-mc-skel {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    animation: glass-mc-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes glass-mc-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.25; }
+  }
+}

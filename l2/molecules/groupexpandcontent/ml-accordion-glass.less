@@ -1,0 +1,91 @@
+/// <mls fileReference="_102055_/l2/molecules/groupexpandcontent/ml-accordion-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// ML ACCORDION — GLASSMORPHISM
+// Aparência self-contained, escopada sob a tag real. Assume fundo escuro/rico
+// atrás (contrato de container): texto claro e backdrop-filter visível.
+// Layout/animação (flex, max-h, transition) vem do Tailwind no template.
+// =============================================================================
+groupexpandcontent--ml-accordion-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-acc-label {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .glass-acc-muted {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-acc-skeleton {
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  // seção = recorte do vidro (cantos arredondados aplicam a header + content)
+  .glass-acc-section {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+  }
+
+  // ---- header ----
+  .glass-acc-header {
+    position: relative;
+    color: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    cursor: pointer;
+    transition: background 250ms ease, color 250ms ease;
+
+    // aresta especular superior
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
+      pointer-events: none;
+    }
+
+    &.is-open {
+      background: rgba(99, 102, 241, 0.38);
+      box-shadow: inset 3px 0 0 rgba(199, 210, 254, 0.9);
+    }
+    &:not(.is-disabled):not(.is-open):hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  // ---- chevron ----
+  .glass-acc-chevron {
+    color: rgba(255, 255, 255, 0.7);
+    &.is-open {
+      color: rgba(199, 210, 254, 1);
+    }
+  }
+
+  // ---- content ----
+  .glass-acc-content {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .glass-acc-body {
+    color: rgba(255, 255, 255, 0.82);
+  }
+}

@@ -1,0 +1,133 @@
+/// <mls fileReference="_102055_/l2/molecules/groupselectone/ml-card-selector-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// CARD SELECTOR — GLASSMORPHISM (102055, por herança)
+// Gatilho translúcido + painel popover frosted com grid de cards de vidro.
+// =============================================================================
+groupselectone--ml-card-selector-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-cs-label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .glass-cs-req {
+    color: #ffb4ab;
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-cs-chevron {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-cs-empty {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .glass-cs-group {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .glass-cs-check {
+    color: #c7d2fe;
+  }
+
+  // ---- view mode ----
+  .glass-cs-view {
+    color: #fff;
+    .glass-cs-view-label {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  // ---- gatilho ----
+  .glass-cs-trigger {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    &:hover:not(.is-disabled):not(.is-open):not(.is-error) {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    &.is-open {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.7);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      cursor: default;
+    }
+  }
+  .glass-cs-value {
+    color: #fff;
+    &.is-placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+  }
+
+  // ---- painel popover ----
+  .glass-cs-panel {
+    background: rgba(30, 27, 75, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .glass-cs-search-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .glass-cs-search {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    outline: none;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+    &:focus {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+    }
+  }
+
+  // ---- cards de vidro ----
+  .glass-cs-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover:not(.is-disabled):not(.is-selected) {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    &.is-selected {
+      border-color: rgba(199, 210, 254, 0.9);
+      background: rgba(199, 210, 254, 0.15);
+    }
+    &.is-focused {
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

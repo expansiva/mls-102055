@@ -1,0 +1,51 @@
+<!-- Fundo rico = contrato de container do glassmorphism (sem ele o blur não aparece). -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#1e1b4b 0%,#4c1d95 45%,#be185d 100%); background-attachment:fixed;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Toggle Switch</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupEnterBoolean · glassmorphism · 102055 (herança)</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"value":false},"helper":{"value":true},"error":{"value":false,"error":"You must accept the terms to proceed"},"disabled":{"value":true},"viewmode":{"value":true}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;">
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Basic</h3>
+        <groupenterboolean--ml-toggle-switch-glass value="{{playground.basic.value}}">
+          <Label>Enable notifications</Label>
+        </groupenterboolean--ml-toggle-switch-glass>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">With Helper</h3>
+        <groupenterboolean--ml-toggle-switch-glass value="{{playground.helper.value}}">
+          <Label>Subscribe to newsletter</Label>
+          <Helper>Receive weekly updates directly in your inbox</Helper>
+        </groupenterboolean--ml-toggle-switch-glass>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Error</h3>
+        <groupenterboolean--ml-toggle-switch-glass value="{{playground.error.value}}" error="{{playground.error.error}}">
+          <Label>Accept terms and conditions</Label>
+        </groupenterboolean--ml-toggle-switch-glass>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Disabled</h3>
+        <groupenterboolean--ml-toggle-switch-glass value="{{playground.disabled.value}}" disabled="true">
+          <Label>System maintenance mode</Label>
+        </groupenterboolean--ml-toggle-switch-glass>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">View Mode</h3>
+        <groupenterboolean--ml-toggle-switch-glass value="{{playground.viewmode.value}}" is-editing="false">
+          <Label>Active status</Label>
+        </groupenterboolean--ml-toggle-switch-glass>
+      </article>
+
+    </section>
+  </div>
+</div>

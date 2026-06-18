@@ -1,0 +1,137 @@
+/// <mls fileReference="_102055_/l2/molecules/groupselectmany/ml-popover-multi-select-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// POPOVER MULTI SELECT — GLASSMORPHISM por HERANÇA (102055)
+// Gatilho translúcido com chips + painel popover frosted (rgba(30,27,75,0.85)).
+// =============================================================================
+groupselectmany--ml-popover-multi-select-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-pms-label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-pms-muted {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-pms-placeholder {
+    color: rgba(255, 255, 255, 0.45);
+  }
+  .glass-pms-chevron {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-pms-empty {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .glass-pms-group {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .glass-pms-check {
+    color: #c7d2fe;
+  }
+
+  // ---- gatilho ----
+  .glass-pms-trigger {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    &:focus-visible {
+      outline: none;
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+    }
+    &.is-open {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.2);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.7);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- chips ----
+  .glass-pms-tag {
+    background: rgba(199, 210, 254, 0.18);
+    color: #e0e7ff;
+    border: 1px solid rgba(199, 210, 254, 0.35);
+  }
+
+  // ---- view mode ----
+  .glass-pms-view {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #fff;
+  }
+
+  // ---- painel popover ----
+  .glass-pms-panel {
+    background: rgba(30, 27, 75, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .glass-pms-search-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .glass-pms-search {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    outline: none;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+    &:focus {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+    }
+  }
+
+  // ---- itens ----
+  .glass-pms-item {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+
+    &:hover:not(.is-disabled):not(.is-selected) {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    &:focus-visible {
+      outline: none;
+      background: rgba(255, 255, 255, 0.12);
+    }
+    &.is-selected {
+      background: rgba(199, 210, 254, 0.18);
+      color: #e0e7ff;
+      border-color: rgba(199, 210, 254, 0.6);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

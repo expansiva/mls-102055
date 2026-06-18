@@ -1,0 +1,63 @@
+<!-- Fundo rico = contrato de container do glassmorphism. -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#312e81 45%,#7e22ce 100%); background-attachment:fixed;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Segmented Control</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupSelectOne · glassmorphism</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"value":"month"},"three":{"value":"list"},"disabled":{"value":"day"},"viewmode":{"value":"month"}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Período</h3>
+        <demo id="demo-basic">
+          <groupselectone--ml-segmented-control-glass value="{{playground.basic.value}}">
+            <Label>Visualização</Label>
+            <Item value="day">Dia</Item>
+            <Item value="week">Semana</Item>
+            <Item value="month">Mês</Item>
+          </groupselectone--ml-segmented-control-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Layout</h3>
+        <demo id="demo-three">
+          <groupselectone--ml-segmented-control-glass value="{{playground.three.value}}">
+            <Label>Modo</Label>
+            <Helper>Como exibir os itens</Helper>
+            <Item value="list">Lista</Item>
+            <Item value="grid">Grade</Item>
+            <Item value="kanban" disabled>Kanban</Item>
+          </groupselectone--ml-segmented-control-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Disabled</h3>
+        <demo id="demo-disabled">
+          <groupselectone--ml-segmented-control-glass value="{{playground.disabled.value}}" disabled="true">
+            <Label>Visualização</Label>
+            <Item value="day">Dia</Item>
+            <Item value="week">Semana</Item>
+            <Item value="month">Mês</Item>
+          </groupselectone--ml-segmented-control-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">View mode</h3>
+        <demo id="demo-viewmode">
+          <groupselectone--ml-segmented-control-glass value="{{playground.viewmode.value}}" is-editing="false">
+            <Label>Visualização</Label>
+            <Item value="day">Dia</Item>
+            <Item value="month">Mês</Item>
+          </groupselectone--ml-segmented-control-glass>
+        </demo>
+      </article>
+
+    </section>
+  </div>
+</div>

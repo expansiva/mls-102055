@@ -1,0 +1,24 @@
+<!-- Fundo rico = contrato de container do glassmorphism. -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#312e81 45%,#7e22ce 100%); background-attachment:fixed;">
+  <div style="max-width:32rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Popover Multi Select</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupSelectMany · glassmorphism · 102055 (herança)</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"skills":{"value":"lit,ts"}}}'></widget-playground-state-102020>
+
+    <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+      <groupselectmany--ml-popover-multi-select-glass value="{{playground.skills.value}}" searchable max-selection="3">
+        <Label>Habilidades (máx. 3)</Label>
+        <Helper>Clique para abrir e selecione várias</Helper>
+        <Item value="lit">Lit</Item>
+        <Item value="ts">TypeScript</Item>
+        <Item value="less">LESS</Item>
+        <Item value="a11y">Acessibilidade</Item>
+        <Item value="design">Design Systems</Item>
+        <Item value="legacy" disabled>Legacy (indisponível)</Item>
+      </groupselectmany--ml-popover-multi-select-glass>
+    </article>
+  </div>
+</div>

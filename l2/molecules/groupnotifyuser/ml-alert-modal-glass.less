@@ -1,0 +1,87 @@
+/// <mls fileReference="_102055_/l2/molecules/groupnotifyuser/ml-alert-modal-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// ALERT MODAL — GLASSMORPHISM
+// Scrim com blur (desfoca a página atrás) + painel de vidro. Fundo escuro atrás.
+// Layout/posição via Tailwind no template.
+// =============================================================================
+groupnotifyuser--ml-alert-modal-glass {
+  display: contents;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  // scrim: escurece e DESFOCA o conteúdo atrás do modal
+  .glass-modal-scrim {
+    background: rgba(8, 10, 25, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  // painel de vidro
+  .glass-modal {
+    position: relative;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(30, 27, 75, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.92);
+
+    &.is-success {
+      border-top: 3px solid rgba(110, 231, 183, 0.8);
+    }
+    &.is-warning {
+      border-top: 3px solid rgba(252, 211, 77, 0.8);
+    }
+    &.is-error {
+      border-top: 3px solid rgba(252, 165, 165, 0.85);
+    }
+    &.is-info {
+      border-top: 3px solid rgba(199, 210, 254, 0.8);
+    }
+  }
+
+  // ícone redondo por tipo
+  .glass-modal-icon-wrap {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .is-success .glass-modal-icon-wrap {
+    color: #6ee7b7;
+    background: rgba(16, 100, 70, 0.45);
+  }
+  .is-warning .glass-modal-icon-wrap {
+    color: #fcd34d;
+    background: rgba(120, 90, 20, 0.45);
+  }
+  .is-error .glass-modal-icon-wrap {
+    color: #fca5a5;
+    background: rgba(130, 40, 50, 0.5);
+  }
+  .is-info .glass-modal-icon-wrap {
+    color: #c7d2fe;
+    background: rgba(56, 70, 140, 0.5);
+  }
+
+  .glass-modal-title {
+    color: #fff;
+  }
+  .glass-modal-message {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .glass-modal-dismiss {
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 0.25rem;
+    transition: background 150ms ease, color 150ms ease;
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+  }
+}

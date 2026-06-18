@@ -1,0 +1,75 @@
+/// <mls fileReference="_102055_/l2/molecules/groupexpandcontent/ml-collapsible-panel-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// COLLAPSIBLE PANEL — GLASSMORPHISM
+// Seções de vidro empilhadas; cabeçalho aberto realçado em índigo.
+// =============================================================================
+groupexpandcontent--ml-collapsible-panel-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-clp-label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  // ---- seção ----
+  .glass-clp-section {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: border-color 0.2s ease;
+
+    &.is-open {
+      border-color: rgba(199, 210, 254, 0.6);
+    }
+  }
+
+  // ---- cabeçalho ----
+  .glass-clp-header {
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(.is-disabled):not(.is-open) {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
+    }
+    &.is-open {
+      background: rgba(199, 210, 254, 0.14);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .glass-clp-icon {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-clp-title {
+    color: #fff;
+  }
+  .glass-clp-subtitle {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .glass-clp-chevron {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-clp-body {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  // ---- skeleton ----
+  .glass-clp-skel {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+  }
+}

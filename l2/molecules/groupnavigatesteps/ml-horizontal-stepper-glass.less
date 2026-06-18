@@ -1,0 +1,87 @@
+/// <mls fileReference="_102055_/l2/molecules/groupnavigatesteps/ml-horizontal-stepper-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// HORIZONTAL STEPPER — GLASSMORPHISM
+// Indicadores circulares de vidro + conectores. Ativo/concluído destacados.
+// =============================================================================
+groupnavigatesteps--ml-horizontal-stepper-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .is-loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .glass-hs-label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  // ---- indicador ----
+  .glass-hs-dot {
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    &:hover:not(.is-disabled):not(.is-active) {
+      background: rgba(255, 255, 255, 0.14);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
+    }
+    &.is-active {
+      background: rgba(199, 210, 254, 0.2);
+      border-color: rgba(199, 210, 254, 0.9);
+      color: #e0e7ff;
+    }
+    &.is-completed {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: rgba(16, 185, 129, 0.6);
+      color: #6ee7b7;
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- textos ----
+  .glass-hs-title {
+    color: rgba(255, 255, 255, 0.8);
+    &.is-active {
+      color: #e0e7ff;
+    }
+    &.is-disabled {
+      color: rgba(255, 255, 255, 0.4);
+    }
+  }
+  .glass-hs-desc {
+    color: rgba(255, 255, 255, 0.55);
+    &.is-disabled {
+      color: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  // ---- conector ----
+  .glass-hs-connector {
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.2s ease;
+    &.is-completed {
+      background: rgba(16, 185, 129, 0.6);
+    }
+  }
+
+  // ---- loading ----
+  .glass-hs-loading {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-hs-loading-dot {
+    background: rgba(255, 255, 255, 0.5);
+  }
+}

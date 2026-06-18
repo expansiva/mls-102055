@@ -1,0 +1,68 @@
+<!-- Fundo rico = contrato de container do glassmorphism (sem ele o blur não aparece). -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#3b1d60 45%,#9d174d 100%); background-attachment:fixed;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">ML Accordion</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupExpandContent · glassmorphism</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"multiple":true,"disabled":false,"loading":false},"single":{"multiple":false,"disabled":false,"loading":false},"disabledDemo":{"multiple":true,"disabled":true,"loading":false},"loadingDemo":{"multiple":true,"disabled":false,"loading":true}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Basic — Multiple</h3>
+        <demo id="demo-basic">
+          <groupexpandcontent--ml-accordion-glass multiple="{{playground.basic.multiple}}" disabled="{{playground.basic.disabled}}" loading="{{playground.basic.loading}}">
+            <Label>Project details</Label>
+            <Section title="Overview" expanded>Share the project scope, key stakeholders, and expected outcomes.</Section>
+            <Section title="Timeline">Milestones are due every Friday until the end of the quarter.</Section>
+            <Section title="Risks">Track vendor delays and security approvals closely.</Section>
+          </groupexpandcontent--ml-accordion-glass>
+        </demo>
+        <details style="margin-top:1rem;">
+          <summary style="cursor:pointer; font-size:0.875rem; color:rgba(255,255,255,0.7);">Properties</summary>
+          <div style="margin-top:0.5rem; padding:1rem; border:1px solid rgba(255,255,255,0.15); border-radius:0.5rem;">
+            <widget-playground-state-boolean-102020 label="multiple" value="{{playground.basic.multiple}}"></widget-playground-state-boolean-102020>
+            <widget-playground-state-boolean-102020 label="disabled" value="{{playground.basic.disabled}}"></widget-playground-state-boolean-102020>
+            <widget-playground-state-boolean-102020 label="loading" value="{{playground.basic.loading}}"></widget-playground-state-boolean-102020>
+          </div>
+        </details>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Single expand + disabled section</h3>
+        <demo id="demo-single">
+          <groupexpandcontent--ml-accordion-glass multiple="{{playground.single.multiple}}" disabled="{{playground.single.disabled}}" loading="{{playground.single.loading}}">
+            <Label>Settings</Label>
+            <Section title="Account" expanded>Manage your profile, email and password.</Section>
+            <Section title="Notifications">Choose what updates you receive.</Section>
+            <Section title="Billing (locked)" disabled>Contact an admin to change billing.</Section>
+          </groupexpandcontent--ml-accordion-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Disabled (component)</h3>
+        <demo id="demo-disabled">
+          <groupexpandcontent--ml-accordion-glass multiple="{{playground.disabledDemo.multiple}}" disabled="{{playground.disabledDemo.disabled}}" loading="{{playground.disabledDemo.loading}}">
+            <Label>Read-only</Label>
+            <Section title="Overview" expanded>This accordion is fully disabled.</Section>
+            <Section title="Details">Cannot be toggled.</Section>
+          </groupexpandcontent--ml-accordion-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Loading</h3>
+        <demo id="demo-loading">
+          <groupexpandcontent--ml-accordion-glass multiple="{{playground.loadingDemo.multiple}}" disabled="{{playground.loadingDemo.disabled}}" loading="{{playground.loadingDemo.loading}}">
+            <Label>Fetching sections…</Label>
+            <Section title="Overview">Hidden while loading.</Section>
+          </groupexpandcontent--ml-accordion-glass>
+        </demo>
+      </article>
+
+    </section>
+  </div>
+</div>

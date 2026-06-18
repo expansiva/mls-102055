@@ -1,0 +1,54 @@
+/// <mls fileReference="_102055_/l2/molecules/groupviewmetric/ml-metric-big-number-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// METRIC BIG NUMBER — GLASSMORPHISM (102055, por herança)
+// Número grande em destaque sobre superfície de vidro.
+// =============================================================================
+groupviewmetric--ml-metric-big-number-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-bn {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    color: #fff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .glass-bn-icon {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-bn-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-bn-value {
+    color: #fff;
+  }
+  .glass-bn-helper {
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .glass-bn-trend {
+    &.is-up {
+      color: #6ee7b7;
+    }
+    &.is-down {
+      color: #fca5a5;
+    }
+    &.is-neutral {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  .glass-bn-skel {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    animation: glass-bn-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes glass-bn-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.25; }
+  }
+}

@@ -1,0 +1,22 @@
+/// <mls fileReference="_102055_/l2/molecules/groupshowprogress/ml-circular-progress-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// CIRCULAR PROGRESS — GLASSMORPHISM (102055, por herança)
+// Anel translúcido com arco luminoso. Texto central claro.
+// =============================================================================
+groupshowprogress--ml-circular-progress-glass {
+  display: inline-block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-cp-track {
+    stroke: rgba(255, 255, 255, 0.15);
+  }
+  .glass-cp-fill {
+    stroke: #c7d2fe;
+    transition: stroke-dashoffset 0.4s ease-out;
+    filter: drop-shadow(0 0 4px rgba(199, 210, 254, 0.5));
+  }
+  .glass-cp-value {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}

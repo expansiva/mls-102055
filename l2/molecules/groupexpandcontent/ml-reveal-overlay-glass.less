@@ -1,0 +1,105 @@
+/// <mls fileReference="_102055_/l2/molecules/groupexpandcontent/ml-reveal-overlay-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// REVEAL OVERLAY — GLASSMORPHISM
+// O overlay fosco cobre o conteúdo (backdrop-filter) até ser revelado.
+// Fundo escuro/rico atrás. Layout via Tailwind no template.
+// =============================================================================
+groupexpandcontent--ml-reveal-overlay-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-reveal-loading {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  // ---- header ----
+  .glass-reveal-header {
+    position: relative;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.92);
+    cursor: pointer;
+    transition: background 200ms ease;
+
+    &:not(.is-disabled):hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+    }
+  }
+  .glass-reveal-action {
+    color: rgba(199, 210, 254, 0.95);
+  }
+
+  .glass-reveal-warning {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  // ---- container do conteúdo ----
+  .glass-reveal-container {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    &.is-disabled {
+      opacity: 0.5;
+    }
+  }
+  .glass-reveal-content {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  // ---- overlay fosco (esconde até revelar) ----
+  .glass-reveal-overlay {
+    border-radius: 12px;
+    background: rgba(20, 18, 50, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 1;
+    transition: opacity 300ms ease;
+
+    &.is-open {
+      opacity: 0;
+      pointer-events: none;
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  // ---- botão revelar ----
+  .glass-reveal-btn {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #fff;
+    cursor: pointer;
+    transition: background 200ms ease;
+    &:not(.is-disabled):hover {
+      background: rgba(255, 255, 255, 0.24);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

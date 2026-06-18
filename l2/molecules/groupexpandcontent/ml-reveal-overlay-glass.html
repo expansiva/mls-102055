@@ -1,0 +1,28 @@
+<!-- Fundo rico = contrato de container do glassmorphism. -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#3b1d60 45%,#9d174d 100%); background-attachment:fixed;">
+  <div style="max-width:48rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Reveal Overlay</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupExpandContent · glassmorphism</span>
+    </header>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem;">
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Conteúdo sensível</h3>
+        <groupexpandcontent--ml-reveal-overlay-glass multiple="true">
+          <Label>Conteúdo oculto até revelar</Label>
+          <Section title="Chave de API">sk-live-9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c</Section>
+          <Section title="Token de acesso">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</Section>
+        </groupexpandcontent--ml-reveal-overlay-glass>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Spoiler / single</h3>
+        <groupexpandcontent--ml-reveal-overlay-glass multiple="false">
+          <Section title="Final do episódio" expanded>O protagonista descobre a verdade no último minuto.</Section>
+          <Section title="Resultado do jogo">Time da casa venceu por 3 a 2 na prorrogação.</Section>
+        </groupexpandcontent--ml-reveal-overlay-glass>
+      </article>
+    </section>
+  </div>
+</div>

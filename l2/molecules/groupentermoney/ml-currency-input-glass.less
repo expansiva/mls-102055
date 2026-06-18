@@ -1,0 +1,70 @@
+/// <mls fileReference="_102055_/l2/molecules/groupentermoney/ml-currency-input-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// CURRENCY INPUT — GLASSMORPHISM (102055, por herança)
+// =============================================================================
+groupentermoney--ml-currency-input-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-cur-label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .glass-cur-view {
+    color: #fff;
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+
+  .glass-cur-input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+    &:hover:not(.is-disabled):not(.is-readonly) {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    &:focus {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+      background: rgba(255, 255, 255, 0.12);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.7);
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(255, 120, 120, 0.25);
+      }
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      background: rgba(255, 255, 255, 0.04);
+    }
+  }
+
+  .is-loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .glass-cur-loading {
+    background: rgba(15, 15, 30, 0.5);
+    border-radius: 10px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: rgba(255, 255, 255, 0.85);
+  }
+}

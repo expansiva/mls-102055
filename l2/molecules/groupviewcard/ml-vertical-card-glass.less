@@ -1,0 +1,64 @@
+/// <mls fileReference="_102055_/l2/molecules/groupviewcard/ml-vertical-card-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// VERTICAL CARD — GLASSMORPHISM
+// Card translúcido. Fundo escuro/rico atrás. Layout via Tailwind no template.
+// =============================================================================
+groupviewcard--ml-vertical-card-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-card {
+    position: relative;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.92);
+    transition: background 200ms ease, border-color 200ms ease, transform 150ms ease;
+
+    &.is-interactive {
+      cursor: pointer;
+    }
+    &.is-interactive:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-2px);
+    }
+    &.is-interactive:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.5);
+    }
+    &.is-selected {
+      background: rgba(99, 102, 241, 0.34);
+      border-color: rgba(199, 210, 254, 0.8);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .glass-card-text,
+  .glass-card-title {
+    color: #fff;
+  }
+  .glass-card-desc {
+    color: rgba(255, 255, 255, 0.68);
+  }
+  .glass-card-content {
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .glass-card-footer {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-card-action {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .glass-skeleton {
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+}

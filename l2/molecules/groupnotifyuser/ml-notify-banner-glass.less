@@ -1,0 +1,82 @@
+/// <mls fileReference="_102055_/l2/molecules/groupnotifyuser/ml-notify-banner-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// NOTIFY BANNER — GLASSMORPHISM
+// Painel translúcido por tipo (info/success/warning/error). Fundo escuro atrás.
+// Layout/posição via Tailwind no template.
+// =============================================================================
+groupnotifyuser--ml-notify-banner-glass {
+  display: contents;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-banner {
+    position: relative;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(56, 60, 120, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.92);
+
+    // tonalidade por tipo (mantém translucidez)
+    &.is-info {
+      background: rgba(56, 70, 140, 0.55);
+    }
+    &.is-success {
+      background: rgba(16, 100, 70, 0.5);
+    }
+    &.is-warning {
+      background: rgba(120, 90, 20, 0.5);
+    }
+    &.is-error {
+      background: rgba(130, 40, 50, 0.55);
+    }
+  }
+
+  .glass-banner-icon {
+    color: #fff;
+  }
+  .is-success .glass-banner-icon {
+    color: #6ee7b7;
+  }
+  .is-warning .glass-banner-icon {
+    color: #fcd34d;
+  }
+  .is-error .glass-banner-icon {
+    color: #fca5a5;
+  }
+  .is-info .glass-banner-icon {
+    color: #c7d2fe;
+  }
+
+  .glass-banner-title {
+    color: #fff;
+  }
+  .glass-banner-message {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .glass-banner-action {
+    color: #c7d2fe;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .glass-banner-dismiss {
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.7);
+    }
+  }
+}

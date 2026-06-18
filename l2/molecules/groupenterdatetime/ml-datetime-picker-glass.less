@@ -1,0 +1,168 @@
+/// <mls fileReference="_102055_/l2/molecules/groupenterdatetime/ml-datetime-picker-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// DATETIME PICKER — GLASSMORPHISM
+// Gatilho translúcido + painel popover com calendário e colunas de hora/minuto.
+// =============================================================================
+groupenterdatetime--ml-datetime-picker-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-dtp-label {
+    color: rgba(255, 255, 255, 0.7);
+    &.is-disabled {
+      opacity: 0.5;
+    }
+  }
+  .glass-dtp-req {
+    color: #ffb4ab;
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-dtp-view {
+    color: #fff;
+  }
+  .glass-dtp-icon {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-dtp-spinner {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: rgba(255, 255, 255, 0.9);
+  }
+  .glass-dtp-month {
+    color: #fff;
+  }
+  .glass-dtp-weekday {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  // ---- gatilho ----
+  .glass-dtp-trigger {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    &.is-focused {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.7);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+  .glass-dtp-value {
+    color: rgba(255, 255, 255, 0.45);
+    &.has-value {
+      color: #fff;
+    }
+  }
+
+  // ---- painel ----
+  .glass-dtp-panel {
+    background: rgba(30, 27, 75, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  // ---- navegação ----
+  .glass-dtp-nav {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    border-radius: 6px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  }
+
+  // ---- dias ----
+  .glass-dtp-day {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+
+    &:hover:not(.is-disabled):not(.is-selected) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    &.is-today {
+      border-color: rgba(199, 210, 254, 0.6);
+    }
+    &.is-selected {
+      background: rgba(199, 210, 254, 0.2);
+      border-color: rgba(199, 210, 254, 0.9);
+      color: #e0e7ff;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- hora/minuto ----
+  .glass-dtp-time {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+
+    &:hover:not(.is-disabled):not(.is-selected) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    &.is-selected {
+      background: rgba(199, 210, 254, 0.2);
+      border-color: rgba(199, 210, 254, 0.9);
+      color: #e0e7ff;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- ações ----
+  .glass-dtp-clear {
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+  .glass-dtp-confirm {
+    background: rgba(129, 140, 248, 0.85);
+    border: 1px solid rgba(199, 210, 254, 0.6);
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.12s ease;
+
+    &:hover {
+      background: rgba(129, 140, 248, 1);
+    }
+  }
+}

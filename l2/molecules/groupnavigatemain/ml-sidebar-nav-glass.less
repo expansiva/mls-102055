@@ -1,0 +1,111 @@
+/// <mls fileReference="_102055_/l2/molecules/groupnavigatemain/ml-sidebar-nav-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// SIDEBAR NAV — GLASSMORPHISM
+// Sidebar de vidro. Fundo escuro/rico atrás. Larguras/layout via Tailwind.
+// =============================================================================
+groupnavigatemain--ml-sidebar-nav-glass {
+  display: block;
+  height: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-sidebar {
+    border-right: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .glass-sidebar-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .glass-sidebar-title {
+    color: #fff;
+  }
+  .glass-sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .glass-sidebar-divider {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  // ---- itens ----
+  .glass-nav-item {
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.78);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+
+    &.is-active {
+      background: rgba(99, 102, 241, 0.42);
+      color: #fff;
+    }
+    &:not(.is-active):not(.is-disabled):hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+  .glass-nav-icon {
+    color: rgba(255, 255, 255, 0.6);
+    &.is-active {
+      color: #c7d2fe;
+    }
+  }
+  .glass-nav-initials {
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .glass-nav-badge {
+    background: rgba(99, 102, 241, 0.55);
+    color: #fff;
+  }
+  .glass-nav-dot {
+    background: #f87171;
+    box-shadow: 0 0 0 2px rgba(30, 27, 75, 0.8);
+  }
+
+  // ---- group label / toggle ----
+  .glass-group-label {
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    transition: color 150ms ease;
+    &:hover {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .glass-collapse-btn {
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+    }
+  }
+
+  .glass-skeleton {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}

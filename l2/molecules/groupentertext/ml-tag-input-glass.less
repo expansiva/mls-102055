@@ -1,0 +1,111 @@
+/// <mls fileReference="_102055_/l2/molecules/groupentertext/ml-tag-input-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// TAG INPUT — GLASSMORPHISM (102055, por herança)
+// =============================================================================
+groupentertext--ml-tag-input-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-tag-label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .glass-tag-req {
+    color: #ffb4ab;
+  }
+  .glass-tag-view {
+    color: #fff;
+  }
+  .glass-tag-affix {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-tag-counter {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-tag-loading {
+    background: rgba(15, 15, 30, 0.5);
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: rgba(199, 210, 254, 0.95);
+  }
+
+  .glass-tag-box {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: text;
+
+    &.is-focused {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+      background: rgba(255, 255, 255, 0.12);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.7);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      cursor: default;
+      background: rgba(255, 255, 255, 0.04);
+    }
+  }
+
+  .glass-tag-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+    &.is-disabled {
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      cursor: default;
+    }
+  }
+
+  .glass-tag {
+    background: rgba(199, 210, 254, 0.18);
+    color: #e0e7ff;
+    border: 1px solid rgba(199, 210, 254, 0.4);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .glass-tag-remove {
+    color: rgba(199, 210, 254, 0.9);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: rgba(199, 210, 254, 0.3);
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

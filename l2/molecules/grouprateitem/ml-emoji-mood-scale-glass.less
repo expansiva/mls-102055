@@ -1,0 +1,77 @@
+/// <mls fileReference="_102055_/l2/molecules/grouprateitem/ml-emoji-mood-scale-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// EMOJI MOOD SCALE — GLASSMORPHISM (102055, por herança)
+// Botões de emoji em vidro; selecionado/hover destacado em índigo.
+// =============================================================================
+grouprateitem--ml-emoji-mood-scale-glass {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+
+  .glass-em-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-em-empty {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  // ---- caixa ----
+  .glass-em-box {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus-within {
+      border-color: rgba(199, 210, 254, 0.9);
+      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.7);
+    }
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- opção ----
+  .glass-em-option {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
+
+    &:hover:not(.is-static) {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+    }
+    &.is-active {
+      background: rgba(199, 210, 254, 0.2);
+      border-color: rgba(199, 210, 254, 0.9);
+    }
+    &.is-static {
+      cursor: default;
+    }
+  }
+
+  // ---- view ----
+  .glass-em-view {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+  }
+}

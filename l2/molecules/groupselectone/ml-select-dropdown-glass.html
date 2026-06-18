@@ -1,0 +1,93 @@
+<!-- Fundo rico = contrato de container do glassmorphism (sem ele o blur não aparece). -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#312e81 45%,#7e22ce 100%); background-attachment:fixed;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Select Dropdown</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupSelectOne · glassmorphism</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"value":""},"search":{"value":"br"},"groups":{"value":""},"error":{"value":"","error":"Selecione um país"},"disabled":{"value":"us"},"viewmode":{"value":"br"}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Basic</h3>
+        <demo id="demo-basic">
+          <groupselectone--ml-select-dropdown-glass value="{{playground.basic.value}}">
+            <Label>País</Label>
+            <Helper>Escolha o país de origem</Helper>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+            <Item value="pt">Portugal</Item>
+            <Item value="jp" disabled>Japão (indisponível)</Item>
+          </groupselectone--ml-select-dropdown-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Searchable</h3>
+        <demo id="demo-search">
+          <groupselectone--ml-select-dropdown-glass value="{{playground.search.value}}" searchable="true">
+            <Label>Cidade</Label>
+            <Item value="sp">São Paulo</Item>
+            <Item value="rj">Rio de Janeiro</Item>
+            <Item value="bh">Belo Horizonte</Item>
+            <Item value="br">Brasília</Item>
+            <Item value="poa">Porto Alegre</Item>
+          </groupselectone--ml-select-dropdown-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Com grupos</h3>
+        <demo id="demo-groups">
+          <groupselectone--ml-select-dropdown-glass value="{{playground.groups.value}}">
+            <Label>Time</Label>
+            <Group label="Engenharia">
+              <Item value="fe">Front-end</Item>
+              <Item value="be">Back-end</Item>
+            </Group>
+            <Group label="Produto">
+              <Item value="pm">Product Manager</Item>
+              <Item value="ux">UX Designer</Item>
+            </Group>
+          </groupselectone--ml-select-dropdown-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Erro (required)</h3>
+        <demo id="demo-error">
+          <groupselectone--ml-select-dropdown-glass value="{{playground.error.value}}" error="{{playground.error.error}}" required="true">
+            <Label>País</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+          </groupselectone--ml-select-dropdown-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Disabled</h3>
+        <demo id="demo-disabled">
+          <groupselectone--ml-select-dropdown-glass value="{{playground.disabled.value}}" disabled="true">
+            <Label>País</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+          </groupselectone--ml-select-dropdown-glass>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">View mode</h3>
+        <demo id="demo-viewmode">
+          <groupselectone--ml-select-dropdown-glass value="{{playground.viewmode.value}}" is-editing="false">
+            <Label>País</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+          </groupselectone--ml-select-dropdown-glass>
+        </demo>
+      </article>
+
+    </section>
+  </div>
+</div>
