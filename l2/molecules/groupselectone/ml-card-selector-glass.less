@@ -77,7 +77,11 @@ groupselectone--ml-card-selector-glass {
     }
   }
 
-  // ---- painel popover ----
+}
+
+// Panel styles — shared between component scope and body-level portal
+groupselectone--ml-card-selector-glass,
+.glass-cs-portal {
   .glass-cs-panel {
     background: rgba(30, 27, 75, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.18);
@@ -104,8 +108,6 @@ groupselectone--ml-card-selector-glass {
       box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
     }
   }
-
-  // ---- cards de vidro ----
   .glass-cs-card {
     background: rgba(255, 255, 255, 0.06);
     border: 2px solid rgba(255, 255, 255, 0.15);
@@ -129,5 +131,14 @@ groupselectone--ml-card-selector-glass {
       opacity: 0.5;
       cursor: not-allowed;
     }
+  }
+  .glass-cs-group {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .glass-cs-empty {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .glass-cs-check {
+    color: #c7d2fe;
   }
 }

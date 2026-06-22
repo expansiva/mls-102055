@@ -82,6 +82,7 @@ interface PopoverMultiSelectInternals {
 
 @customElement('groupselectmany--ml-popover-multi-select-glass')
 export class MlPopoverMultiSelectGlass extends MlPopoverMultiSelectMolecule {
+  protected portalClassName = 'glass-pms-portal';
   private gMsg: MessageType = messages.en;
   private gUid = `pms-glass-${Math.random().toString(36).slice(2)}`;
   private gLabelId = `${this.gUid}-label`;
@@ -223,6 +224,38 @@ export class MlPopoverMultiSelectGlass extends MlPopoverMultiSelectMolecule {
         : nothing}
     `;
   }
+  protected getPortalTemplate(): TemplateResult {
+    const x = this.x;
+    const slotData = x.collectSlotData();
+    const filtered = x.filterData(slotData, x.searchQuery);
+    const { selectedSet, selectionFull } = x.getSelectionState();
+    const showEmpty = filtered.groups.length === 0 && filtered.items.length === 0;
+    return html`
+      <div
+        class="glass-pms-panel w-full"
+        role="listbox"
+        aria-multiselectable="true"
+        @keydown=${(e: KeyboardEvent) => x.handlePanelKeyDown(e)}
+      >
+        ${this.searchable
+          ? html`
+            <div class="glass-pms-search-row p-2">
+              <input
+                class="glass-pms-search w-full px-3 py-2 text-sm"
+                .placeholder=${this.gMsg.search}
+                value=${x.searchQuery}
+                @input=${(e: Event) => x.handleSearchInput(e)}
+                data-ml-search
+              />
+            </div>`
+          : nothing}
+        <div class="max-h-64 overflow-auto p-2">
+          ${showEmpty ? this.glassEmpty() : this.glassItems(filtered.groups, filtered.items, selectedSet, selectionFull)}
+        </div>
+      </div>
+    `;
+  }
+
   private glassViewMode(selectedLabels: { label: string; isHtml: boolean }[]): TemplateResult {
     const hasSelection = selectedLabels.length > 0;
     const placeholder = this.placeholder || this.gMsg.placeholder;
@@ -263,7 +296,6 @@ export class MlPopoverMultiSelectGlass extends MlPopoverMultiSelectMolecule {
       return this.glassViewMode(selectedLabels);
     }
     const triggerClasses = this.glassTriggerClasses(hasError);
-    const showEmpty = filtered.groups.length === 0 && filtered.items.length === 0;
     return html`
       <div class="w-full" role="group">
         <div class="flex items-start gap-3">
@@ -300,33 +332,6 @@ export class MlPopoverMultiSelectGlass extends MlPopoverMultiSelectMolecule {
                 </svg>
               </span>
             </button>
-            ${x.isOpen && !this.loading
-              ? html`
-                <div
-                  id="${this.gPanelId}"
-                  class="glass-pms-panel absolute z-20 mt-2 w-full"
-                  role="listbox"
-                  aria-multiselectable="true"
-                  @keydown=${(e: KeyboardEvent) => x.handlePanelKeyDown(e)}
-                >
-                  ${this.searchable
-                    ? html`
-                      <div class="glass-pms-search-row p-2">
-                        <input
-                          class="glass-pms-search w-full px-3 py-2 text-sm"
-                          .placeholder=${this.gMsg.search}
-                          value=${x.searchQuery}
-                          @input=${(e: Event) => x.handleSearchInput(e)}
-                          data-ml-search
-                        />
-                      </div>`
-                    : nothing}
-                  <div class="max-h-64 overflow-auto p-2">
-                    ${showEmpty ? this.glassEmpty() : this.glassItems(filtered.groups, filtered.items, selectedSet, selectionFull)}
-                  </div>
-                </div>
-              `
-              : nothing}
           </div>
         </div>
         ${this.glassError(hasError)}

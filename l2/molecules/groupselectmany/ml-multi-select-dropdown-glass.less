@@ -63,7 +63,24 @@ groupselectmany--ml-multi-select-dropdown-glass {
     }
   }
 
-  // ---- painel (popover translúcido, base 0.85) ----
+  // ---- feedback / view ----
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-view-box {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+// Panel styles — shared between component scope and body-level portal
+groupselectmany--ml-multi-select-dropdown-glass,
+.glass-msd-portal {
   .glass-panel {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 14px;
@@ -72,8 +89,6 @@ groupselectmany--ml-multi-select-dropdown-glass {
     -webkit-backdrop-filter: blur(18px);
     box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
-
-  // ---- busca ----
   .glass-search-wrap {
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
@@ -90,8 +105,6 @@ groupselectmany--ml-multi-select-dropdown-glass {
       border-color: rgba(199, 210, 254, 0.8);
     }
   }
-
-  // ---- itens ----
   .glass-item {
     border-radius: 8px;
     border: 1px solid transparent;
@@ -116,25 +129,10 @@ groupselectmany--ml-multi-select-dropdown-glass {
   .glass-check {
     color: #c7d2fe;
   }
-
   .glass-group-label {
     color: rgba(255, 255, 255, 0.6);
   }
   .glass-empty {
     color: rgba(255, 255, 255, 0.6);
-  }
-
-  // ---- feedback / view ----
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
-  }
-  .glass-view-box {
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.95);
   }
 }

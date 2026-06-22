@@ -75,6 +75,7 @@ interface MultiSelectInternals {
 
 @customElement('groupselectmany--ml-multi-select-dropdown-glass')
 export class MlMultiSelectDropdownGlass extends MultiSelectDropdownMolecule {
+  protected portalClassName = 'glass-msd-portal';
   private gMsg: MessageType = messages.en;
   private gUid = `msd-glass-${Math.random().toString(36).slice(2)}`;
   private gLabelId = `${this.gUid}-label`;
@@ -213,6 +214,32 @@ export class MlMultiSelectDropdownGlass extends MultiSelectDropdownMolecule {
     `;
   }
 
+  protected getPortalTemplate(): TemplateResult {
+    const x = this.x;
+    const groups = x.getGroupedItems();
+    const items = x.getUngroupedItems();
+    const selectedValues = x.getSelectedValues();
+    return html`
+      <div class="glass-panel w-full" @keydown=${(e: KeyboardEvent) => x.handlePanelKeydown(e)}>
+        ${this.searchable
+          ? html`
+              <div class="glass-search-wrap p-2">
+                <input
+                  class="glass-search w-full px-3 py-2 text-sm"
+                  type="text"
+                  placeholder="${this.gMsg.searchPlaceholder}"
+                  .value=${x.searchQuery}
+                  @input=${(e: Event) => x.handleSearchInput(e)}
+                  data-search
+                />
+              </div>
+            `
+          : html``}
+        ${this.glassOptionList(groups, items, selectedValues)}
+      </div>
+    `;
+  }
+
   private glassViewMode(): TemplateResult {
     const items = this.x.getAllItems();
     const selectedValues = this.x.getSelectedValues();
@@ -273,27 +300,6 @@ export class MlMultiSelectDropdownGlass extends MultiSelectDropdownMolecule {
               ? html`<span class="glass-placeholder">${this.gMsg.loading}</span>`
               : this.glassTriggerContent(allItems, selectedValues)}
           </button>
-          ${isPanelOpen
-            ? html`
-                <div class="glass-panel absolute z-20 mt-2 w-full">
-                  ${this.searchable
-                    ? html`
-                        <div class="glass-search-wrap p-2">
-                          <input
-                            class="glass-search w-full px-3 py-2 text-sm"
-                            type="text"
-                            placeholder="${this.gMsg.searchPlaceholder}"
-                            .value=${x.searchQuery}
-                            @input=${(e: Event) => x.handleSearchInput(e)}
-                            data-search
-                          />
-                        </div>
-                      `
-                    : html``}
-                  ${this.glassOptionList(groups, items, selectedValues)}
-                </div>
-              `
-            : html``}
         </div>
         ${this.glassHelperOrError(errorMessage)}
         ${this.name ? html`<input type="hidden" name="${this.name}" value="${this.value}" />` : html``}

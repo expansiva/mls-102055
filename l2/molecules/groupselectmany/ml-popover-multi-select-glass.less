@@ -80,7 +80,11 @@ groupselectmany--ml-popover-multi-select-glass {
     color: #fff;
   }
 
-  // ---- painel popover ----
+}
+
+// Panel styles — shared between component scope and body-level portal
+groupselectmany--ml-popover-multi-select-glass,
+.glass-pms-portal {
   .glass-pms-panel {
     background: rgba(30, 27, 75, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.18);
@@ -107,8 +111,6 @@ groupselectmany--ml-popover-multi-select-glass {
       box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
     }
   }
-
-  // ---- itens ----
   .glass-pms-item {
     background: transparent;
     border: 1px solid transparent;
@@ -133,5 +135,14 @@ groupselectmany--ml-popover-multi-select-glass {
       opacity: 0.5;
       cursor: not-allowed;
     }
+  }
+  .glass-pms-empty {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .glass-pms-group {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .glass-pms-check {
+    color: #c7d2fe;
   }
 }

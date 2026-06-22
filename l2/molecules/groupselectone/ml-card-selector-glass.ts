@@ -71,6 +71,7 @@ interface CardSelectorInternals {
 
 @customElement('groupselectone--ml-card-selector-glass')
 export class MlCardSelectorGlass extends MlCardSelectorMolecule {
+  protected portalClassName = 'glass-cs-portal';
   private gMsg: MessageType = messages.en;
 
   private get x(): CardSelectorInternals {
@@ -269,11 +270,9 @@ export class MlCardSelectorGlass extends MlCardSelectorMolecule {
     `;
   }
 
-  private glassPanel(): TemplateResult {
-    if (!this.x.isOpen || this.loading) return html``;
-
+  protected getPortalTemplate(): TemplateResult {
     return html`
-      <div role="listbox" class="${this.glassPanelClasses()}">
+      <div role="listbox" class="glass-cs-panel w-full max-h-[400px] overflow-auto">
         ${this.glassSearch()}
         ${this.glassCardGrid()}
       </div>
@@ -334,7 +333,6 @@ export class MlCardSelectorGlass extends MlCardSelectorMolecule {
       <div class="relative w-full">
         ${this.glassLabel()}
         ${this.glassTrigger()}
-        ${this.glassPanel()}
         ${this.glassFeedback()}
       </div>
     `;
