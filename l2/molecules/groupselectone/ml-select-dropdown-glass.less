@@ -64,7 +64,24 @@ groupselectone--ml-select-dropdown-glass {
     }
   }
 
-  // ---- dropdown (popover translúcido) ----
+  // ---- feedback / view ----
+  .glass-helper {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .glass-error-text {
+    color: #ffb4ab;
+  }
+  .glass-view-label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .glass-view-value {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+// Panel styles — shared between component scope and body-level portal
+groupselectone--ml-select-dropdown-glass,
+.glass-sd-portal {
   .glass-dropdown {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 14px;
@@ -76,8 +93,6 @@ groupselectone--ml-select-dropdown-glass {
   .glass-dropdown-highlight {
     display: none;
   }
-
-  // ---- busca ----
   .glass-search-wrap {
     background: rgba(30, 27, 75, 0.65);
     backdrop-filter: blur(18px);
@@ -93,15 +108,12 @@ groupselectone--ml-select-dropdown-glass {
       color: rgba(255, 255, 255, 0.5);
     }
   }
-
-  // ---- itens ----
   .glass-item {
     color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
     transition: background 150ms ease, color 150ms ease;
     background: transparent;
     border: none;
-
     &:not(.is-disabled):not(.is-selected):hover,
     &.is-focused {
       background: rgba(255, 255, 255, 0.12);
@@ -115,25 +127,10 @@ groupselectone--ml-select-dropdown-glass {
       cursor: not-allowed;
     }
   }
-
   .glass-group-label {
     color: rgba(255, 255, 255, 0.55);
   }
   .glass-empty {
     color: rgba(255, 255, 255, 0.6);
-  }
-
-  // ---- feedback / view ----
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
-  }
-  .glass-view-label {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-view-value {
-    color: rgba(255, 255, 255, 0.95);
   }
 }

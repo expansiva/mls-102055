@@ -53,6 +53,7 @@ interface DatePickerInternals {
 
 @customElement('groupenterdate--ml-date-picker-glass')
 export class MlDatePickerGlass extends MlDatePickerMolecule {
+  protected portalClassName = 'glass-dp-portal';
   private gMsg: MessageType = messages.en;
   private gFieldId = `dp-glass-${Math.random().toString(36).slice(2)}`;
 
@@ -126,9 +127,8 @@ export class MlDatePickerGlass extends MlDatePickerMolecule {
     return html``;
   }
 
-  private glassCalendar(): TemplateResult {
+  protected getPortalTemplate(): TemplateResult {
     const x = this.x;
-    if (!x.isOpen || this.loading || !this.isEditing) return html``;
 
     const viewYear = x.viewYear;
     const viewMonth = x.viewMonth;
@@ -156,7 +156,7 @@ export class MlDatePickerGlass extends MlDatePickerMolecule {
     }
 
     return html`
-      <div class="glass-dp-panel absolute z-20 mt-2 w-full p-3">
+      <div class="glass-dp-panel mt-2 p-3">
         <div class="flex items-center justify-between mb-2">
           <button
             class="glass-dp-nav p-2 ${x.canNavigatePrev() ? '' : 'is-disabled'}"
@@ -271,7 +271,6 @@ export class MlDatePickerGlass extends MlDatePickerMolecule {
           </span>
         </button>
         ${this.loading ? html`<div class="glass-dp-loading mt-2 text-xs">${this.gMsg.loading}</div>` : html``}
-        ${this.glassCalendar()}
         ${this.glassHelperOrError()}
       </div>
     `;

@@ -81,6 +81,7 @@ interface DatetimePickerInternals {
 
 @customElement('groupenterdatetime--ml-datetime-picker-glass')
 export class DatetimePickerGlass extends MlDatetimePickerMolecule {
+  protected portalClassName = 'glass-dtp-portal';
   private gMsg: MessageType = messages.en;
 
   private get x(): DatetimePickerInternals {
@@ -279,11 +280,10 @@ export class DatetimePickerGlass extends MlDatetimePickerMolecule {
       </div>
     `;
   }
-  private glassPanel(): TemplateResult {
+  protected getPortalTemplate(): TemplateResult {
     const x = this.x;
-    if (!x.isOpen) return html``;
     return html`
-      <div class="glass-dtp-panel absolute z-20 mt-2 w-full p-4" role="dialog" aria-modal="true">
+      <div class="glass-dtp-panel mt-2 p-4" role="dialog" aria-modal="true">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>${this.glassCalendar()}</div>
           <div>${this.glassTime()}</div>
@@ -317,7 +317,6 @@ export class DatetimePickerGlass extends MlDatetimePickerMolecule {
         ${this.glassHiddenInput()}
         ${this.glassLabel()}
         ${this.glassTrigger()}
-        ${this.glassPanel()}
         ${this.glassHelperOrError()}
       </div>
     `;

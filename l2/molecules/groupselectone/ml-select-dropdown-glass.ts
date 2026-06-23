@@ -68,6 +68,7 @@ interface SelectDropdownInternals {
 
 @customElement('groupselectone--ml-select-dropdown-glass')
 export class MlSelectDropdownGlass extends MlSelectDropdownMolecule {
+  protected portalClassName = 'glass-sd-portal';
   private gMsg: MessageType = messages.en;
 
   private get x(): SelectDropdownInternals {
@@ -91,7 +92,7 @@ export class MlSelectDropdownGlass extends MlSelectDropdownMolecule {
   }
 
   private glassDropdownClasses(): string {
-    return 'glass-dropdown absolute z-50 w-full mt-1 max-h-60 overflow-auto';
+    return 'glass-dropdown w-full max-h-60 overflow-auto';
   }
 
   private glassItemClasses(item: ParsedItem, isSelected: boolean, isFocused: boolean): string {
@@ -291,8 +292,7 @@ export class MlSelectDropdownGlass extends MlSelectDropdownMolecule {
     return html`<div class="glass-empty px-3 py-4 text-sm text-center">${unsafeHTML(emptyContent)}</div>`;
   }
 
-  private glassDropdown(): TemplateResult {
-    if (!this.x.isOpen || this.loading) return html``;
+  protected getPortalTemplate(): TemplateResult {
     return html`
       <div class="${this.glassDropdownClasses()}">
         <span class="glass-dropdown-highlight" aria-hidden="true"></span>
@@ -348,7 +348,7 @@ export class MlSelectDropdownGlass extends MlSelectDropdownMolecule {
 
     return html`
       <div class="relative w-full">
-        ${this.glassLabel()} ${this.glassTrigger()} ${this.glassDropdown()} ${this.glassFeedback()}
+        ${this.glassLabel()} ${this.glassTrigger()} ${this.glassFeedback()}
       </div>
     `;
   }

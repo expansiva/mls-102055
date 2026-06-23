@@ -76,6 +76,7 @@ interface ComboboxInternals {
 
 @customElement('groupselectone--ml-combobox-glass')
 export class MlComboboxGlass extends MlComboboxMolecule {
+  protected portalClassName = 'glass-cb-portal';
   private gMsg: MessageType = messages.en;
 
   private get x(): ComboboxInternals {
@@ -134,20 +135,23 @@ export class MlComboboxGlass extends MlComboboxMolecule {
     `;
   }
 
-  private glassDropdown(
-    filteredStandalone: ComboItem[],
-    filteredGroups: ComboGroup[],
-    flatItems: ComboItem[],
-    listId: string,
-  ): TemplateResult {
+  protected getPortalTemplate(): TemplateResult {
     const x = this.x;
+    const { standalone, groups } = x.parseItems();
+    const q = x.inputText;
+    const filteredStandalone = x.filterItems(standalone, q);
+    const filteredGroups = groups
+      .map(g => ({ ...g, items: x.filterItems(g.items, q) }))
+      .filter(g => g.items.length > 0);
+    const flatItems = x.getFlatVisible(filteredStandalone, filteredGroups);
+    const listId = `${x.uid}-list`;
     const total = filteredStandalone.length + filteredGroups.reduce((n, g) => n + g.items.length, 0);
 
     return html`
       <ul
         id=${listId}
         role="listbox"
-        class="glass-combo-panel absolute z-50 mt-1 max-h-60 w-full overflow-auto py-1 focus:outline-none"
+        class="glass-combo-panel mt-1 max-h-60 w-full overflow-auto py-1 focus:outline-none"
       >
         ${this.loading ? html`
           <li class="glass-combo-empty px-3 py-2 text-sm">${this.gMsg.loading}</li>
@@ -221,14 +225,6 @@ export class MlComboboxGlass extends MlComboboxMolecule {
       `;
     }
 
-    const { standalone, groups } = x.parseItems();
-    const q = x.inputText;
-    const filteredStandalone = x.filterItems(standalone, q);
-    const filteredGroups = groups
-      .map(g => ({ ...g, items: x.filterItems(g.items, q) }))
-      .filter(g => g.items.length > 0);
-    const flatItems = x.getFlatVisible(filteredStandalone, filteredGroups);
-
     // Trailing icon sizes: chevron always at right; clear button to its left
     const inputPaddingRight = showClear ? '4rem' : '2.5rem';
 
@@ -293,9 +289,6 @@ export class MlComboboxGlass extends MlComboboxMolecule {
                 </svg>
               </span>
             </div>
-
-            <!-- Dropdown -->
-            ${x.isOpen ? this.glassDropdown(filteredStandalone, filteredGroups, flatItems, listId) : nothing}
           `}
         </div>
 
