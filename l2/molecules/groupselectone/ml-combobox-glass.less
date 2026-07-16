@@ -1,136 +1,173 @@
 /// <mls fileReference="_102055_/l2/molecules/groupselectone/ml-combobox-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// COMBOBOX — GLASSMORPHISM (102055, por herança)
-// Campo translúcido + painel popover frosted (rgba(30,27,75,0.85) + blur18).
+// COMBOBOX — GLASSMORPHISM  (padrão de POPOVER glass)
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -glass)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Assume fundo escuro/rico atrás (contrato de container).
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupselectone--ml-combobox-glass {
+groupselectone--ml-combobox-glass,
+div[data-widget="groupselectone--ml-combobox-glass"] {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-combo-label {
+  // ---- tokens do tema glass (valor antigo validado tem precedência) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-on-surface: #ffffff;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.45);
+  --ml-error: #ffb4ab;
+  --ml-surface: rgba(255, 255, 255, 0.08);
+  --ml-surface-dim: rgba(30, 27, 75, 0.85);
+  --ml-outline-variant: rgba(255, 255, 255, 0.2);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7);
+  --ml-radius-sm: 10px;
+  --ml-radius-lg: 12px;
+  --ml-border-width: 1px;
+  --ml-transition: 150ms ease;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px;
+  --ml-backdrop-blur-strong: 18px;
+
+  // ---- label — colisão N-para-1: <label> (edição) vs <div> (visualização) ----
+  .ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+  label.ml-label {
     color: rgba(255, 255, 255, 0.85);
   }
-  .glass-combo-label-view {
+  div.ml-label {
     color: rgba(255, 255, 255, 0.6);
   }
-  .glass-combo-view {
-    color: rgba(255, 255, 255, 0.45);
-    &.has-value {
-      color: #fff;
-    }
-  }
-  .glass-helper {
+
+  .ml-helper {
     color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-error-text {
-    color: #ffb4ab;
+
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-combo-chevron {
+
+  .ml-text {
+    color: var(--ml-on-surface, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // base default (placeholder do modo visualização / linha "loading" no painel)
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.45));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+  // chevron (span) — colisão N-para-1 com ml-text-muted
+  span.ml-text-muted {
     color: rgba(255, 255, 255, 0.6);
   }
-
-  // ---- input gatilho ----
-  .glass-combo-input {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #fff;
-    outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.45);
-    }
-    &:focus {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-      background: rgba(255, 255, 255, 0.12);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-      &:focus {
-        box-shadow: 0 0 0 3px rgba(255, 120, 120, 0.25);
-      }
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      background: rgba(255, 255, 255, 0.04);
-      cursor: default;
-    }
-  }
-
-  .glass-combo-clear {
+  // botão de limpar (×) — colisão N-para-1 com ml-text-muted
+  button.ml-text-muted {
     color: rgba(255, 255, 255, 0.5);
     &:hover {
-      color: #fff;
+      color: #ffffff;
     }
     &:focus-visible {
       box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
     }
   }
+  // rótulo de grupo no painel (li com utility "uppercase") — colisão N-para-1
+  .ml-text-muted.uppercase {
+    color: rgba(255, 255, 255, 0.5);
+  }
 
-  .glass-combo-skeleton {
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .ml-select-empty {
+    color: rgba(255, 255, 255, 0.55);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  .ml-select-checkmark {
+    color: #c7d2fe;
+  }
+
+  // ---- campo/gatilho (input) — sem ::before: <input> não renderiza pseudo-elemento ----
+  input.ml-select-trigger {
+    position: relative;
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    border-radius: var(--ml-radius-sm, 10px);
+    color: var(--ml-on-surface, #ffffff);
+    outline: none;
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color var(--ml-transition, 150ms ease),
+                box-shadow var(--ml-transition, 150ms ease),
+                background var(--ml-transition, 150ms ease);
+
+    &[readonly] {
+      background: rgba(255, 255, 255, 0.04);
+    }
+  }
+
+  // skeleton de loading reaproveita .ml-select-trigger num <div> — colisão N-para-1
+  div.ml-select-trigger {
     background: rgba(255, 255, 255, 0.12);
     border-radius: 10px;
   }
-}
 
-// Panel styles — shared between component scope and body-level portal
-groupselectone--ml-combobox-glass,
-.glass-cb-portal {
-  // ---- painel popover de vidro ----
-  .glass-combo-panel {
-    background: rgba(30, 27, 75, 0.85);
+  .ml-select-trigger-open {
+    border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+    box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .ml-select-trigger-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7)) !important;
+  }
+
+  // erro + aberto simultâneos → anel vermelho vence o indigo (precedência do design antigo)
+  .ml-select-trigger-error.ml-select-trigger-open {
+    box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) rgba(255, 120, 120, 0.25);
+  }
+
+  // ---- painel (popover glass — renderiza no portal via data-widget) ----
+  .ml-select-panel {
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
     border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 12px;
+    border-radius: var(--ml-radius-lg, 12px);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
     list-style: none;
     margin: 0.25rem 0 0;
     padding-left: 0;
   }
 
-  .glass-combo-empty {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .glass-combo-group {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  .glass-combo-option {
+  .ml-select-item {
     color: rgba(255, 255, 255, 0.85);
     cursor: pointer;
-    transition: background 0.12s ease, color 0.12s ease;
+    transition: background 120ms ease, color 120ms ease;
 
-    &:hover {
+    &:hover:not(.ml-disabled) {
       background: rgba(255, 255, 255, 0.08);
     }
-    &.is-active {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-    }
-    &.is-selected {
-      background: rgba(199, 210, 254, 0.18);
-      color: #e0e7ff;
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
   }
 
-  .glass-combo-check {
-    color: #c7d2fe;
+  .ml-select-item-highlighted {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
   }
-  .glass-combo-add {
-    color: #c7d2fe;
+
+  .ml-select-item-selected {
+    background: rgba(199, 210, 254, 0.18);
+    color: #e0e7ff;
   }
 }

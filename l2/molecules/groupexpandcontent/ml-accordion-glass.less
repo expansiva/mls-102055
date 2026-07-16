@@ -1,49 +1,70 @@
 /// <mls fileReference="_102055_/l2/molecules/groupexpandcontent/ml-accordion-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// ML ACCORDION — GLASSMORPHISM
-// Aparência self-contained, escopada sob a tag real. Assume fundo escuro/rico
-// atrás (contrato de container): texto claro e backdrop-filter visível.
-// Layout/animação (flex, max-h, transition) vem do Tailwind no template.
+// ML ACCORDION — GLASSMORPHISM (Strategy D)
+// O render() herdado (mls-102040) emite classes semânticas ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Assume fundo escuro/rico atrás (contrato de container): texto claro e
+// backdrop-filter visível. Layout/animação (flex, max-h, transition) vem do
+// Tailwind herdado no template.
 // =============================================================================
 groupexpandcontent--ml-accordion-glass {
   display: block;
   font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-acc-label {
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.92);
+  // ---- tokens do tema glass (valor antigo vence quando diverge do canônico) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 600;
+  --ml-radius-sm: 12px;
+  --ml-radius-lg: 14px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.18);
+  --ml-on-surface: rgba(255, 255, 255, 0.92);
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.6);
+  --ml-surface: rgba(255, 255, 255, 0.1);
+  --ml-primary: rgba(99, 102, 241, 0.38);
+  --ml-shadow-1: 0 4px 18px rgba(0, 0, 0, 0.16);
+  --ml-transition: 250ms ease;
+  --ml-backdrop-blur: 10px;
+  --ml-disabled-opacity: 0.5;
+
+  .ml-label {
+    font-family: var(--ml-font-family);
+    font-weight: var(--ml-font-weight-medium);
+    color: var(--ml-on-surface);
   }
 
-  .glass-acc-muted {
-    color: rgba(255, 255, 255, 0.6);
+  .ml-text-muted {
+    font-family: var(--ml-font-family);
+    color: var(--ml-on-surface-muted);
   }
 
-  .glass-acc-skeleton {
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
+  .ml-skeleton {
+    border-radius: var(--ml-radius-sm);
+    background: var(--ml-surface);
   }
 
-  // seção = recorte do vidro (cantos arredondados aplicam a header + content)
-  .glass-acc-section {
-    border-radius: 14px;
+  // seção = recorte de vidro (arredonda + clipa header e content juntos).
+  // a base não emite classe própria para este wrapper — ancorado
+  // estruturalmente no filho direto .ml-accordion-header (técnica :has()).
+  div:has(> .ml-accordion-header) {
+    border-radius: var(--ml-radius-lg);
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+    border: 1px solid var(--ml-outline-variant);
+    box-shadow: var(--ml-shadow-1);
   }
 
   // ---- header ----
-  .glass-acc-header {
+  // cursor: a base já aplica a utility Tailwind "cursor-pointer" quando
+  // habilitado (getHeaderClasses) — não redeclarar aqui.
+  .ml-accordion-header {
     position: relative;
-    color: rgba(255, 255, 255, 0.92);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: none;
-    cursor: pointer;
-    transition: background 250ms ease, color 250ms ease;
+    color: var(--ml-on-surface);
+    background: var(--ml-surface);
+    backdrop-filter: blur(var(--ml-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur));
+    font-family: var(--ml-font-family);
+    font-weight: var(--ml-font-weight-medium);
+    transition: background var(--ml-transition), color var(--ml-transition);
 
     // aresta especular superior
     &::before {
@@ -54,16 +75,12 @@ groupexpandcontent--ml-accordion-glass {
       pointer-events: none;
     }
 
-    &.is-open {
-      background: rgba(99, 102, 241, 0.38);
+    &.ml-accordion-header-open {
+      background: var(--ml-primary);
       box-shadow: inset 3px 0 0 rgba(199, 210, 254, 0.9);
     }
-    &:not(.is-disabled):not(.is-open):hover {
+    &:not(.ml-disabled):not(.ml-accordion-header-open):hover {
       background: rgba(255, 255, 255, 0.16);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
     &:focus-visible {
       outline: none;
@@ -72,20 +89,35 @@ groupexpandcontent--ml-accordion-glass {
   }
 
   // ---- chevron ----
-  .glass-acc-chevron {
-    color: rgba(255, 255, 255, 0.7);
-    &.is-open {
+  .ml-accordion-chevron {
+    color: var(--ml-on-surface-muted);
+    transition: transform var(--ml-transition), color var(--ml-transition);
+
+    &.ml-accordion-chevron-open {
       color: rgba(199, 210, 254, 1);
     }
   }
 
   // ---- content ----
-  .glass-acc-content {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+  // a base reaproveita a MESMA classe ml-accordion-content no wrapper de
+  // transição (overflow-hidden) e no div interno com o texto — diferenciados
+  // pela utility Tailwind companion "overflow-hidden" (só está no wrapper).
+  .ml-accordion-content {
+    font-family: var(--ml-font-family);
+
+    &.overflow-hidden {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    &:not(.overflow-hidden) {
+      color: rgba(255, 255, 255, 0.82);
+    }
   }
-  .glass-acc-body {
-    color: rgba(255, 255, 255, 0.82);
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

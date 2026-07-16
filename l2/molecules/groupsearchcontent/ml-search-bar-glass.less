@@ -2,92 +2,137 @@
 
 // =============================================================================
 // SEARCH BAR — GLASSMORPHISM
-// Campo translúcido com ícone + painel de sugestões frosted.
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Assume fundo escuro/rico atrás (contrato de container): texto claro e
+// backdrop-filter visível. Layout (padding, gap, display do painel) vem do
+// Tailwind/estado no template herdado — nunca sobrescrever.
 // =============================================================================
 groupsearchcontent--ml-search-bar-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-sb-label {
+  // ---- tokens do tema glass ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.55);
+  --ml-error: #ffb4ab;
+  --ml-outline-variant: rgba(255, 255, 255, 0.2);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7);
+  --ml-radius-md: 10px;             // valor do arquivo antigo (tabela sugere 12px)
+  --ml-radius-lg: 12px;             // valor do arquivo antigo (tabela sugere 14px)
+  --ml-surface: rgba(255, 255, 255, 0.08);
+  --ml-surface-dim: rgba(30, 27, 75, 0.85); // valor do arquivo antigo (tabela sugere 0.55)
+  --ml-transition: 150ms ease;      // valor do arquivo antigo (tabela sugere 250ms)
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px;          // valor do arquivo antigo (tabela sugere 10px)
+  --ml-backdrop-blur-strong: 18px;
+
+  // ---- texto ----
+  .ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     color: rgba(255, 255, 255, 0.6);
   }
-  .glass-helper {
+
+  .ml-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // helper (<p>) e loading/empty (<div>) da base colidem no mesmo ml-text-muted —
+  // desambiguados por tag, como no piloto (svg.ml-text-muted)
+  p.ml-text-muted {
     color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-error-text {
-    color: #ffb4ab;
+  div.ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.55));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-sb-icon {
-    color: rgba(255, 255, 255, 0.55);
+
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-sb-muted {
-    color: rgba(255, 255, 255, 0.55);
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ícone da lupa
+  .ml-search-icon {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.55));
+  }
+
+  .ml-search-clear {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.55));
+    &:hover {
+      color: #ffffff;
+    }
   }
 
   // ---- input ----
-  .glass-sb-input {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #fff;
+  .ml-search-input {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border-radius: var(--ml-radius-md, 10px);
+    color: #ffffff;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color var(--ml-transition, 150ms ease),
+                box-shadow var(--ml-transition, 150ms ease),
+                background var(--ml-transition, 150ms ease);
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.45);
     }
-    &:focus {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-      background: rgba(255, 255, 255, 0.12);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
   }
 
-  .glass-sb-clear {
-    color: rgba(255, 255, 255, 0.55);
-    &:hover {
-      color: #fff;
+  .ml-search-border {
+    border-color: var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+  }
+
+  .ml-error-border {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+  }
+
+  .ml-search-focus {
+    &:focus {
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
+      background: rgba(255, 255, 255, 0.12);
     }
   }
 
   // ---- painel de sugestões ----
-  .glass-sb-panel {
-    background: rgba(30, 27, 75, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 12px;
+  .ml-search-container {
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
+    border-color: rgba(255, 255, 255, 0.18);
+    border-radius: var(--ml-radius-lg, 12px);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
   }
 
-  .glass-sb-option {
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 8px;
+  // sugestão padrão (habilitada, não ativa): a base soma .ml-text + .ml-search-icon
+  // no mesmo botão — o seletor combinado (maior especificidade) restaura o tom
+  // "normal" em vez do tom mudo do ícone
+  .ml-text.ml-search-icon {
     color: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
-    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
-
-    &:hover:not(.is-disabled):not(.is-active) {
+    border-radius: 8px; // valor do arquivo antigo (Tailwind aplica rounded-md = 6px)
+    &:not(.ml-disabled):hover {
       background: rgba(255, 255, 255, 0.08);
     }
-    &.is-active {
-      background: rgba(199, 210, 254, 0.18);
-      color: #e0e7ff;
-      border-color: rgba(199, 210, 254, 0.6);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+  }
+
+  .ml-filter-chip-active {
+    background: rgba(199, 210, 254, 0.18);
+    color: #e0e7ff;
+    border: 1px solid rgba(199, 210, 254, 0.6);
+    border-radius: 8px; // valor do arquivo antigo (Tailwind aplica rounded-md = 6px)
   }
 }

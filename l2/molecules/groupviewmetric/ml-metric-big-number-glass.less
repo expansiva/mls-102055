@@ -1,48 +1,84 @@
 /// <mls fileReference="_102055_/l2/molecules/groupviewmetric/ml-metric-big-number-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// METRIC BIG NUMBER — GLASSMORPHISM (102055, por herança)
-// Número grande em destaque sobre superfície de vidro.
+// METRIC BIG NUMBER — GLASSMORPHISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// O .less antigo era curto (design antigo vivia num render() próprio que virou
+// casca); a intenção visual dele foi preservada e completada com a tabela
+// canônica da skill onde ele era omisso (shadow, aresta especular).
 // =============================================================================
 groupviewmetric--ml-metric-big-number-glass {
   display: block;
   font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-bn {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 14px;
-    color: #fff;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+  // ---- tokens do tema glass ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-radius-lg: 14px; // antigo .glass-bn (coincide com o valor canônico)
+  --ml-outline-variant: rgba(255, 255, 255, 0.15); // antigo (canônico 0.25)
+  --ml-surface: rgba(255, 255, 255, 0.07); // antigo (canônico 0.1)
+  --ml-on-surface: #fff; // antigo .glass-bn-value
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.7); // antigo .glass-bn-icon / .glass-bn-label
+  --ml-success: #6ee7b7; // antigo .glass-bn-trend.is-up
+  --ml-error: #fca5a5; // antigo .glass-bn-trend.is-down
+  --ml-backdrop-blur: 10px; // antigo (coincide com o valor canônico)
+  --ml-shadow-1: 0 4px 18px rgba(0, 0, 0, 0.18); // ausente no .less antigo; completado pela tabela canônica
+
+  // container — ancorado no par de classes que a base sempre emite junto (mesma div)
+  .ml-surface-bg.ml-border {
+    position: relative;
+    border-radius: var(--ml-radius-lg, 14px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    box-shadow: var(--ml-shadow-1, 0 4px 18px rgba(0, 0, 0, 0.18));
+    color: var(--ml-on-surface, #fff);
+
+    // aresta especular do vidro — assinatura do tema, ausente no antigo (curto/casca), completada pela tabela canônica
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
   }
 
-  .glass-bn-icon {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .glass-bn-label {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .glass-bn-value {
-    color: #fff;
-  }
-  .glass-bn-helper {
-    color: rgba(255, 255, 255, 0.55);
+  .ml-surface-bg {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.07));
   }
 
-  .glass-bn-trend {
-    &.is-up {
-      color: #6ee7b7;
-    }
-    &.is-down {
-      color: #fca5a5;
-    }
-    &.is-neutral {
-      color: rgba(255, 255, 255, 0.6);
-    }
+  .ml-border {
+    border-color: var(--ml-outline-variant, rgba(255, 255, 255, 0.15));
   }
 
-  .glass-bn-skel {
+  .ml-text {
+    color: var(--ml-on-surface, #fff);
+  }
+
+  // ml-text-muted é reaproveitada por ícone, label e trend neutro com valores
+  // antigos diferentes — colisão N-para-1 resolvida ancorando nos utilitários
+  // Tailwind que a base sempre emite junto de cada um (text-xs no helper,
+  // gap-1 exclusivo do wrapper de trend).
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.7));
+  }
+  .text-xs.ml-text-muted {
+    color: rgba(255, 255, 255, 0.55); // antigo .glass-bn-helper
+  }
+  .gap-1.ml-text-muted {
+    color: rgba(255, 255, 255, 0.6); // antigo .glass-bn-trend.is-neutral
+  }
+
+  .ml-success-text {
+    color: var(--ml-success, #6ee7b7);
+  }
+  .ml-error-text {
+    color: var(--ml-error, #fca5a5);
+  }
+
+  .ml-surface-dim-bg {
     background: rgba(255, 255, 255, 0.12);
     border-radius: 6px;
     animation: glass-bn-pulse 1.4s ease-in-out infinite;

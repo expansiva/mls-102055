@@ -1,63 +1,101 @@
 /// <mls fileReference="_102055_/l2/molecules/groupenterboolean/ml-toggle-switch-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// TOGGLE SWITCH — GLASSMORPHISM (102055, por herança)
+// TOGGLE SWITCH — GLASSMORPHISM (102055) — Strategy D theme sheet (COMPLETE)
 // Trilho translúcido + thumb de vidro. Estado "on" em accent índigo.
+// Valores do .less glass antigo prevalecem sobre a tabela canônica.
 // =============================================================================
 groupenterboolean--ml-toggle-switch-glass {
+  // ---- glass theme tokens (valores antigos vencem) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 500; // antigo: utilitário font-medium no label
+  --ml-radius-full: 9999px;
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.22); // antigo (vs 0.25 canônico)
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7); // antigo (vs 0.85 canônico)
+  --ml-primary: rgba(129, 140, 248, 0.65); // antigo (vs rgba(99,102,241,0.55))
+  --ml-surface: rgba(255, 255, 255, 0.14); // fundo do trilho
+  --ml-on-surface: #ffffff;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.65);
+  --ml-error: #ffb4ab;
+  --ml-shadow-1: 0 2px 6px rgba(0, 0, 0, 0.35); // sombra do thumb (antiga)
+  --ml-transition: 0.2s ease; // antigo (vs 250ms canônico)
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.4); // antigo (vs 0.3 canônico)
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px; // antigo (vs 10px canônico)
+
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
 
-  .glass-tg-label {
+  // ---- textos ----
+  .ml-label {
     color: rgba(255, 255, 255, 0.85);
-  }
-  .glass-tg-view {
-    color: #fff;
-  }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
+    font-weight: var(--ml-font-weight-medium, 500);
   }
 
-  // ---- trilho ----
-  .glass-tg-track {
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+  .ml-text {
+    color: var(--ml-on-surface, #ffffff);
+  }
+
+  .ml-helper {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.65));
+  }
+
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+  }
+
+  // ---- trilho (superfície de vidro) ----
+  .ml-toggle-track {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.14));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.22));
+    border-radius: var(--ml-radius-full, 9999px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: background var(--ml-transition, 0.2s ease), border-color var(--ml-transition, 0.2s ease),
+      box-shadow var(--ml-transition, 0.2s ease);
+
+    // borda especular (assinatura do tema) — CSS puro, sem markup
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
 
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
-    }
-    &.is-on {
-      background: rgba(129, 140, 248, 0.65);
-      border-color: rgba(199, 210, 254, 0.9);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.4));
     }
   }
 
-  // ---- thumb ----
-  .glass-tg-thumb {
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-    transform: translateX(0.25rem);
-    transition: transform 0.2s ease;
+  .ml-toggle-track-on {
+    background: var(--ml-primary, rgba(129, 140, 248, 0.65));
+    border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+  }
 
-    &.is-on {
-      transform: translateX(1.5rem);
-    }
+  .ml-toggle-track-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+  }
+
+  // ---- thumb ----
+  // Posição (translate-x-1 / translate-x-6) vem dos utilitários herdados do render base.
+  .ml-toggle-thumb {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--ml-radius-full, 9999px);
+    box-shadow: var(--ml-shadow-1, 0 2px 6px rgba(0, 0, 0, 0.35));
+    transition: transform var(--ml-transition, 0.2s ease);
+  }
+
+  // ---- disabled ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

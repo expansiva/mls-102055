@@ -1,87 +1,91 @@
 /// <mls fileReference="_102055_/l2/molecules/groupnotifyuser/ml-alert-modal-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// ALERT MODAL — GLASSMORPHISM
+// ALERT MODAL — GLASSMORPHISM (mls-102055)
+// Estratégia D: o render() herdado do 102040 emite classes ml-* — este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
 // Scrim com blur (desfoca a página atrás) + painel de vidro. Fundo escuro atrás.
-// Layout/posição via Tailwind no template.
+// Layout/posição (fixed inset-0, rounded-xl, etc.) via Tailwind no template.
 // =============================================================================
 groupnotifyuser--ml-alert-modal-glass {
   display: contents;
   font-family: 'Inter', system-ui, sans-serif;
 
-  // scrim: escurece e DESFOCA o conteúdo atrás do modal
-  .glass-modal-scrim {
+  --ml-radius-lg: 20px; // valor do .less antigo (skill canônico seria 14px)
+  --ml-backdrop-blur-strong: 20px; // valor do .less antigo (skill canônico seria 18px)
+  --ml-outline-variant: rgba(255, 255, 255, 0.22); // valor do .less antigo (skill canônico seria 0.25)
+
+  // scrim: escurece e desfoca o conteúdo atrás do modal.
+  // Classe real emitida pelo render(): "ml-surface-bg/40" (token literal com
+  // barra) — não existe hook ml-* separado para o scrim, então o seletor
+  // aponta exatamente essa classe (barra escapada).
+  .ml-surface-bg\/40 {
     background: rgba(8, 10, 25, 0.45);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }
 
-  // painel de vidro
-  .glass-modal {
-    position: relative;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
+  // painel de vidro (mesma classe "ml-surface-bg" também usada, sem "/40", no
+  // container principal — via getContainerClasses())
+  .ml-surface-bg {
+    border-radius: var(--ml-radius-lg, 20px);
     background: rgba(30, 27, 75, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 20px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 20px));
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  // borda por tipo: base sutil branca em todos os lados + acento colorido de
+  // 3px no topo (o container sempre carrega exatamente uma destas classes)
+  .ml-border-info,
+  .ml-border-success,
+  .ml-border-warning,
+  .ml-border-error {
+    border-color: var(--ml-outline-variant, rgba(255, 255, 255, 0.22));
+    border-top-width: 3px;
+  }
+  .ml-border-info { border-top-color: rgba(199, 210, 254, 0.8); }
+  .ml-border-success { border-top-color: rgba(110, 231, 183, 0.8); }
+  .ml-border-warning { border-top-color: rgba(252, 211, 77, 0.8); }
+  .ml-border-error { border-top-color: rgba(252, 165, 165, 0.85); }
+
+  // textos: o container, o título (h3) e a mensagem compartilham a classe
+  // "ml-text" — diferenciados por seletor mais específico (container também
+  // carrega "ml-surface-bg"; título é a única tag h3 com ml-text).
+  .ml-surface-bg.ml-text {
     color: rgba(255, 255, 255, 0.92);
-
-    &.is-success {
-      border-top: 3px solid rgba(110, 231, 183, 0.8);
-    }
-    &.is-warning {
-      border-top: 3px solid rgba(252, 211, 77, 0.8);
-    }
-    &.is-error {
-      border-top: 3px solid rgba(252, 165, 165, 0.85);
-    }
-    &.is-info {
-      border-top: 3px solid rgba(199, 210, 254, 0.8);
-    }
   }
-
-  // ícone redondo por tipo
-  .glass-modal-icon-wrap {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  .is-success .glass-modal-icon-wrap {
-    color: #6ee7b7;
-    background: rgba(16, 100, 70, 0.45);
-  }
-  .is-warning .glass-modal-icon-wrap {
-    color: #fcd34d;
-    background: rgba(120, 90, 20, 0.45);
-  }
-  .is-error .glass-modal-icon-wrap {
-    color: #fca5a5;
-    background: rgba(130, 40, 50, 0.5);
-  }
-  .is-info .glass-modal-icon-wrap {
-    color: #c7d2fe;
-    background: rgba(56, 70, 140, 0.5);
-  }
-
-  .glass-modal-title {
+  h3.ml-text {
     color: #fff;
   }
-  .glass-modal-message {
+  .ml-text {
     color: rgba(255, 255, 255, 0.82);
   }
 
-  .glass-modal-dismiss {
-    border: none;
-    background: transparent;
+  // ícone redondo por tipo (glyph via stroke=currentColor -> *-text; fundo -> *-dim-bg)
+  .ml-primary-text { color: #c7d2fe; }
+  .ml-primary-dim-bg { background: rgba(56, 70, 140, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .ml-success-text { color: #6ee7b7; }
+  .ml-success-dim-bg { background: rgba(16, 100, 70, 0.45); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .ml-warning-text { color: #fcd34d; }
+  .ml-warning-dim-bg { background: rgba(120, 90, 20, 0.45); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .ml-error-text { color: #fca5a5; }
+  .ml-error-dim-bg { background: rgba(130, 40, 50, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); }
+
+  // dismiss: botão nativo sem reset via Tailwind no template -> definir aqui
+  .ml-text-muted {
     color: rgba(255, 255, 255, 0.7);
+    background: transparent;
+    border: none;
     cursor: pointer;
     border-radius: 8px;
     padding: 0.25rem;
     transition: background 150ms ease, color 150ms ease;
-    &:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-    }
+  }
+  .ml-text-muted:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .hover\:ml-text:hover {
+    color: #fff;
   }
 }

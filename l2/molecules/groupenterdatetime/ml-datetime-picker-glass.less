@@ -1,168 +1,221 @@
 /// <mls fileReference="_102055_/l2/molecules/groupenterdatetime/ml-datetime-picker-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// DATETIME PICKER — GLASSMORPHISM
-// Gatilho translúcido + painel popover com calendário e colunas de hora/minuto.
+// DATETIME PICKER — GLASSMORPHISM (padrão de POPOVER glass)
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -glass)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Assume fundo escuro/rico atrás (contrato de container).
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupenterdatetime--ml-datetime-picker-glass {
+groupenterdatetime--ml-datetime-picker-glass,
+div[data-widget="groupenterdatetime--ml-datetime-picker-glass"] {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
 
-  .glass-dtp-label {
+  // ---- tokens do tema glass (na migração, valores do .less antigo vencem) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 500; // valor efetivo antigo (utility font-medium)
+  --ml-on-surface: #ffffff;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.45); // placeholder antigo
+  --ml-error: #ffb4ab;
+  --ml-primary: rgba(129, 140, 248, 0.85); // fundo do confirm antigo
+  --ml-on-primary: #ffffff;
+  --ml-surface: rgba(255, 255, 255, 0.08); // fundo do gatilho antigo
+  --ml-surface-dim: rgba(30, 27, 75, 0.85); // fundo do painel antigo
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.2); // borda do gatilho antigo
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7); // antigo
+  --ml-radius-md: 10px; // raio do gatilho antigo
+  --ml-radius-lg: 14px; // raio do painel
+  --ml-transition: 0.15s ease; // transição do gatilho antigo
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25); // antigo
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px;         // vidro do gatilho (antigo)
+  --ml-backdrop-blur-strong: 18px; // vidro do painel/popover
+
+  // ---- texto / feedback ----
+  .ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    font-weight: var(--ml-font-weight-medium, 500);
     color: rgba(255, 255, 255, 0.7);
-    &.is-disabled {
-      opacity: 0.5;
-    }
   }
-  .glass-dtp-req {
-    color: #ffb4ab;
-  }
-  .glass-helper {
+
+  .ml-helper {
     color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-error-text {
-    color: #ffb4ab;
+
+  // texto de erro e asterisco de required (mesma cor no design antigo)
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-dtp-view {
-    color: #fff;
+
+  // valor selecionado, modo visualização e cabeçalho do mês
+  .ml-text {
+    color: var(--ml-on-surface, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-dtp-icon {
+
+  // placeholder do gatilho
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.45));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // ícones (calendário/relógio) mais presentes que o placeholder — valor antigo
+  svg.ml-text-muted {
     color: rgba(255, 255, 255, 0.6);
   }
-  .glass-dtp-spinner {
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: rgba(255, 255, 255, 0.9);
-  }
-  .glass-dtp-month {
-    color: #fff;
-  }
-  .glass-dtp-weekday {
+
+  // linha dos dias da semana no calendário — valor antigo
+  .ml-text-muted.grid-cols-7 {
     color: rgba(255, 255, 255, 0.5);
   }
 
-  // ---- gatilho ----
-  .glass-dtp-trigger {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    &.is-focused {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-  .glass-dtp-value {
-    color: rgba(255, 255, 255, 0.45);
-    &.has-value {
-      color: #fff;
-    }
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
-}
+  .ml-spinner {
+    border-color: rgba(255, 255, 255, 0.3); // largura vem do utility border-2
+    border-top-color: rgba(255, 255, 255, 0.9);
+  }
 
-// Panel styles — shared between component scope and body-level portal
-groupenterdatetime--ml-datetime-picker-glass,
-.glass-dtp-portal {
-  .glass-dtp-panel {
-    background: rgba(30, 27, 75, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 14px;
+  // ---- gatilho (campo fechado) ----
+  .ml-input-container {
+    position: relative;
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    border-radius: var(--ml-radius-md, 10px);
+    color: var(--ml-on-surface, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color var(--ml-transition, 0.15s ease),
+                box-shadow var(--ml-transition, 0.15s ease),
+                background var(--ml-transition, 0.15s ease);
+
+    // aresta especular do vidro
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
+
+    &-focused {
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
+    }
+
+    &-error {
+      border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+    }
+  }
+
+  // ---- painel (popover glass — renderiza no portal via data-widget) ----
+  .ml-calendar-container {
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
+    border: var(--ml-border-width, 1px) solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--ml-radius-lg, 14px);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
   }
 
-  // ---- navegação ----
-  .glass-dtp-nav {
+  // ---- navegação de mês (e botão Limpar, que reusa a classe) ----
+  .ml-calendar-nav {
     background: transparent;
     border: none;
+    border-radius: 6px;
     color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
-    border-radius: 6px;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
 
     &:hover {
       background: rgba(255, 255, 255, 0.1);
-      color: #fff;
+      color: #ffffff;
+    }
+  }
+
+  // botão Limpar — mesma classe ml-calendar-nav; diferencia pelo utility
+  // rounded-md que só ele carrega (no antigo: raio 8px e hover sem fundo)
+  .ml-calendar-nav.rounded-md {
+    border-radius: 8px;
+
+    &:hover {
+      background: transparent;
     }
   }
 
   // ---- dias ----
-  .glass-dtp-day {
-    border-radius: 8px;
-    border: 1px solid transparent;
+  .ml-calendar-day {
+    background: transparent;
+    border-radius: 8px; // borda transparente vem dos utilities do markup
     color: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
     transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
+    &--hoverable:hover {
       background: rgba(255, 255, 255, 0.1);
     }
-    &.is-today {
-      border-color: rgba(199, 210, 254, 0.6);
-    }
-    &.is-selected {
-      background: rgba(199, 210, 254, 0.2);
-      border-color: rgba(199, 210, 254, 0.9);
-      color: #e0e7ff;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
+  }
+
+  .ml-calendar-day-today {
+    border-color: rgba(199, 210, 254, 0.6);
+  }
+
+  .ml-calendar-day-selected {
+    background: rgba(199, 210, 254, 0.2);
+    border-color: rgba(199, 210, 254, 0.9);
+    color: #e0e7ff;
+  }
+
+  .ml-calendar-day-disabled {
+    opacity: 0.4; // valor antigo (mais apagado que o token 0.5)
+    cursor: not-allowed;
   }
 
   // ---- hora/minuto ----
-  .glass-dtp-time {
+  .ml-calendar-time-btn {
+    background: transparent;
     border-radius: 8px;
-    border: 1px solid transparent;
     color: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
     transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
+    &--hoverable:hover {
       background: rgba(255, 255, 255, 0.1);
     }
-    &.is-selected {
+
+    &-selected {
       background: rgba(199, 210, 254, 0.2);
       border-color: rgba(199, 210, 254, 0.9);
       color: #e0e7ff;
     }
-    &.is-disabled {
+
+    // desabilitado um pouco mais apagado que o padrão (valor antigo)
+    &.ml-disabled {
       opacity: 0.4;
-      cursor: not-allowed;
     }
   }
 
-  // ---- ações ----
-  .glass-dtp-clear {
-    background: transparent;
-    border: none;
-    border-radius: 8px;
-    color: rgba(255, 255, 255, 0.7);
-    cursor: pointer;
-
-    &:hover {
-      color: #fff;
-    }
-  }
-  .glass-dtp-confirm {
-    background: rgba(129, 140, 248, 0.85);
+  // ---- confirmar ----
+  .ml-calendar-confirm {
+    background: var(--ml-primary, rgba(129, 140, 248, 0.85));
     border: 1px solid rgba(199, 210, 254, 0.6);
     border-radius: 8px;
-    color: #fff;
+    color: var(--ml-on-primary, #ffffff);
     cursor: pointer;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     transition: background 0.12s ease;
 
     &:hover {

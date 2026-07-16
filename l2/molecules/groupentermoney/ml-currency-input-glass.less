@@ -1,70 +1,126 @@
 /// <mls fileReference="_102055_/l2/molecules/groupentermoney/ml-currency-input-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// CURRENCY INPUT — GLASSMORPHISM (102055, por herança)
+// CURRENCY INPUT — GLASSMORPHISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Valores visuais vindos do .less antigo da variante (precedência sobre a
+// tabela canônica). Layout (padding, gap, flex) vem do Tailwind no template.
+// Assume fundo escuro/rico atrás (contrato de container).
 // =============================================================================
 groupentermoney--ml-currency-input-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-cur-label {
-    color: rgba(255, 255, 255, 0.85);
-  }
-  .glass-cur-view {
-    color: #fff;
-  }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
-  }
+  // ---- tokens do tema glass (valor antigo vence o canônico na migração) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 500; // antigo: label usava font-medium (500) no markup copiado
+  --ml-radius-sm: 10px; // antigo: 10px (vence 12px)
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.2); // antigo: 0.2 (vence 0.25)
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7); // antigo: 0.7 (vence 0.85)
+  --ml-surface: rgba(255, 255, 255, 0.08); // antigo: 0.08
+  --ml-on-surface: #ffffff;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.65); // antigo (helper): 0.65
+  --ml-error: #ffb4ab;
+  --ml-transition: 0.15s ease; // antigo: 0.15s (vence 250ms)
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25); // antigo: 0.25
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px; // antigo: 8px (vence 10px)
 
-  .glass-cur-input {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #fff;
-    outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
 
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.45);
+  // superfície glass: no markup herdado o vidro vive no container do input
+  // (o <input> em si é bg-transparent via Tailwind)
+  .ml-input-container {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    border-radius: var(--ml-radius-sm, 10px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color var(--ml-transition, 0.15s ease),
+                box-shadow var(--ml-transition, 0.15s ease),
+                background var(--ml-transition, 0.15s ease);
+
+    // aresta especular (assinatura do tema) — 'relative' já vem do Tailwind herdado
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
     }
-    &:hover:not(.is-disabled):not(.is-readonly) {
+
+    &:hover:not(.ml-disabled):not(:has(.ml-input[readonly])) {
       background: rgba(255, 255, 255, 0.12);
     }
-    &:focus {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+    &:focus-within {
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
       background: rgba(255, 255, 255, 0.12);
     }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-      &:focus {
-        box-shadow: 0 0 0 3px rgba(255, 120, 120, 0.25);
-      }
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
+    // readonly não ganha classe ml-* do base: estado estrutural via :has()
+    &:has(.ml-input[readonly]) {
       background: rgba(255, 255, 255, 0.04);
     }
   }
 
-  .is-loading {
-    opacity: 0.5;
+  // erro: depois do bloco acima para vencer o :focus-within em empate de especificidade
+  .ml-input-container-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+
+    &:focus-within {
+      border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) rgba(255, 120, 120, 0.25);
+    }
+  }
+
+  .ml-input {
+    color: var(--ml-on-surface, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    // outline: none antigo coberto pelo utility 'outline-none' herdado
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45); // valor único do antigo
+    }
+  }
+
+  .ml-label {
+    color: rgba(255, 255, 255, 0.85); // antigo: 0.85 (um-off vs --ml-on-surface)
+    font-weight: var(--ml-font-weight-medium, 500);
+  }
+
+  .ml-helper {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.65));
+  }
+
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+  }
+
+  // modo visualização
+  .ml-text {
+    color: var(--ml-on-surface, #ffffff);
+  }
+
+  // texto do overlay de loading (cor do overlay antigo)
+  .ml-text-muted {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
     pointer-events: none;
   }
-  .glass-cur-loading {
+
+  .ml-loading-overlay {
     background: rgba(15, 15, 30, 0.5);
-    border-radius: 10px;
-    backdrop-filter: blur(4px);
+    border-radius: var(--ml-radius-sm, 10px);
+    backdrop-filter: blur(4px); // blur mais fraco do antigo (um-off)
     -webkit-backdrop-filter: blur(4px);
-    color: rgba(255, 255, 255, 0.85);
   }
 }

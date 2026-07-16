@@ -1,82 +1,87 @@
 /// <mls fileReference="_102055_/l2/molecules/groupnotifyuser/ml-notify-banner-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// NOTIFY BANNER — GLASSMORPHISM
-// Painel translúcido por tipo (info/success/warning/error). Fundo escuro atrás.
-// Layout/posição via Tailwind no template.
+// NOTIFY BANNER — GLASSMORPHISM (mls-102055)
+// Estratégia D: o render() herdado do 102040 emite classes ml-* — este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Painel translúcido tonalizado por tipo (info/success/warning/error).
+// Layout/posição via Tailwind no template — quando `position` está vazio o
+// container ganha "relative", quando preenchido ganha "fixed ...". NÃO definir
+// position aqui: colidiria com essa variante fixed.
 // =============================================================================
 groupnotifyuser--ml-notify-banner-glass {
   display: contents;
   font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-banner {
-    position: relative;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    background: rgba(56, 60, 120, 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+  --ml-radius-lg: 14px;
+  --ml-backdrop-blur-strong: 16px; // valor do .less antigo (skill canônico seria 18px)
+  --ml-outline-variant: rgba(255, 255, 255, 0.22);
+
+  // painel (fundo tonalizado por tipo) — o container sempre carrega exatamente
+  // uma destas classes junto com a borda e "ml-text"
+  .ml-primary-dim-bg,
+  .ml-success-dim-bg,
+  .ml-warning-dim-bg,
+  .ml-error-dim-bg {
+    border-radius: var(--ml-radius-lg, 14px);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 16px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 16px));
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  .ml-primary-dim-bg { background: rgba(56, 70, 140, 0.55); }
+  .ml-success-dim-bg { background: rgba(16, 100, 70, 0.5); }
+  .ml-warning-dim-bg { background: rgba(120, 90, 20, 0.5); }
+  .ml-error-dim-bg { background: rgba(130, 40, 50, 0.55); }
+
+  // borda: uniforme por tipo (o .less antigo não diferencia cor de borda por tipo)
+  .ml-border-info,
+  .ml-border-success,
+  .ml-border-warning,
+  .ml-border-error {
+    border-color: var(--ml-outline-variant, rgba(255, 255, 255, 0.22));
+  }
+
+  // textos: painel (base), título e mensagem compartilham "ml-text" —
+  // diferenciados por seletor mais específico (painel também carrega a
+  // *-dim-bg do tipo; título também carrega "font-semibold").
+  .ml-primary-dim-bg.ml-text,
+  .ml-success-dim-bg.ml-text,
+  .ml-warning-dim-bg.ml-text,
+  .ml-error-dim-bg.ml-text {
     color: rgba(255, 255, 255, 0.92);
-
-    // tonalidade por tipo (mantém translucidez)
-    &.is-info {
-      background: rgba(56, 70, 140, 0.55);
-    }
-    &.is-success {
-      background: rgba(16, 100, 70, 0.5);
-    }
-    &.is-warning {
-      background: rgba(120, 90, 20, 0.5);
-    }
-    &.is-error {
-      background: rgba(130, 40, 50, 0.55);
-    }
   }
-
-  .glass-banner-icon {
+  .font-semibold.ml-text {
     color: #fff;
   }
-  .is-success .glass-banner-icon {
-    color: #6ee7b7;
-  }
-  .is-warning .glass-banner-icon {
-    color: #fcd34d;
-  }
-  .is-error .glass-banner-icon {
-    color: #fca5a5;
-  }
-  .is-info .glass-banner-icon {
-    color: #c7d2fe;
-  }
-
-  .glass-banner-title {
-    color: #fff;
-  }
-  .glass-banner-message {
+  .ml-text {
     color: rgba(255, 255, 255, 0.82);
   }
-  .glass-banner-action {
-    color: #c7d2fe;
-    &:hover {
-      text-decoration: underline;
-    }
+
+  // ícone (varia por tipo) — ação usa sempre "ml-primary-text" (não varia por tipo)
+  .ml-primary-text { color: #c7d2fe; }
+  .ml-success-text { color: #6ee7b7; }
+  .ml-warning-text { color: #fcd34d; }
+  .ml-error-text { color: #fca5a5; }
+
+  // ação: único elemento com "cursor-pointer" combinado a "ml-primary-text"
+  .cursor-pointer.ml-primary-text:hover {
+    text-decoration: underline;
   }
 
-  .glass-banner-dismiss {
-    border: none;
-    border-radius: 8px;
-    background: transparent;
+  // dismiss: botão nativo sem reset de border/bg/cursor/transition via Tailwind -> definir aqui
+  .ml-text-muted {
     color: rgba(255, 255, 255, 0.7);
+    background: transparent;
+    border: none;
     cursor: pointer;
     transition: background 150ms ease, color 150ms ease;
-    &:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-    }
-    &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.7);
-    }
+  }
+  .hover\:ml-surface-dim-bg:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+  .ml-text-muted:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.7);
   }
 }

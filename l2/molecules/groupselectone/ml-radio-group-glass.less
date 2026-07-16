@@ -2,115 +2,145 @@
 
 // =============================================================================
 // RADIO GROUP — GLASSMORPHISM
-// Aparência self-contained, escopada sob a tag real. Fundo escuro/rico atrás.
-// Layout via Tailwind no template.
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Sem portal — escopo único sob a própria tag.
+// Assume fundo escuro/rico atrás. Layout via Tailwind no template.
 // =============================================================================
 groupselectone--ml-radio-group-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  &.is-disabled,
-  .is-disabled {
-    // estado tratado por classe abaixo
-  }
+  // ---- tokens do tema glass (valor antigo validado tem precedência) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-error: #ffb4ab;
+  --ml-surface: rgba(255, 255, 255, 0.08);
+  --ml-outline-variant: rgba(255, 255, 255, 0.22);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-radius-md: 12px;
+  --ml-border-width: 1px;
+  --ml-transition: 200ms ease;
+  --ml-backdrop-blur: 10px;
+  --ml-disabled-opacity: 0.5;
+  --ml-on-primary: #ffffff;
 
-  .glass-rg-label {
+  .ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     font-weight: 600;
     color: rgba(255, 255, 255, 0.92);
   }
-  .glass-required {
-    color: #ffb4ab;
+
+  .ml-helper {
+    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .ml-select-group-label {
+    color: rgba(255, 255, 255, 0.55);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // ---- texto ----
+  .ml-text {
+    color: rgba(255, 255, 255, 0.95);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+  // rótulo de opção (dentro do [role=radio]) — colisão N-para-1 com o valor em modo visualização
+  [role='radio'] .ml-text {
+    color: rgba(255, 255, 255, 0.9);
+    transition: color 200ms ease;
+  }
+  // texto apagado (empty/loading) — colisão N-para-1 por tag
+  div.ml-text-muted {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  span.ml-text-muted {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  // rótulo selecionado — precisa vir depois de [role='radio'] .ml-text (mesma especificidade)
+  .ml-text.ml-radio-label-selected {
+    color: #ffffff;
+    font-weight: 500;
+  }
+  // rótulo de opção desabilitada (ml-text + ml-text-muted no mesmo elemento) — vence por último
+  .ml-text.ml-text-muted {
+    color: rgba(255, 255, 255, 0.45);
   }
 
   // ---- opção (cartão de vidro) ----
-  .glass-rg-option {
+  .ml-radio-option {
     position: relative;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    cursor: pointer;
-    transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+    border-radius: var(--ml-radius-md, 12px);
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.22));
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    transition: background var(--ml-transition, 200ms ease),
+                border-color var(--ml-transition, 200ms ease),
+                box-shadow var(--ml-transition, 200ms ease);
 
-    &.is-selected {
-      background: rgba(99, 102, 241, 0.4);
-      border-color: rgba(199, 210, 254, 0.8);
+    // aresta especular do vidro (ausente no design antigo — aplicada por ser
+    // assinatura do tema; opção antiga não tinha box-shadow em repouso)
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
     }
-    &.is-focused {
-      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.8);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &:not(.is-disabled):not(.is-selected):hover {
+
+    &:hover:not(.ml-disabled):not(.ml-radio-option-selected) {
       background: rgba(255, 255, 255, 0.14);
     }
   }
 
+  .ml-radio-option-selected {
+    background: rgba(99, 102, 241, 0.4);
+    border-color: rgba(199, 210, 254, 0.8);
+  }
+
+  .ml-radio-option-focused {
+    box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+  }
+
+  .ml-radio-option-error {
+    border-color: rgba(255, 120, 120, 0.8);
+  }
+
   // ---- indicador radio ----
-  .glass-rg-radio {
+  .ml-radio-dot {
     border-radius: 9999px;
     border: 2px solid rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.1);
     transition: border-color 200ms ease, background 200ms ease;
-
-    &.is-selected {
-      border-color: #c7d2fe;
-      background: rgba(99, 102, 241, 0.9);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-    }
-  }
-  .glass-rg-dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 9999px;
-    background: #fff;
   }
 
-  // ---- texto ----
-  .glass-rg-text {
-    color: rgba(255, 255, 255, 0.9);
-    transition: color 200ms ease;
-    &.is-selected {
-      color: #fff;
-      font-weight: 500;
-    }
-    &.is-disabled {
-      color: rgba(255, 255, 255, 0.45);
-    }
+  .ml-radio-dot-selected {
+    border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+    background: rgba(99, 102, 241, 0.9);
   }
 
-  .glass-rg-group-label {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .glass-rg-empty {
-    color: rgba(255, 255, 255, 0.6);
+  .ml-radio-dot-inner {
+    background: var(--ml-on-primary, #ffffff);
   }
 
-  // ---- loading ----
-  .glass-rg-spinner {
-    border: 2px solid rgba(199, 210, 254, 0.9);
-    border-top-color: transparent;
-  }
-  .glass-rg-loading-text {
-    color: rgba(255, 255, 255, 0.65);
-  }
-
-  // ---- feedback / view ----
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
-  }
-  .glass-rg-view-value {
-    color: rgba(255, 255, 255, 0.95);
+  // ---- spinner (largura/borda-superior-transparente já vêm do Tailwind
+  // border-2/border-t-transparent herdado — aqui só a cor, sem tocar o topo) ----
+  .ml-spinner {
+    border-left-color: rgba(199, 210, 254, 0.9);
+    border-right-color: rgba(199, 210, 254, 0.9);
+    border-bottom-color: rgba(199, 210, 254, 0.9);
   }
 }

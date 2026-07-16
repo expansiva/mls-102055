@@ -1,75 +1,99 @@
 /// <mls fileReference="_102055_/l2/molecules/groupexpandcontent/ml-collapsible-panel-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// COLLAPSIBLE PANEL — GLASSMORPHISM
+// COLLAPSIBLE PANEL — GLASSMORPHISM (Strategy D)
+// O render() herdado (mls-102040) emite classes semânticas ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
 // Seções de vidro empilhadas; cabeçalho aberto realçado em índigo.
 // =============================================================================
 groupexpandcontent--ml-collapsible-panel-glass {
   display: block;
   font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-clp-label {
-    color: rgba(255, 255, 255, 0.85);
-  }
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 600;
+  // consumido pelo estilo inline "border-radius: var(--ml-radius-sm, 6px)"
+  // que a base já emite no wrapper da seção — valor antigo (12px) vence.
+  --ml-radius-sm: 12px;
+  --ml-disabled-opacity: 0.5;
 
-  // ---- seção ----
-  .glass-clp-section {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    overflow: hidden;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: border-color 0.2s ease;
-
-    &.is-open {
-      border-color: rgba(199, 210, 254, 0.6);
+  // ---- rótulo do slot Label vs. título de cada seção ----
+  // a base reaproveita a MESMA classe ml-label nos dois — diferenciados pela
+  // utility Tailwind companion "mb-2" (só está no rótulo de topo).
+  .ml-label {
+    font-family: var(--ml-font-family);
+    &.mb-2 {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    &:not(.mb-2) {
+      color: #fff;
     }
   }
 
-  // ---- cabeçalho ----
-  .glass-clp-header {
-    background: transparent;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: background 0.15s ease;
-
-    &:hover:not(.is-disabled):not(.is-open) {
-      background: rgba(255, 255, 255, 0.08);
-    }
-    &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
-    }
-    &.is-open {
-      background: rgba(199, 210, 254, 0.14);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-
-  .glass-clp-icon {
+  // ---- ícone vs. subtítulo ----
+  // ambos usam ml-text-muted; diferenciados pela utility "text-xs" (só no
+  // subtítulo).
+  .ml-text-muted {
     color: rgba(255, 255, 255, 0.6);
+    &.text-xs {
+      color: rgba(255, 255, 255, 0.55);
+    }
   }
-  .glass-clp-title {
-    color: #fff;
+
+  // ---- cartão da seção (wrapper externo) vs. linha clicável do cabeçalho ----
+  // a base reaproveita a MESMA classe ml-panel-header nos dois — diferenciados
+  // pela utility Tailwind companion "flex" (só está na linha interna clicável).
+  // cursor: a base já aplica "cursor-pointer" via Tailwind quando habilitado.
+  .ml-panel-header {
+    &.flex {
+      background: transparent;
+      border: 1px solid transparent;
+      transition: background 150ms ease;
+
+      &.ml-panel-header-open {
+        background: rgba(199, 210, 254, 0.14);
+      }
+      &:not(.ml-disabled):not(.ml-panel-header-open):hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
+      }
+    }
+    &:not(.flex) {
+      // border-radius vem do estilo inline da base + token --ml-radius-sm acima
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: border-color 0.2s ease;
+
+      &:has(> .ml-panel-header-open) {
+        border-color: rgba(199, 210, 254, 0.6);
+      }
+    }
   }
-  .glass-clp-subtitle {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .glass-clp-chevron {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-clp-body {
+
+  .ml-panel-content {
+    font-family: var(--ml-font-family);
     color: rgba(255, 255, 255, 0.8);
   }
 
-  // ---- skeleton ----
-  .glass-clp-skel {
+  .ml-panel-chevron {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .ml-skeleton {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
+    border-radius: var(--ml-radius-sm);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

@@ -1,47 +1,93 @@
 /// <mls fileReference="_102055_/l2/molecules/groupselectmany/ml-multi-select-dropdown-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// MULTI SELECT DROPDOWN — GLASSMORPHISM por HERANÇA (102055, popover glass, base 0.85)
-// Aparência self-contained, escopada sob a tag -glass. Fundo escuro/rico atrás.
-// Layout/posicionamento via Tailwind no template.
+// MULTI SELECT DROPDOWN — GLASSMORPHISM  (padrão de POPOVER glass)
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -glass)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Assume fundo escuro/rico atrás (contrato de container).
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupselectmany--ml-multi-select-dropdown-glass {
+groupselectmany--ml-multi-select-dropdown-glass,
+div[data-widget="groupselectmany--ml-multi-select-dropdown-glass"] {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-label {
-    font-weight: 600;
+  // ---- tokens do tema glass ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 600;
+  --ml-on-surface: rgba(255, 255, 255, 0.95);
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.55);
+  --ml-error: #ffb4ab;
+  --ml-surface: rgba(255, 255, 255, 0.1);
+  --ml-surface-dim: rgba(30, 27, 75, 0.85);
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.25);
+  --ml-outline-error: rgba(255, 120, 120, 0.85);
+  --ml-radius-md: 12px;
+  --ml-radius-lg: 14px;
+  --ml-transition: 250ms ease;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.3);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 10px;
+  --ml-backdrop-blur-strong: 18px;
+
+  // ---- texto / feedback ----
+  .ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    font-weight: var(--ml-font-weight-medium, 600);
     color: rgba(255, 255, 255, 0.92);
   }
-  .glass-placeholder {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .glass-count {
-    color: rgba(255, 255, 255, 0.85);
+
+  .ml-helper {
+    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
 
-  // ---- chips selecionados ----
-  .glass-tag {
-    border-radius: 8px;
-    background: rgba(99, 102, 241, 0.45);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
 
-  // ---- trigger ----
-  .glass-trigger {
+  // placeholder / "N selecionados" / loading — todos são <span class="ml-text-muted">
+  // sem nenhum atributo/wrapper que os diferencie no render herdado; colapsam
+  // no valor canônico do token (ver relatório: contagem antiga tinha 0.85 própria).
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.55));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // rótulo de grupo e estado vazio são <div class="ml-text-muted"> no painel —
+  // valor antigo idêntico para os dois (0.6), então um seletor por tag basta.
+  div.ml-text-muted {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- trigger (campo fechado) ----
+  .ml-select-trigger {
     position: relative;
-    color: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.95));
+    background: var(--ml-surface, rgba(255, 255, 255, 0.1));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.25));
+    border-radius: var(--ml-radius-md, 12px);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.25);
     cursor: pointer;
-    transition: border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
     text-align: left;
+    transition: border-color var(--ml-transition, 250ms ease),
+                box-shadow var(--ml-transition, 250ms ease),
+                background var(--ml-transition, 250ms ease);
 
+    // aresta especular do vidro
     &::before {
       content: '';
       position: absolute;
@@ -50,51 +96,54 @@ groupselectmany--ml-multi-select-dropdown-glass {
       border-top: 1px solid rgba(255, 255, 255, 0.45);
       pointer-events: none;
     }
+
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.3), 0 4px 16px rgba(0, 0, 0, 0.16);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.85);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.3)),
+                  0 4px 16px rgba(0, 0, 0, 0.16);
     }
   }
 
-  // ---- feedback / view ----
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
+  .ml-select-trigger-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.85));
   }
-  .glass-error-text {
-    color: #ffb4ab;
+
+  // ---- tags selecionadas (no gatilho) ----
+  .ml-select-tag {
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.45);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  .glass-view-box {
-    border-radius: 12px;
+
+  // ---- view mode ----
+  .ml-select-view {
+    border-radius: var(--ml-radius-md, 12px);
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.95));
   }
-}
 
-// Panel styles — shared between component scope and body-level portal
-groupselectmany--ml-multi-select-dropdown-glass,
-.glass-msd-portal {
-  .glass-panel {
+  // ---- painel (renderiza no portal via data-widget) ----
+  .ml-select-panel {
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 14px;
-    background: rgba(30, 27, 75, 0.85);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    border-radius: var(--ml-radius-lg, 14px);
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
     box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
-  .glass-search-wrap {
+
+  // wrapper da busca no painel — base não emite classe própria para o
+  // container; ancorado estruturalmente no input filho (nunca por ordem).
+  .ml-select-panel > div:has(> input.ml-select-search) {
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
-  .glass-search {
+
+  .ml-select-search {
     background: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.95));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 8px;
     outline: none;
@@ -105,34 +154,38 @@ groupselectmany--ml-multi-select-dropdown-glass,
       border-color: rgba(199, 210, 254, 0.8);
     }
   }
-  .glass-item {
+
+  .ml-select-item {
     border-radius: 8px;
     border: 1px solid transparent;
     color: rgba(255, 255, 255, 0.9);
     background: transparent;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     cursor: pointer;
     transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
 
-    &:not(.is-disabled):not(.is-selected):hover {
+  .ml-select-item-hover {
+    &:hover {
       background: rgba(255, 255, 255, 0.12);
     }
-    &.is-selected {
-      background: rgba(99, 102, 241, 0.4);
-      border-color: rgba(199, 210, 254, 0.7);
-      color: #fff;
-    }
-    &.is-disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
   }
-  .glass-check {
+
+  .ml-select-item-selected {
+    border-radius: 8px;
+    border: 1px solid rgba(199, 210, 254, 0.7);
+    background: rgba(99, 102, 241, 0.4);
+    color: #fff;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // item desabilitado um pouco mais apagado que o padrão — valor do design original
+  .ml-select-item.ml-disabled,
+  .ml-select-item-selected.ml-disabled {
+    opacity: 0.45;
+  }
+
+  .ml-select-check {
     color: #c7d2fe;
-  }
-  .glass-group-label {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-empty {
-    color: rgba(255, 255, 255, 0.6);
   }
 }

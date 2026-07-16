@@ -1,67 +1,115 @@
 /// <mls fileReference="_102055_/l2/molecules/grouptriggeraction/ml-split-button-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// SPLIT BUTTON — GLASSMORPHISM  (botão + menu popover)
-// Fundo escuro/rico atrás. Tamanho/layout via Tailwind.
+// SPLIT BUTTON — GLASSMORPHISM (Strategy D — theme sheet COMPLETO)
+// Botão + menu, SEM portal: o dropdown renderiza inline dentro da própria tag.
+// Requer fundo escuro/rico atrás. Tamanho/layout vêm das utilities Tailwind
+// do render() herdado (mls-102040).
 // =============================================================================
 grouptriggeraction--ml-split-button-glass {
   display: inline-block;
 
-  .glass-split-primary,
-  .glass-split-chevron {
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(99, 102, 241, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: #fff;
-    cursor: pointer;
-    transition: background 200ms ease, box-shadow 200ms ease;
+  // ---- tokens do tema glass ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 600;
+  --ml-radius-sm: 12px;
+  --ml-radius-lg: 12px; // valor do .less antigo (canônico seria 14px — antigo vence)
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.25);
+  --ml-primary: rgba(99, 102, 241, 0.5); // valor do .less antigo (canônico seria 0.55)
+  --ml-on-primary: #ffffff;
+  --ml-on-surface: rgba(255, 255, 255, 0.9); // texto das opções do menu, valor do antigo
+  --ml-surface-dim: rgba(30, 27, 75, 0.85); // bg do menu, valor do antigo (canônico seria 0.55)
+  --ml-transition: 200ms ease; // valor do antigo (canônico seria 250ms)
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.5);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 10px;
+  --ml-backdrop-blur-strong: 18px;
 
-    &:hover:not(:disabled) {
+  // ---- trigger + chevron (par unificado no antigo .glass-split-primary/.glass-split-chevron) ----
+  .ml-split-trigger,
+  .ml-split-dropdown {
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.25));
+    background: var(--ml-primary, rgba(99, 102, 241, 0.5));
+    color: var(--ml-on-primary, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    cursor: pointer;
+    transition: background var(--ml-transition, 200ms ease),
+                box-shadow var(--ml-transition, 200ms ease),
+                transform 120ms ease;
+
+    &:not(.ml-disabled):hover {
       background: rgba(99, 102, 241, 0.64);
+    }
+    &:not(.ml-disabled):active {
+      transform: translateY(1px);
     }
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.5);
-    }
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.5));
     }
   }
-  .glass-split-primary {
-    border-radius: 12px 0 0 12px;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
-    font-weight: 600;
+
+  .ml-split-trigger {
+    position: relative; // ancora a aresta especular ::before
+    overflow: hidden; // clipa a aresta
+    border-radius: var(--ml-radius-sm, 12px) 0 0 var(--ml-radius-sm, 12px);
+    font-weight: var(--ml-font-weight-medium, 600);
+
+    // aresta especular — substitui o inset highlight do design antigo
+    // (o antigo só tinha esse destaque na primária, não no chevron)
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
   }
-  .glass-split-chevron {
-    border-radius: 0 12px 12px 0;
+
+  .ml-split-dropdown {
+    border-radius: 0 var(--ml-radius-sm, 12px) var(--ml-radius-sm, 12px) 0;
+    // borda esquerda própria, mais clara, sobrepondo a da trigger (efeito "grouped button" do antigo)
     border-left: 1px solid rgba(255, 255, 255, 0.35);
     margin-left: -1px;
   }
 
-  // ---- menu (popover translúcido, base 0.85) ----
-  .glass-split-menu {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    background: rgba(30, 27, 75, 0.85);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+  // ---- menu (popover inline, sem portal) ----
+  .ml-split-menu {
+    border: var(--ml-border-width, 1px) solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--ml-radius-lg, 12px);
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
     box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
-  .glass-split-option {
+
+  .ml-split-item {
     border-radius: 8px;
     border: none;
     background: transparent;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.9));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     cursor: pointer;
     transition: background 150ms ease;
-    &:not(.is-disabled):hover {
+
+    &:not(.ml-disabled):hover {
       background: rgba(255, 255, 255, 0.12);
     }
-    &.is-disabled {
+    // item desabilitado um pouco mais apagado que o padrão (valor do design antigo)
+    &.ml-disabled {
       opacity: 0.45;
-      cursor: not-allowed;
     }
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

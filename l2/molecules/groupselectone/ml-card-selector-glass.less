@@ -1,144 +1,206 @@
 /// <mls fileReference="_102055_/l2/molecules/groupselectone/ml-card-selector-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// CARD SELECTOR — GLASSMORPHISM (102055, por herança)
-// Gatilho translúcido + painel popover frosted com grid de cards de vidro.
+// CARD SELECTOR — GLASSMORPHISM  (padrão de POPOVER glass)
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -glass)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Assume fundo escuro/rico atrás (contrato de container).
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupselectone--ml-card-selector-glass {
+groupselectone--ml-card-selector-glass,
+div[data-widget="groupselectone--ml-card-selector-glass"] {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-cs-label {
+  // ---- tokens do tema glass (valor antigo validado tem precedência) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-on-surface: #ffffff;
+  --ml-error: #ffb4ab;
+  --ml-surface: rgba(255, 255, 255, 0.08);
+  --ml-surface-dim: rgba(30, 27, 75, 0.85);
+  --ml-outline-variant: rgba(255, 255, 255, 0.2);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7);
+  --ml-radius-sm: 10px;
+  --ml-radius-lg: 14px;
+  --ml-border-width: 1px;
+  --ml-transition: 150ms ease;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px;
+  --ml-backdrop-blur-strong: 18px;
+
+  // ---- texto / feedback ----
+  .ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     color: rgba(255, 255, 255, 0.85);
   }
-  .glass-cs-req {
-    color: #ffb4ab;
-  }
-  .glass-helper {
+
+  .ml-helper {
     color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-error-text {
-    color: #ffb4ab;
+
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-cs-chevron {
+
+  .ml-text {
+    color: var(--ml-on-surface, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // texto apagado — base default (placeholder do gatilho / loading)
+  .ml-text-muted {
+    color: rgba(255, 255, 255, 0.45);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+  // chevron (svg) — mais presente que o texto muted padrão (valor do design original)
+  svg.ml-text-muted {
     color: rgba(255, 255, 255, 0.6);
   }
-  .glass-cs-empty {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .glass-cs-group {
+  // rótulo de grupo (div com utility "uppercase") — colisão N-para-1 com ml-text-muted
+  .ml-text-muted.uppercase {
     color: rgba(255, 255, 255, 0.5);
   }
-  .glass-cs-check {
+  // rótulo do modo visualização (nested em .ml-text) — colisão N-para-1 com ml-text-muted
+  .ml-text .ml-text-muted {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .ml-select-empty {
+    color: rgba(255, 255, 255, 0.55);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  .ml-select-checkmark {
     color: #c7d2fe;
   }
 
-  // ---- view mode ----
-  .glass-cs-view {
-    color: #fff;
-    .glass-cs-view-label {
-      color: rgba(255, 255, 255, 0.6);
-    }
-  }
-
-  // ---- gatilho ----
-  .glass-cs-trigger {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #fff;
+  // ---- gatilho (button) ----
+  button.ml-select-trigger {
+    position: relative;
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    border-radius: var(--ml-radius-sm, 10px);
+    color: var(--ml-on-surface, #ffffff);
     cursor: pointer;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color var(--ml-transition, 150ms ease),
+                box-shadow var(--ml-transition, 150ms ease),
+                background var(--ml-transition, 150ms ease);
 
-    &:hover:not(.is-disabled):not(.is-open):not(.is-error) {
+    // aresta especular do vidro (ausente no design antigo — aplicada por ser
+    // assinatura do tema; gatilho antigo não tinha box-shadow em repouso)
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
+
+    &:hover:not(:disabled):not(.ml-select-trigger-open):not(.ml-select-trigger-error) {
       background: rgba(255, 255, 255, 0.12);
     }
-    &.is-open {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
-    }
-  }
-  .glass-cs-value {
-    color: #fff;
-    &.is-placeholder {
-      color: rgba(255, 255, 255, 0.45);
-    }
   }
 
-}
+  .ml-select-trigger-open {
+    border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+    box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
+  }
 
-// Panel styles — shared between component scope and body-level portal
-groupselectone--ml-card-selector-glass,
-.glass-cs-portal {
-  .glass-cs-panel {
-    background: rgba(30, 27, 75, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 14px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+  .ml-select-trigger-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7)) !important;
   }
-  .glass-cs-search-row {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  }
-  .glass-cs-search {
+
+  // ---- input de busca (dentro do painel — reaproveita .ml-combobox-input) ----
+  .ml-combobox-input {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
-    color: #fff;
+    color: var(--ml-on-surface, #ffffff);
     outline: none;
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.45);
     }
     &:focus {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
     }
   }
-  .glass-cs-card {
+
+  // ---- painel (popover glass — renderiza no portal via data-widget) ----
+  .ml-select-panel {
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--ml-radius-lg, 14px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+  }
+
+  // a base reaproveita .ml-select-panel também na linha de busca — neutraliza o
+  // vidro duplicado (evita empilhar bg/blur) e mantém só a borda inferior
+  .ml-select-panel:has(> input.ml-combobox-input) {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  // ---- cards ----
+  .ml-card-option {
+    position: relative;
     background: rgba(255, 255, 255, 0.06);
     border: 2px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
-    color: #fff;
+    color: var(--ml-on-surface, #ffffff);
     cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
+
+    &:hover:not(.ml-disabled):not(.ml-card-option-selected) {
       border-color: rgba(255, 255, 255, 0.3);
       background: rgba(255, 255, 255, 0.1);
     }
-    &.is-selected {
-      border-color: rgba(199, 210, 254, 0.9);
-      background: rgba(199, 210, 254, 0.15);
-    }
-    &.is-focused {
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
   }
-  .glass-cs-group {
-    color: rgba(255, 255, 255, 0.5);
+
+  .ml-card-option-selected {
+    border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+    background: rgba(199, 210, 254, 0.15);
   }
-  .glass-cs-empty {
-    color: rgba(255, 255, 255, 0.55);
+
+  .ml-select-item-highlighted {
+    box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
   }
-  .glass-cs-check {
-    color: #c7d2fe;
+
+  .ml-card-option-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
   }
 }

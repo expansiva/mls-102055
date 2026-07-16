@@ -1,136 +1,181 @@
 /// <mls fileReference="_102055_/l2/molecules/groupentertime/ml-clock-time-picker-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// CLOCK TIME PICKER — GLASSMORPHISM
-// Campo translúcido + painel popover com grade de horas/minutos/segundos.
+// CLOCK TIME PICKER — GLASSMORPHISM (mls-102055, Strategy D theme sheet)
 // =============================================================================
+// Folha COMPLETA: o .less base escopa sob a tag base e não alcança a tag
+// -glass. Seletores apontam para o inventário ml-* do render() herdado;
+// valores visuais vêm do .less glass antigo (precedência da migração).
+// Sem portal: o painel renderiza inline, dentro da própria tag.
 groupentertime--ml-clock-time-picker-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-tp-label {
-    color: rgba(255, 255, 255, 0.7);
+  // ---- glass theme tokens (somente os consumidos; valores antigos vencem) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 500;
+  --ml-radius-sm: 10px;
+  --ml-radius-lg: 14px;
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.2);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7);
+  --ml-primary: rgba(129, 140, 248, 0.85);
+  --ml-on-primary: #ffffff;
+  --ml-surface: rgba(255, 255, 255, 0.08);
+  --ml-surface-dim: rgba(30, 27, 75, 0.85);
+  --ml-on-surface: #ffffff;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.6);
+  --ml-error: #ffb4ab;
+  --ml-transition: 150ms ease;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px;
+  --ml-backdrop-blur-strong: 18px;
+
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+
+  // ---- label ----
+  .ml-label {
     display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    font-weight: var(--ml-font-weight-medium, 500);
   }
-  .glass-tp-req {
-    color: #ffb4ab;
+
+  // ---- feedback (erro do campo e asterisco de required) ----
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-helper {
+  .ml-helper {
     color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
-  }
-  .glass-tp-view {
-    color: #fff;
-  }
-  .glass-tp-loading {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-tp-step {
-    color: rgba(255, 255, 255, 0.6);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
 
-  // ---- input ----
-  .glass-tp-input {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #fff;
-    outline: none;
-    cursor: pointer;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.45);
-    }
-    &:focus {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+  // ---- view mode ----
+  .ml-text {
+    color: var(--ml-on-surface, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-tp-clock {
+
+  // loading e rótulo da etapa (hour/minute/second)
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.6));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // botão do relógio 🕒 (único button com ml-text-muted) — antigo .glass-tp-clock
+  button.ml-text-muted {
     background: transparent;
     border: none;
     cursor: pointer;
     &:disabled {
-      opacity: 0.5;
+      opacity: var(--ml-disabled-opacity, 0.5);
       cursor: not-allowed;
     }
+  }
+
+  // ---- campo (superfície de vidro; ml-input + ml-input-container no mesmo <input>) ----
+  // Sem ::before especular: <input> é replaced element e não hospeda pseudo-elementos.
+  .ml-input-container {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    border-radius: var(--ml-radius-sm, 10px);
+    outline: none;
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color var(--ml-transition, 150ms ease), box-shadow var(--ml-transition, 150ms ease), background var(--ml-transition, 150ms ease);
+
+    // :focus (não :focus-visible) — como no antigo
+    &:focus {
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
+    }
+    &.ml-input-container-error {
+      border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+    }
+  }
+  .ml-input {
+    color: var(--ml-on-surface, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+  }
+
+  // ---- estados ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   // ---- painel ----
-  .glass-tp-panel {
-    background: rgba(30, 27, 75, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 14px;
+  .ml-clock-panel {
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
+    border: var(--ml-border-width, 1px) solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--ml-radius-lg, 14px);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
   }
 
   // ---- opções (relógio) ----
-  .glass-tp-option {
+  .ml-clock-number {
     border-radius: 9999px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: var(--ml-border-width, 1px) solid rgba(255, 255, 255, 0.18);
     background: rgba(255, 255, 255, 0.06);
     color: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
+    &:hover:not(.ml-disabled):not(.ml-clock-number-selected) {
       background: rgba(255, 255, 255, 0.12);
     }
-    &.is-selected {
-      background: rgba(199, 210, 254, 0.2);
-      border-color: rgba(199, 210, 254, 0.9);
-      color: #e0e7ff;
-    }
-    &.is-disabled {
+    // opção desabilitada: 0.4 (one-off do antigo, difere do 0.5 do campo)
+    &.ml-disabled {
       opacity: 0.4;
-      cursor: not-allowed;
     }
+  }
+  .ml-clock-number-selected {
+    background: rgba(199, 210, 254, 0.2);
+    border-color: rgba(199, 210, 254, 0.9);
+    color: #e0e7ff;
   }
 
   // ---- AM/PM ----
-  .glass-tp-ampm {
+  .ml-clock-ampm {
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
     background: rgba(255, 255, 255, 0.06);
     color: rgba(255, 255, 255, 0.85);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     cursor: pointer;
-
-    &.is-active {
-      background: rgba(199, 210, 254, 0.2);
-      border-color: rgba(199, 210, 254, 0.9);
-      color: #e0e7ff;
-    }
+  }
+  .ml-clock-ampm-selected {
+    background: rgba(199, 210, 254, 0.2);
+    border-color: rgba(199, 210, 254, 0.9);
+    color: #e0e7ff;
   }
 
   // ---- ações ----
-  .glass-tp-clear {
+  .ml-clock-action {
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.7);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     cursor: pointer;
     &:hover {
-      color: #fff;
+      color: #ffffff;
     }
   }
-  .glass-tp-confirm {
+  .ml-clock-confirm {
     border-radius: 8px;
-    border: 1px solid rgba(199, 210, 254, 0.6);
-    background: rgba(129, 140, 248, 0.85);
-    color: #fff;
+    border: var(--ml-border-width, 1px) solid rgba(199, 210, 254, 0.6);
+    background: var(--ml-primary, rgba(129, 140, 248, 0.85));
+    color: var(--ml-on-primary, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     cursor: pointer;
     transition: background 0.12s ease;
     &:hover {

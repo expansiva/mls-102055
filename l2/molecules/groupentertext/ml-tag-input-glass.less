@@ -1,111 +1,149 @@
 /// <mls fileReference="_102055_/l2/molecules/groupentertext/ml-tag-input-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// TAG INPUT — GLASSMORPHISM (102055, por herança)
+// TAG INPUT — GLASSMORPHISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Valores migrados do .less glass antigo (fonte de verdade na migração).
+// Assume fundo escuro/rico atrás (contrato de container): texto claro e
+// backdrop-filter visível. Layout (padding, gap, flex) vem do Tailwind no template.
 // =============================================================================
 groupentertext--ml-tag-input-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-tag-label {
-    color: rgba(255, 255, 255, 0.85);
-  }
-  .glass-tag-req {
-    color: #ffb4ab;
-  }
-  .glass-tag-view {
-    color: #fff;
-  }
-  .glass-tag-affix {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-tag-counter {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
-  }
-  .glass-tag-loading {
-    background: rgba(15, 15, 30, 0.5);
-    border-radius: 12px;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    color: rgba(199, 210, 254, 0.95);
-  }
+  // ---- tokens do tema glass (valores antigos vencem os canônicos) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-radius-sm: 12px;
+  --ml-border-width: 1px;
+  --ml-border-style: solid;
+  --ml-outline-variant: rgba(255, 255, 255, 0.2);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7);
+  --ml-surface: rgba(255, 255, 255, 0.08);
+  --ml-on-surface: #ffffff;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.55);
+  --ml-on-surface-faint: rgba(255, 255, 255, 0.6);
+  --ml-error: #ffb4ab;
+  --ml-transition: 0.2s ease;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px; // valor antigo (canônico seria 10px)
 
-  .glass-tag-box {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    cursor: text;
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
 
-    &.is-focused {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+  // ---- container do campo (antigo .glass-tag-box) ----
+  .ml-input-container {
+    position: relative; // ancora a aresta especular ::before
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border: var(--ml-border-width, 1px) var(--ml-border-style, solid) var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    border-radius: var(--ml-radius-sm, 12px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color var(--ml-transition, 0.2s ease),
+                box-shadow var(--ml-transition, 0.2s ease),
+                background var(--ml-transition, 0.2s ease);
+
+    // aresta especular do vidro
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
+
+    &:focus-within { // antigo .is-focused
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
       background: rgba(255, 255, 255, 0.12);
     }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
+
+    // antigo .is-readonly: sem classe ml-* de estado no container —
+    // seletor estrutural ancorado no controle interno readonly
+    &:has(.ml-input[readonly]) {
       background: rgba(255, 255, 255, 0.04);
     }
   }
 
-  .glass-tag-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
+  .ml-input-container-error { // antigo .is-error
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7)) !important;
+  }
 
+  // ---- input / textarea (antigo .glass-tag-input) ----
+  .ml-input {
+    color: var(--ml-on-surface, #ffffff);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     &::placeholder {
-      color: rgba(255, 255, 255, 0.45);
-    }
-    &.is-disabled {
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
+      color: rgba(255, 255, 255, 0.45); // one-off: mais claro que o faint dos afixos (0.6)
     }
   }
 
-  .glass-tag {
+  // ---- label (antigo .glass-tag-label) ----
+  .ml-label {
+    color: rgba(255, 255, 255, 0.85); // one-off: mais suave que --ml-on-surface
+  }
+
+  // ---- helper / erro / textos ----
+  .ml-helper {
+    color: rgba(255, 255, 255, 0.65); // one-off: difere do muted do contador (0.55)
+  }
+
+  // mensagem de erro + asterisco de obrigatório
+  // (antigos .glass-error-text e .glass-tag-req — mesmo valor #ffb4ab)
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+  }
+
+  .ml-text { // modo visualização (antigo .glass-tag-view)
+    color: var(--ml-on-surface, #ffffff);
+  }
+
+  .ml-text-muted { // contador de caracteres (antigo .glass-tag-counter)
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.55));
+  }
+
+  .ml-text-faint { // prefixo/sufixo (antigo .glass-tag-affix)
+    color: var(--ml-on-surface-faint, rgba(255, 255, 255, 0.6));
+  }
+
+  // ---- chip de tag (antigo .glass-tag) ----
+  .ml-tag {
     background: rgba(199, 210, 254, 0.18);
     color: #e0e7ff;
-    border: 1px solid rgba(199, 210, 254, 0.4);
-    border-radius: 8px;
+    border: var(--ml-border-width, 1px) var(--ml-border-style, solid) rgba(199, 210, 254, 0.4);
+    border-radius: 8px; // valor antigo (menor que --ml-radius-sm)
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
   }
 
-  .glass-tag-remove {
+  .ml-tag-remove { // antigo .glass-tag-remove
     color: rgba(199, 210, 254, 0.9);
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
-
-    &:hover {
+    &:not(.ml-disabled):hover {
       background: rgba(199, 210, 254, 0.3);
-      color: #fff;
+      color: #ffffff;
     }
     &:focus-visible {
       outline: none;
       box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
     }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+  }
+
+  // ---- estados ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- overlay de loading (antigo .glass-tag-loading) ----
+  .ml-loading-overlay {
+    background: rgba(15, 15, 30, 0.5);
+    border-radius: var(--ml-radius-sm, 12px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: rgba(199, 210, 254, 0.95); // o spinner usa currentColor
   }
 }

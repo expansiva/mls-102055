@@ -1,78 +1,131 @@
 /// <mls fileReference="_102055_/l2/molecules/groupenternumber/ml-number-stepper-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// NUMBER STEPPER — GLASSMORPHISM (102055, por herança)
+// NUMBER STEPPER — GLASSMORPHISM (mls-102055, Strategy D)
 // =============================================================================
+// COMPLETE theme sheet: the base .less is scoped under the base tag and never
+// reaches this one. Selectors target the ml-* inventory emitted by the
+// inherited render() (mls-102040 ml-number-stepper).
 groupenternumber--ml-number-stepper-glass {
+  // ---- glass theme tokens (migration: old .less values win) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-radius-sm: 10px; // old value (skill default is 12px)
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.25);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.85);
+  --ml-surface: rgba(255, 255, 255, 0.1);
+  --ml-on-surface: rgba(255, 255, 255, 0.95);
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.7);
+  --ml-error: #ffb4ab;
+  --ml-transition: 200ms ease; // old value (skill default is 250ms)
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.3);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 10px;
+
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
 
-  .glass-ns-label {
-    color: rgba(255, 255, 255, 0.7);
+  // ---- text roles ----
+  .ml-text {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.95));
   }
-  .glass-ns-affix {
-    color: rgba(255, 255, 255, 0.7);
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.7)); // label + prefix/suffix
+  }
+  p.ml-text-muted {
+    color: rgba(255, 255, 255, 0.65); // helper (old .glass-helper)
+  }
+  div.ml-text-muted {
+    color: rgba(255, 255, 255, 0.6); // loading (old .glass-ns-loading)
+  }
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+  }
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
-  .glass-ns-input {
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: rgba(255, 255, 255, 0.95);
-    transition: border-color 200ms ease, box-shadow 200ms ease;
+  // ---- input (bg-transparent utility keeps the glass of the container) ----
+  .ml-input {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.95));
+
     &::placeholder {
       color: rgba(255, 255, 255, 0.5);
     }
-    &:focus {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.3);
+  }
+
+  // ---- glass surface: the field row ----
+  .ml-input-container {
+    position: relative; // anchors the ::before specular edge
+    border-radius: var(--ml-radius-sm, 10px);
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.25));
+    background: var(--ml-surface, rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    transition: border-color var(--ml-transition, 200ms ease), box-shadow var(--ml-transition, 200ms ease);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
     }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.85);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
+
+    &:focus-within {
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.3));
     }
   }
 
-  .glass-ns-btn {
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
+  // Error border. The base only emits ml-input-container-error for `error`;
+  // :has(aria-invalid) also covers the required-empty case the old file styled.
+  .ml-input-container-error,
+  .ml-input-container:has(.ml-input[aria-invalid='true']) {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.85)) !important;
+  }
+
+  // ---- glass surfaces: the +/- buttons ----
+  .ml-stepper-button {
+    position: relative;
+    overflow: hidden; // clips the specular edge
+    border-radius: var(--ml-radius-sm, 10px); // old 10px wins over rounded-md utility
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.25));
     background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: #fff;
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    color: #ffffff;
     cursor: pointer;
-    transition: background 200ms ease;
+    transition: background var(--ml-transition, 200ms ease);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
+
     &:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.2);
     }
+
     &:focus-visible {
       outline: none;
       box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
     }
+
     &:disabled {
-      opacity: 0.5;
+      opacity: var(--ml-disabled-opacity, 0.5);
       cursor: not-allowed;
     }
-  }
-
-  .glass-ns-view {
-    color: rgba(255, 255, 255, 0.95);
-  }
-  .glass-ns-loading {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
   }
 }

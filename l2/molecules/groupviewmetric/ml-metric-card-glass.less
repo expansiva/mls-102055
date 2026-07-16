@@ -1,64 +1,83 @@
 /// <mls fileReference="_102055_/l2/molecules/groupviewmetric/ml-metric-card-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// METRIC CARD — GLASSMORPHISM (102055, por herança)
-// Card translúcido com valor em destaque e badge de tendência semântica.
+// METRIC CARD — GLASSMORPHISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// O .less antigo era curto (design antigo vivia num render() próprio que virou
+// casca); a intenção visual dele foi preservada e completada com a tabela
+// canônica da skill onde ele era omisso (aresta especular).
 // =============================================================================
 groupviewmetric--ml-metric-card-glass {
   display: block;
   font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-mc {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    color: #fff;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  // ---- tokens do tema glass ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-radius-lg: 16px; // antigo .glass-mc (canônico seria 14px)
+  --ml-outline-variant: rgba(255, 255, 255, 0.15); // antigo (canônico 0.25)
+  --ml-surface: rgba(255, 255, 255, 0.07); // antigo (canônico 0.1)
+  --ml-on-surface: #fff; // antigo .glass-mc-value
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.7); // antigo .glass-mc-label / trend neutro
+  --ml-success: #6ee7b7; // antigo .glass-mc-trend.is-up
+  --ml-error: #fca5a5; // antigo .glass-mc-trend.is-down
+  --ml-backdrop-blur: 10px; // antigo (coincide com o valor canônico)
+  --ml-shadow-1: 0 8px 24px rgba(0, 0, 0, 0.25); // antigo (canônico seria 0 4px 18px rgba(0,0,0,0.18))
+
+  // container — a base sempre emite as 3 classes juntas na mesma div
+  .ml-surface-bg.ml-border.ml-text {
+    position: relative;
+    border-radius: var(--ml-radius-lg, 16px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    box-shadow: var(--ml-shadow-1, 0 8px 24px rgba(0, 0, 0, 0.25));
+
+    // aresta especular do vidro — assinatura do tema, ausente no antigo (curto/casca), completada pela tabela canônica
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
   }
 
-  .glass-mc-label {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .glass-mc-value {
-    color: #fff;
-  }
-  .glass-mc-helper {
-    color: rgba(255, 255, 255, 0.55);
+  .ml-surface-bg {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.07));
   }
 
-  .glass-mc-icon {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 10px;
+  // ml-border é reaproveitada pelo container e pelo badge de tendência neutro
+  // com valores antigos diferentes — resolvido com o par composto abaixo,
+  // que só ocorre junto no badge neutro (ml-border + ml-surface-dim-bg).
+  .ml-border {
+    border-color: var(--ml-outline-variant, rgba(255, 255, 255, 0.15));
+  }
+
+  .ml-text {
+    color: var(--ml-on-surface, #fff);
+  }
+  // ml-text também veste o span interno do ícone; ali o antigo usava um tom
+  // diferente (herdado do wrapper .glass-mc-icon) — ancorado no wrapper único
+  // do ícone (p-2 + ml-surface-dim-bg) via seletor descendente.
+  .p-2.ml-surface-dim-bg .ml-text {
     color: rgba(255, 255, 255, 0.85);
   }
 
-  // ---- tendência ----
-  .glass-mc-trend {
-    border-radius: 8px;
-    border: 1px solid transparent;
-
-    &.is-up {
-      color: #6ee7b7;
-      background: rgba(16, 185, 129, 0.15);
-      border-color: rgba(16, 185, 129, 0.4);
-    }
-    &.is-down {
-      color: #fca5a5;
-      background: rgba(239, 68, 68, 0.15);
-      border-color: rgba(239, 68, 68, 0.4);
-    }
-    &.is-neutral {
-      color: rgba(255, 255, 255, 0.7);
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
+  // ml-text-muted é reaproveitada por label, helper e trend neutro. Label e
+  // trend neutro coincidem no valor antigo (0.7) e ficam cobertos pela regra
+  // genérica; helper (0.55) é o único consumidor sem a classe font-medium
+  // (label e trend sempre a carregam), usado aqui como âncora de exclusão.
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.7));
+  }
+  .ml-text-muted:not(.font-medium) {
+    color: rgba(255, 255, 255, 0.55); // antigo .glass-mc-helper
   }
 
-  // ---- skeleton ----
-  .glass-mc-skel {
+  // ---- skeleton (default de ml-surface-dim-bg; sobrescrito abaixo para ícone e trend neutro) ----
+  .ml-surface-dim-bg {
     background: rgba(255, 255, 255, 0.12);
     border-radius: 6px;
     animation: glass-mc-pulse 1.4s ease-in-out infinite;
@@ -66,5 +85,49 @@ groupviewmetric--ml-metric-card-glass {
   @keyframes glass-mc-pulse {
     0%, 100% { opacity: 0.6; }
     50% { opacity: 0.25; }
+  }
+
+  // ---- ícone ----
+  // wrapper único que combina p-2 (padding) + ml-surface-dim-bg
+  .p-2.ml-surface-dim-bg {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    animation: none; // cancela o pulse do skeleton (mesma classe ml-surface-dim-bg)
+  }
+
+  // ---- tendência ----
+  // raio compartilhado pelas 3 direções — âncora no utilitário gap-1, exclusivo
+  // do badge de tendência nesta molécula; precisa vir DEPOIS do bloco
+  // .ml-surface-dim-bg acima para vencer o empate de especificidade no neutro.
+  .ml-success-text {
+    color: var(--ml-success, #6ee7b7);
+  }
+  .ml-success-dim-bg {
+    background: rgba(16, 185, 129, 0.15);
+  }
+  .ml-success-border {
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .ml-error-text {
+    color: var(--ml-error, #fca5a5);
+  }
+  .ml-error-dim-bg {
+    background: rgba(239, 68, 68, 0.15);
+  }
+  .ml-border-error {
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+
+  // trend neutro: par composto exclusivo (ml-border + ml-surface-dim-bg)
+  .ml-border.ml-surface-dim-bg {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    animation: none; // cancela o pulse do skeleton (mesma classe ml-surface-dim-bg)
+  }
+
+  .gap-1 {
+    border-radius: 8px;
   }
 }

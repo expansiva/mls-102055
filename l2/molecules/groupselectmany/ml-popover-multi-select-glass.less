@@ -1,148 +1,184 @@
 /// <mls fileReference="_102055_/l2/molecules/groupselectmany/ml-popover-multi-select-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// POPOVER MULTI SELECT — GLASSMORPHISM por HERANÇA (102055)
-// Gatilho translúcido com chips + painel popover frosted (rgba(30,27,75,0.85)).
+// POPOVER MULTI SELECT — GLASSMORPHISM  (padrão de POPOVER glass)
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -glass)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Assume fundo escuro/rico atrás (contrato de container).
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupselectmany--ml-popover-multi-select-glass {
+groupselectmany--ml-popover-multi-select-glass,
+div[data-widget="groupselectmany--ml-popover-multi-select-glass"] {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-pms-label {
+  // ---- tokens do tema glass (valores do design antigo — radius/blur/alpha
+  // deste componente divergem do multi-select-dropdown-glass; escopo próprio) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.55);
+  --ml-error: #ffb4ab;
+  --ml-surface: rgba(255, 255, 255, 0.08);
+  --ml-surface-dim: rgba(30, 27, 75, 0.85);
+  --ml-outline-variant: rgba(255, 255, 255, 0.2);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7);
+  --ml-radius-md: 10px;
+  --ml-radius-lg: 12px;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px;
+  --ml-backdrop-blur-strong: 18px;
+
+  // ---- texto / feedback ----
+  // sem font-weight no rótulo — ausência preservada do design antigo
+  .ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     color: rgba(255, 255, 255, 0.85);
   }
-  .glass-helper {
+
+  .ml-helper {
     color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-error-text {
-    color: #ffb4ab;
+
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-pms-muted {
+
+  // loading / placeholder / "+N" — <span class="ml-text-muted"> sem nenhum
+  // atributo que os diferencie no render herdado; colapsam no valor canônico.
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.55));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // chevron — mesmo span "ml-text-muted", mas contém o svg; único diferenciador
+  // estrutural disponível é :has(svg) (nenhuma classe própria é emitida)
+  .ml-text-muted:has(svg) {
     color: rgba(255, 255, 255, 0.6);
   }
-  .glass-pms-placeholder {
-    color: rgba(255, 255, 255, 0.45);
-  }
-  .glass-pms-chevron {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-pms-empty {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .glass-pms-group {
+
+  // rótulo de grupo — <div class="... font-semibold ml-text-muted">; a classe
+  // font-semibold (co-emitida só nesse caso) ancora a distinção do <div> vazio
+  div.font-semibold.ml-text-muted {
     color: rgba(255, 255, 255, 0.5);
   }
-  .glass-pms-check {
-    color: #c7d2fe;
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   // ---- gatilho ----
-  .glass-pms-trigger {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+  .ml-select-trigger {
+    position: relative;
     color: #fff;
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border: 1px solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    border-radius: var(--ml-radius-md, 10px);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
     cursor: pointer;
     transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
 
     &:focus-visible {
       outline: none;
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-    }
-    &.is-open {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.2);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
     }
   }
 
-  // ---- chips ----
-  .glass-pms-tag {
+  .ml-select-trigger-active {
+    border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+    box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.2);
+  }
+
+  .ml-select-trigger-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+  }
+
+  // ---- chips selecionados ----
+  .ml-select-tag {
     background: rgba(199, 210, 254, 0.18);
     color: #e0e7ff;
     border: 1px solid rgba(199, 210, 254, 0.35);
   }
 
   // ---- view mode ----
-  .glass-pms-view {
+  .ml-select-view {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
+    border-radius: var(--ml-radius-md, 10px);
     color: #fff;
   }
 
-}
-
-// Panel styles — shared between component scope and body-level portal
-groupselectmany--ml-popover-multi-select-glass,
-.glass-pms-portal {
-  .glass-pms-panel {
-    background: rgba(30, 27, 75, 0.85);
+  // ---- painel (renderiza no portal via data-widget) ----
+  .ml-select-panel {
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
     border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 12px;
+    border-radius: var(--ml-radius-lg, 12px);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
   }
-  .glass-pms-search-row {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+  // wrapper da busca — a base emite classe própria para este container
+  .ml-select-panel-divider {
+    border-color: rgba(255, 255, 255, 0.12);
   }
-  .glass-pms-search {
+
+  .ml-select-search {
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
     border-radius: 8px;
     color: #fff;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     outline: none;
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.45);
     }
     &:focus {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
     }
   }
-  .glass-pms-item {
+
+  .ml-select-item {
     background: transparent;
     border: 1px solid transparent;
     border-radius: 8px;
     color: rgba(255, 255, 255, 0.9);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     cursor: pointer;
     transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
-      background: rgba(255, 255, 255, 0.08);
-    }
     &:focus-visible {
       outline: none;
       background: rgba(255, 255, 255, 0.12);
     }
-    &.is-selected {
-      background: rgba(199, 210, 254, 0.18);
-      color: #e0e7ff;
-      border-color: rgba(199, 210, 254, 0.6);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+  }
+
+  .ml-select-item-hover {
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
     }
   }
-  .glass-pms-empty {
-    color: rgba(255, 255, 255, 0.55);
+
+  .ml-select-item-selected {
+    background: rgba(199, 210, 254, 0.18);
+    border: 1px solid rgba(199, 210, 254, 0.6);
+    border-radius: 8px;
+    color: #e0e7ff;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-pms-group {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  .glass-pms-check {
+
+  .ml-select-check {
     color: #c7d2fe;
   }
 }

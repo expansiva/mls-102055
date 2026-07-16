@@ -1,136 +1,190 @@
 /// <mls fileReference="_102055_/l2/molecules/groupenterdate/ml-date-picker-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// DATE PICKER — GLASSMORPHISM (102055, por herança)
-// Gatilho translúcido + calendário popover frosted (rgba(30,27,75,0.85)).
+// DATE PICKER — GLASSMORPHISM  (padrão de POPOVER glass)
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -glass)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Valores visuais migrados do .less glass anterior (fonte de verdade).
+// Assume fundo escuro/rico atrás (contrato de container).
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupenterdate--ml-date-picker-glass {
-  display: block;
-  font-family: 'Inter', system-ui, sans-serif;
-
-  .glass-dp-label {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .glass-dp-req {
-    color: #ffb4ab;
-  }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
-  }
-  .glass-dp-view {
-    color: #fff;
-  }
-  .glass-dp-icon {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-dp-loading {
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  // ---- gatilho ----
-  .glass-dp-trigger {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    &:focus-visible {
-      outline: none;
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
-    }
-  }
-  .glass-dp-value {
-    color: rgba(255, 255, 255, 0.45);
-    &.has-value {
-      color: #fff;
-    }
-  }
-
-}
-
-// Panel styles — shared between component scope and body-level portal
 groupenterdate--ml-date-picker-glass,
-.glass-dp-portal {
-  .glass-dp-panel {
-    background: rgba(30, 27, 75, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 14px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+div[data-widget="groupenterdate--ml-date-picker-glass"] {
+  display: block;
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+
+  // ---- tokens do tema glass (valores antigos vencem na migração) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-on-surface: #ffffff;
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.6);
+  --ml-error: #ffb4ab;
+  --ml-surface: rgba(255, 255, 255, 0.08);      // trigger (antigo 0.08)
+  --ml-surface-dim: rgba(30, 27, 75, 0.85);     // painel (antigo 0.85)
+  --ml-border-width: 1px;
+  --ml-border-style: solid;
+  --ml-outline-variant: rgba(255, 255, 255, 0.2); // antigo 0.2
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7);   // antigo 0.7
+  --ml-radius-md: 10px;                           // antigo 10px
+  --ml-radius-lg: 14px;
+  --ml-transition: 0.15s ease;                    // antigo 0.15s
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25); // antigo 0.25
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px;                        // antigo blur(8px) no trigger
+  --ml-backdrop-blur-strong: 18px;                // blur(18px) no painel
+
+  // ---- texto / feedback ----
+  .ml-label {
+    color: rgba(255, 255, 255, 0.7); // antigo .glass-dp-label
   }
-  .glass-dp-month {
-    color: #fff;
+
+  .ml-helper {
+    color: rgba(255, 255, 255, 0.65); // antigo .glass-helper
   }
-  .glass-dp-weekday {
+
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab); // antigo .glass-error-text / .glass-dp-req
+  }
+
+  // #fff: cobre valor selecionado no trigger, modo visualização (.glass-dp-view)
+  // e o rótulo do mês no painel (.glass-dp-month)
+  .ml-text {
+    color: var(--ml-on-surface, #ffffff);
+  }
+
+  // padrão 0.6: ícone do calendário (.glass-dp-icon) e texto de loading
+  // (.glass-dp-loading) — mesmos valores antigos
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.6));
+  }
+
+  // placeholder do trigger (antigo .glass-dp-value sem has-value): o span de
+  // texto, distinto do span do ícone (que contém svg)
+  .ml-date-picker-trigger > .ml-text-muted:not(:has(svg)) {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  // cabeçalho dos dias da semana (antigo .glass-dp-weekday)
+  .ml-calendar-grid .ml-text-muted {
     color: rgba(255, 255, 255, 0.5);
   }
-  .glass-dp-weeknum {
+
+  // número da semana (antigo .glass-dp-weeknum) — ancorado no utilitário w-9
+  .ml-text-muted.w-9 {
     color: rgba(255, 255, 255, 0.4);
   }
 
-  // ---- navegação ----
-  .glass-dp-nav {
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- gatilho (antigo .glass-dp-trigger) ----
+  .ml-date-picker-trigger {
+    position: relative; // ancora a aresta especular ::before
+    background: var(--ml-surface, rgba(255, 255, 255, 0.08));
+    border: var(--ml-border-width, 1px) var(--ml-border-style, solid) var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    border-radius: var(--ml-radius-md, 10px);
+    color: var(--ml-on-surface, #ffffff);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color var(--ml-transition, 0.15s ease),
+                box-shadow var(--ml-transition, 0.15s ease),
+                background var(--ml-transition, 0.15s ease);
+    // sem box-shadow em repouso (ausência do arquivo antigo, preservada)
+
+    // aresta especular do vidro (assinatura do tema)
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
+
+    // neutraliza o focus:ring-2 herdado no foco por mouse; o visual de foco
+    // fica no :focus-visible, como no arquivo antigo
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
+    }
+
+    // readonly (antigo .is-readonly) — ancorado no utilitário select-text
+    &.select-text {
+      cursor: default;
+    }
+  }
+
+  .ml-date-picker-trigger--error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+  }
+
+  // ---- painel do calendário (antigo .glass-dp-panel — renderiza no portal) ----
+  .ml-calendar-container {
+    background: var(--ml-surface-dim, rgba(30, 27, 75, 0.85));
+    border: var(--ml-border-width, 1px) var(--ml-border-style, solid) rgba(255, 255, 255, 0.18);
+    border-radius: var(--ml-radius-lg, 14px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur-strong, 18px));
+  }
+
+  // ---- navegação (antigo .glass-dp-nav) ----
+  .ml-calendar-nav-btn {
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 8px;
+    border: var(--ml-border-width, 1px) var(--ml-border-style, solid) rgba(255, 255, 255, 0.18);
+    border-radius: 8px; // valor antigo, pontual
     color: rgba(255, 255, 255, 0.75);
     cursor: pointer;
     transition: background 0.12s ease;
 
-    &:hover:not(.is-disabled) {
+    &--enabled:hover {
       background: rgba(255, 255, 255, 0.14);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
   }
 
-  // ---- dias ----
-  .glass-dp-day {
-    border-radius: 8px;
-    border: 1px solid transparent;
+  // ---- dias (antigo .glass-dp-day) ----
+  .ml-calendar-day {
+    background: transparent;
+    border-radius: 8px; // valor antigo, pontual
     color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
     transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
+    &--hoverable:hover {
       background: rgba(255, 255, 255, 0.1);
-    }
-    &.is-today {
-      border-color: rgba(199, 210, 254, 0.7);
-    }
-    &.is-selected {
-      background: rgba(199, 210, 254, 0.2);
-      border-color: rgba(199, 210, 254, 0.9);
-      color: #e0e7ff;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
     }
   }
 
-  .glass-dp-clear {
+  .ml-calendar-day-today {
+    border-color: rgba(199, 210, 254, 0.7);
+  }
+
+  .ml-calendar-day-selected {
+    background: rgba(199, 210, 254, 0.2);
+    border-color: rgba(199, 210, 254, 0.9);
+    color: #e0e7ff;
+  }
+
+  .ml-calendar-day-disabled {
+    opacity: 0.4; // valor antigo, pontual (difere do token 0.5)
+    cursor: not-allowed;
+  }
+
+  // ---- limpar (antigo .glass-dp-clear) ----
+  .ml-date-picker-clear {
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.7);
@@ -138,8 +192,9 @@ groupenterdate--ml-date-picker-glass,
     transition: color 0.12s ease;
 
     &:hover {
-      color: #fff;
+      color: #ffffff;
     }
+
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;

@@ -1,111 +1,131 @@
 /// <mls fileReference="_102055_/l2/molecules/groupnavigatemain/ml-sidebar-nav-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// SIDEBAR NAV — GLASSMORPHISM
-// Sidebar de vidro. Fundo escuro/rico atrás. Larguras/layout via Tailwind.
+// SIDEBAR NAV — GLASSMORPHISM (Strategy D)
+// Sidebar de vidro. Fundo escuro/rico atrás. Larguras/layout via Tailwind
+// herdado do render() base; aqui só aparência, mapeada para as classes ml-*.
 // =============================================================================
 groupnavigatemain--ml-sidebar-nav-glass {
   display: block;
   height: 100%;
   font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-sidebar {
-    border-right: 1px solid rgba(255, 255, 255, 0.16);
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.6);
+
+  // ---- painel (nav raiz) ----
+  .ml-surface-bg {
     background: rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     color: rgba(255, 255, 255, 0.9);
   }
-  .glass-sidebar-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+
+  // border-r (nav raiz) vs border-b/border-t (header/footer) — mesma classe
+  // ml-border, valores antigos diferentes por posição.
+  .border-r.ml-border {
+    border-color: rgba(255, 255, 255, 0.16);
   }
-  .glass-sidebar-title {
+  .border-b.ml-border,
+  .border-t.ml-border {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  // ---- texto ----
+  // ml-text é usado tanto no título do header (span) quanto no item de nav
+  // inativo (button) com valores antigos diferentes.
+  span.ml-text {
     color: #fff;
   }
-  .glass-sidebar-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  button.ml-text {
+    color: rgba(255, 255, 255, 0.78);
   }
-  .glass-sidebar-divider {
+  .hover\:ml-text:hover {
+    color: #fff;
+  }
+
+  .ml-text-faint {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  // ---- itens de navegação ----
+  .hover\:ml-surface-dim-bg:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .ml-surface-dim-bg {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  // divisores (h-px) usam um valor antigo diferente do resto de ml-surface-dim-bg
+  .h-px.ml-surface-dim-bg {
     background: rgba(255, 255, 255, 0.14);
   }
-
-  // ---- itens ----
-  .glass-nav-item {
-    border-radius: 10px;
-    border: none;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.78);
-    cursor: pointer;
-    transition: background 150ms ease, color 150ms ease;
-
-    &.is-active {
-      background: rgba(99, 102, 241, 0.42);
-      color: #fff;
-    }
-    &:not(.is-active):not(.is-disabled):hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-    }
-    &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-  .glass-nav-icon {
-    color: rgba(255, 255, 255, 0.6);
-    &.is-active {
-      color: #c7d2fe;
-    }
-  }
-  .glass-nav-initials {
-    background: rgba(255, 255, 255, 0.12);
+  // fallback de iniciais (ícone ausente, estado inativo): texto mais claro
+  .ml-surface-dim-bg.ml-text-faint {
     color: rgba(255, 255, 255, 0.85);
   }
-  .glass-nav-badge {
+
+  // estado ativo: button carrega ml-primary-dim-bg + ml-primary-text; badge
+  // (span) carrega os mesmos nomes com valores antigos diferentes.
+  button.ml-primary-dim-bg {
+    background: rgba(99, 102, 241, 0.42);
+  }
+  span.ml-primary-dim-bg {
     background: rgba(99, 102, 241, 0.55);
+  }
+  button.ml-primary-text {
     color: #fff;
   }
-  .glass-nav-dot {
+  // ícone ativo (h-5) vs badge (rounded-full) — mesmo ml-primary-text, valores diferentes
+  .h-5.ml-primary-text {
+    color: #c7d2fe;
+  }
+  .rounded-full.ml-primary-text {
+    color: #fff;
+  }
+
+  // indicador "não lido" (modo colapsado)
+  .ml-error-dim-bg {
     background: #f87171;
     box-shadow: 0 0 0 2px rgba(30, 27, 75, 0.8);
   }
 
-  // ---- group label / toggle ----
-  .glass-group-label {
-    border: none;
-    background: transparent;
+  // foco do item de navegação — ancorado em "group" (única no button do item)
+  .group:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--ml-focus-ring-color);
+  }
+
+  // ícone inativo ao passar o mouse sobre o item (group-hover) — sem
+  // equivalente no .less antigo; valor canônico da skill (state-completeness)
+  .group:hover .group-hover\:ml-text-muted {
     color: rgba(255, 255, 255, 0.55);
+  }
+
+  // ---- rótulo de grupo (toggle de seção) ----
+  // ancorado em "uppercase", única neste botão dentre os consumidores de ml-text-faint
+  .uppercase.ml-text-faint {
     cursor: pointer;
-    transition: color 150ms ease;
-    &:hover {
-      color: rgba(255, 255, 255, 0.85);
-    }
+
     &:focus-visible {
       outline: none;
     }
   }
+  .hover\:ml-text-muted:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
 
-  .glass-collapse-btn {
-    border: none;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.6);
+  // ---- toggle de colapsar sidebar ----
+  // ancorado na combinação hover:ml-surface-dim-bg + hover:ml-text-muted,
+  // única neste botão (mais específica que a regra de hover acima)
+  .hover\:ml-surface-dim-bg.hover\:ml-text-muted {
     cursor: pointer;
-    transition: background 150ms ease, color 150ms ease;
+
     &:hover {
-      background: rgba(255, 255, 255, 0.12);
       color: #fff;
     }
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
+      box-shadow: 0 0 0 2px var(--ml-focus-ring-color);
     }
-  }
-
-  .glass-skeleton {
-    background: rgba(255, 255, 255, 0.12);
   }
 }

@@ -2,95 +2,126 @@
 
 // =============================================================================
 // FILE UPLOAD DROPZONE — GLASSMORPHISM
-// Zona tracejada translúcida + cards de arquivo frosted sobre fundo escuro.
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Assume fundo escuro/rico atrás (contrato de container). Layout (padding,
+// gap, border-style tracejado, largura/altura) vem do Tailwind herdado —
+// nunca sobrescrever.
 // =============================================================================
 groupselectfileforupload--ml-file-upload-dropzone-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-dz-label {
+  // ---- tokens do tema glass ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-error: #ffb4ab;
+  --ml-outline-variant: rgba(255, 255, 255, 0.3);
+  --ml-outline-error: rgba(255, 120, 120, 0.7);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-radius-lg: 14px;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.4);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px;
+
+  // ---- rótulos e texto ----
+  // .ml-label é reaproveitado pela base tanto no <label> do campo quanto no
+  // título padrão do trigger (<div>) — desambiguado por tag
+  label.ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     color: rgba(255, 255, 255, 0.85);
   }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
-  }
-  .glass-dz-loading {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-dz-title {
+  div.ml-label {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     color: rgba(255, 255, 255, 0.9);
   }
-  .glass-dz-subtitle {
-    color: rgba(255, 255, 255, 0.55);
+
+  .ml-helper {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    color: rgba(255, 255, 255, 0.65);
   }
-  .glass-dz-trigger-slot {
+
+  .ml-error-text {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    color: var(--ml-error, #ffb4ab);
+  }
+
+  .ml-text {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    color: #ffffff;
+  }
+
+  // .ml-text-muted é reaproveitado pela base em 4 papéis (loading, subtítulo
+  // padrão do trigger, conteúdo custom do slot Trigger, tamanho do arquivo,
+  // botão remover) — desambiguado por contexto/ancestral
+  .ml-text-muted {
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    color: rgba(255, 255, 255, 0.6); // loading (topo do container, fallback)
+  }
+  .ml-dropzone .ml-text-muted {
+    color: rgba(255, 255, 255, 0.55); // subtítulo padrão do trigger
+  }
+  .ml-dropzone > .ml-text-muted {
+    color: rgba(255, 255, 255, 0.7); // conteúdo custom do slot Trigger (filho direto)
+  }
+  .ml-dropzone-file-item .ml-text-muted {
+    color: rgba(255, 255, 255, 0.55); // tamanho do arquivo
+  }
+  .ml-dropzone-file-item .ml-text-muted.ml-dropzone-file-remove {
     color: rgba(255, 255, 255, 0.7);
-  }
-
-  // ---- zona de drop ----
-  .glass-dz-zone {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px dashed rgba(255, 255, 255, 0.3);
-    border-radius: 14px;
-    color: #fff;
     cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
+    transition: color 0.12s ease;
+    &:hover {
+      color: #ffffff;
     }
-    &.is-dragging {
-      border-color: rgba(199, 210, 254, 0.9);
-      background: rgba(199, 210, 254, 0.12);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
+    &:disabled {
+      opacity: var(--ml-disabled-opacity, 0.5);
       cursor: not-allowed;
     }
   }
 
-  .glass-dz-icon {
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- zona de drop ----
+  .ml-dropzone {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--ml-outline-variant, rgba(255, 255, 255, 0.3));
+    border-radius: var(--ml-radius-lg, 14px);
+    color: #ffffff;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.4));
+    }
+  }
+
+  .ml-dropzone-active {
+    border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+    background: rgba(199, 210, 254, 0.12);
+  }
+
+  .ml-dropzone-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7)) !important;
+  }
+
+  .ml-dropzone-icon {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.85);
   }
 
   // ---- cards de arquivo ----
-  .glass-dz-file {
+  .ml-dropzone-file-item {
     background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-  }
-  .glass-dz-file-name {
-    color: #fff;
-  }
-  .glass-dz-file-size {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .glass-dz-remove {
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.7);
-    cursor: pointer;
-    transition: color 0.12s ease;
-
-    &:hover {
-      color: #fff;
-    }
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
   }
 }

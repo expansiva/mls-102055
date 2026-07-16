@@ -1,33 +1,41 @@
 /// <mls fileReference="_102055_/l2/molecules/groupnavigatesection/ml-navigate-pills-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// NAVIGATE PILLS — GLASSMORPHISM
+// NAVIGATE PILLS — GLASSMORPHISM (Strategy D)
 // Pílulas de vidro; ativa em índigo. Fundo escuro/rico atrás. Layout via Tailwind.
 // =============================================================================
 groupnavigatesection--ml-navigate-pills-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-disabled-opacity: 0.5;
+  --ml-error: #ffb4ab;
+  --ml-primary: rgba(99, 102, 241, 0.5);
 
-  .glass-nav-label {
+  font-family: var(--ml-font-family);
+
+  .ml-label {
     color: rgba(255, 255, 255, 0.85);
   }
 
-  .glass-pill {
+  .ml-error-text {
+    color: var(--ml-error);
+  }
+
+  .ml-nav-pill {
     border-radius: 9999px;
     border: 1px solid rgba(255, 255, 255, 0.22);
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     color: rgba(255, 255, 255, 0.78);
-    cursor: pointer;
     transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
 
-    &.is-active {
-      background: rgba(99, 102, 241, 0.5);
+    &.ml-nav-pill-active {
+      background: var(--ml-primary);
       border-color: rgba(199, 210, 254, 0.8);
       color: #fff;
     }
-    &:not(.is-disabled):not(.is-active):hover {
+    &:not(.ml-disabled):not(.ml-nav-pill-active):hover {
       background: rgba(255, 255, 255, 0.15);
       color: #fff;
     }
@@ -35,28 +43,28 @@ groupnavigatesection--ml-navigate-pills-glass {
       outline: none;
       box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
     }
-    &.is-disabled {
-      opacity: 0.5;
+    &.ml-disabled {
+      opacity: var(--ml-disabled-opacity);
       cursor: not-allowed;
+    }
+
+    // loading placeholder reuses `.ml-nav-pill` — flatten it to the muted/no-blur look
+    &.ml-text-muted {
+      border-radius: 12px;
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      color: rgba(255, 255, 255, 0.6);
     }
   }
 
-  .glass-pill-panel {
+  .ml-nav-pill-panel {
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     color: rgba(255, 255, 255, 0.9);
-  }
-
-  .glass-nav-loading {
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.07);
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
   }
 }

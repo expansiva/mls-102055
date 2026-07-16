@@ -1,22 +1,30 @@
 /// <mls fileReference="_102055_/l2/molecules/groupshowprogress/ml-circular-progress-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// CIRCULAR PROGRESS — GLASSMORPHISM (102055, por herança)
-// Anel translúcido com arco luminoso. Texto central claro.
+// CIRCULAR PROGRESS — GLASSMORPHISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Assume fundo escuro/rico atrás (contrato de container). Geometria (w-*/h-*,
+// raio/stroke-width/stroke-dasharray/stroke-dashoffset do SVG, que controla o
+// valor do progresso) vem do markup herdado — nunca sobrescrever.
 // =============================================================================
 groupshowprogress--ml-circular-progress-glass {
   display: inline-block;
-  font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-cp-track {
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+
+  .ml-stroke-track {
     stroke: rgba(255, 255, 255, 0.15);
   }
-  .glass-cp-fill {
+
+  .ml-stroke-primary {
     stroke: #c7d2fe;
     transition: stroke-dashoffset 0.4s ease-out;
     filter: drop-shadow(0 0 4px rgba(199, 210, 254, 0.5));
   }
-  .glass-cp-value {
+
+  .ml-text {
     color: rgba(255, 255, 255, 0.9);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
 }

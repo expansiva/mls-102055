@@ -1,77 +1,117 @@
 /// <mls fileReference="_102055_/l2/molecules/grouprateitem/ml-emoji-mood-scale-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// EMOJI MOOD SCALE — GLASSMORPHISM (102055, por herança)
-// Botões de emoji em vidro; selecionado/hover destacado em índigo.
+// EMOJI MOOD SCALE — GLASSMORPHISM (mls-102055, Strategy D)
 // =============================================================================
+// COMPLETE theme sheet: the base .less is scoped under the base tag and never
+// reaches this one. Selectors target the ml-* inventory emitted by the
+// inherited render() (mls-102040 ml-emoji-mood-scale).
 grouprateitem--ml-emoji-mood-scale-glass {
+  // ---- glass theme tokens (migration: old .less values win) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-radius-md: 12px; // container (old value, matches skill default)
+  --ml-radius-sm: 10px; // option/view box (old value, skill default is 12px)
+  --ml-outline-variant: rgba(255, 255, 255, 0.15); // old container border (skill default 0.25)
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7); // old value (skill default 0.85)
+  --ml-surface: rgba(255, 255, 255, 0.06); // old value (skill default 0.1/0.14)
+  --ml-surface-dim: rgba(255, 255, 255, 0.06); // old .glass-em-option/-view bg
+  --ml-on-surface: rgba(255, 255, 255, 0.7); // old .glass-em-label value (skill default 0.95)
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.65); // old .glass-helper value
+  --ml-error: #ffb4ab;
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px; // old value (skill default 10px)
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25); // old value (skill default 0.3)
+
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
 
-  .glass-em-label {
-    color: rgba(255, 255, 255, 0.7);
+  // ---- text roles ----
+  .ml-label {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.7));
   }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
+  .ml-text {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.7));
   }
-  .glass-error-text {
-    color: #ffb4ab;
+  .ml-text-muted {
+    color: rgba(255, 255, 255, 0.45); // old .glass-em-empty — distinct from helper
   }
-  .glass-em-empty {
-    color: rgba(255, 255, 255, 0.45);
+  .ml-helper {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.65));
+  }
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+  }
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
-  // ---- caixa ----
-  .glass-em-box {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+  // ---- glass surface: the radiogroup container (old .glass-em-box) ----
+  .ml-surface {
+    position: relative; // anchors the ::before specular edge
+    background: var(--ml-surface, rgba(255, 255, 255, 0.06));
+    border-radius: var(--ml-radius-md, 12px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
-    &:focus-within {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
     }
   }
 
-  // ---- opção ----
-  .glass-em-option {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
+  .ml-border {
+    border-color: var(--ml-outline-variant, rgba(255, 255, 255, 0.15));
+  }
+  .ml-border-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+  }
 
-    &:hover:not(.is-static) {
+  .ml-focus-within {
+    &:focus-within {
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
+    }
+  }
+
+  // ---- glass surfaces: the mood options (old .glass-em-option / .glass-em-view) ----
+  .ml-surface-dim {
+    background: var(--ml-surface-dim, rgba(255, 255, 255, 0.06));
+    border-radius: var(--ml-radius-sm, 10px);
+    transition: background 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
+  }
+
+  // N-to-1: the option/view border (old 0.18) differs from the container's
+  // --ml-outline-variant (old 0.15) though both map to the base .ml-border class.
+  .ml-surface-dim.ml-border {
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .ml-mood-option {
+    &:hover {
       background: rgba(255, 255, 255, 0.12);
       transform: translateY(-1px);
     }
+  }
+
+  .ml-mood-option-selected {
+    background: rgba(199, 210, 254, 0.2);
+    border-color: rgba(199, 210, 254, 0.9);
+  }
+
+  .ml-focus-ring {
     &:focus-visible {
       outline: none;
       box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
     }
-    &.is-active {
-      background: rgba(199, 210, 254, 0.2);
-      border-color: rgba(199, 210, 254, 0.9);
-    }
-    &.is-static {
-      cursor: default;
-    }
-  }
-
-  // ---- view ----
-  .glass-em-view {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 10px;
   }
 }

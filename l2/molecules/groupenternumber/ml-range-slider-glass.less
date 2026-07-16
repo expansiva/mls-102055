@@ -1,59 +1,73 @@
 /// <mls fileReference="_102055_/l2/molecules/groupenternumber/ml-range-slider-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// RANGE SLIDER — GLASSMORPHISM (102055, por herança)
+// RANGE SLIDER — GLASSMORPHISM (102055, Strategy D — theme sheet COMPLETO)
 // =============================================================================
+// O .less da base escopa na tag base e não alcança a tag -glass:
+// este arquivo define a aparência inteira. Valores migrados do .less antigo.
 groupenternumber--ml-range-slider-glass {
-  display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  // ---- glass theme tokens (valores antigos vencem os canônicos) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 500; // antigo: label usava font-medium (500), vence o canônico 600
+  --ml-surface: rgba(255, 255, 255, 0.16); // antigo: fundo do track (vence 0.1)
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.2); // antigo: borda do track (vence 0.25)
+  --ml-outline-error: rgba(255, 120, 120, 0.7); // antigo (vence 0.85)
+  --ml-on-surface: rgba(255, 255, 255, 0.95);
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.65);
+  --ml-error: #ffb4ab;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.4); // antigo (vence 0.3)
+  --ml-disabled-opacity: 0.5;
 
-  .glass-rs-label {
+  display: block;
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+
+  .ml-label {
     color: rgba(255, 255, 255, 0.85);
+    font-weight: var(--ml-font-weight-medium, 500);
   }
-  .glass-rs-affix {
-    color: rgba(255, 255, 255, 0.65);
-  }
-  .glass-rs-value {
+
+  // .ml-text tem dois papéis: valor (span, dentro do inline-flex) vs
+  // container do view mode (div) — seletor qualificado por elemento
+  span.ml-text {
     color: #fff;
     font-weight: 500;
   }
-  .glass-rs-sep {
+  div.ml-text {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.95));
+  }
+
+  // .ml-text-muted tem três papéis com valores antigos distintos:
+  // default = prefix/suffix (affix, 0.65)
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.65));
+  }
+  // separador do intervalo: span filho direto da linha de valores (0.5)
+  div.ml-text-muted > span.ml-text-muted {
     color: rgba(255, 255, 255, 0.5);
   }
-  .glass-rs-view {
-    color: rgba(255, 255, 255, 0.95);
-  }
-  .glass-rs-loading {
+  // mensagem de loading (0.6)
+  div.ml-text-muted.mt-2 {
     color: rgba(255, 255, 255, 0.6);
   }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
+
+  .ml-helper {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.65));
   }
-  .glass-error-text {
-    color: #ffb4ab;
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
   }
 
   // ---- range nativo estilizado ----
-  .glass-range {
+  // height/border-radius/cursor/transition vêm das utilities herdadas
+  // (h-2, rounded-full, cursor-pointer, transition) — não redefinir.
+  .ml-slider-track {
     -webkit-appearance: none;
     appearance: none;
-    height: 0.5rem;
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--ml-surface, rgba(255, 255, 255, 0.16));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
     outline: none;
-    cursor: pointer;
-
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      opacity: 0.8;
-    }
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -76,7 +90,17 @@ groupenternumber--ml-range-slider-glass {
       cursor: pointer;
     }
     &:focus-visible {
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.4);
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.4));
     }
+
+    &.ml-input-container-error {
+      border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+    }
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

@@ -1,35 +1,42 @@
 /// <mls fileReference="_102055_/l2/molecules/groupnavigatesection/ml-tabs-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// TABS — GLASSMORPHISM
+// TABS — GLASSMORPHISM (Strategy D)
 // Abas com sublinhado; ativa em índigo. Fundo escuro/rico atrás. Layout via Tailwind.
 // =============================================================================
 groupnavigatesection--ml-tabs-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-disabled-opacity: 0.5;
+  --ml-error: #ffb4ab;
 
-  .glass-nav-label {
+  font-family: var(--ml-font-family);
+
+  .ml-label {
     color: rgba(255, 255, 255, 0.85);
   }
 
-  .glass-tablist {
+  .ml-error-text {
+    color: var(--ml-error);
+  }
+
+  .ml-tab-list {
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   }
 
-  .glass-tab {
+  .ml-tab {
     border: none;
     border-bottom: 2px solid transparent;
     background: transparent;
     color: rgba(255, 255, 255, 0.7);
-    cursor: pointer;
     transition: color 200ms ease, border-color 200ms ease;
     margin-bottom: -1px;
 
-    &.is-active {
+    &.ml-tab-active {
       border-bottom-color: #c7d2fe;
       color: #fff;
     }
-    &:not(.is-active):not(.is-disabled):hover {
+    &:not(.ml-tab-active):not(.ml-disabled):hover {
       color: #fff;
     }
     &:focus-visible {
@@ -37,13 +44,13 @@ groupnavigatesection--ml-tabs-glass {
       box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.5);
       border-radius: 6px;
     }
-    &.is-disabled {
-      opacity: 0.5;
+    &.ml-disabled {
+      opacity: var(--ml-disabled-opacity);
       cursor: not-allowed;
     }
   }
 
-  .glass-tab-panel {
+  .ml-tab-panel {
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: rgba(255, 255, 255, 0.07);
@@ -52,13 +59,12 @@ groupnavigatesection--ml-tabs-glass {
     color: rgba(255, 255, 255, 0.9);
   }
 
-  .glass-nav-box {
+  // loading and empty states share `.ml-tab-container` combined with `.ml-text-muted`;
+  // the muted color already comes from this rule, no need for a separate `.ml-text-muted` rule
+  .ml-tab-container {
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: rgba(255, 255, 255, 0.07);
     color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-error-text {
-    color: #ffb4ab;
   }
 }

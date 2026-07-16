@@ -2,60 +2,112 @@
 
 // =============================================================================
 // PROFILE CARD — GLASSMORPHISM
-// Card translúcido. Fundo escuro/rico atrás. Layout via Tailwind no template.
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Assume fundo escuro/rico atrás (contrato de container): texto claro e
+// backdrop-filter visível. Layout (padding, gap, flex) vem do Tailwind no template.
 // =============================================================================
 groupviewcard--ml-profile-card-glass {
   display: block;
   font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-card {
+  // ---- tokens do tema glass (valores antigos preservados onde divergem do canônico) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 600;
+  --ml-radius-md: 18px; // antigo .glass-card (canônico seria 12px)
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.2); // antigo (canônico 0.25)
+  --ml-surface: rgba(255, 255, 255, 0.09); // antigo (canônico 0.1)
+  --ml-on-surface: rgba(255, 255, 255, 0.92);
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.68); // antigo .glass-card-desc
+  --ml-disabled-opacity: 0.5;
+  --ml-shadow-1: 0 12px 40px rgba(0, 0, 0, 0.28); // antigo; inset removido (ver ::before)
+  --ml-backdrop-blur: 16px; // antigo (canônico 10px)
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.5);
+
+  .ml-card {
     position: relative;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.09);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.25);
-    color: rgba(255, 255, 255, 0.92);
+    border-radius: var(--ml-radius-md, 18px);
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.2));
+    background: var(--ml-surface, rgba(255, 255, 255, 0.09));
+    backdrop-filter: blur(var(--ml-backdrop-blur, 16px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 16px));
+    box-shadow: var(--ml-shadow-1, 0 12px 40px rgba(0, 0, 0, 0.28));
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.92));
     transition: background 200ms ease, border-color 200ms ease, transform 150ms ease;
 
-    &.is-interactive {
-      cursor: pointer;
+    // aresta especular do vidro
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
     }
-    &.is-interactive:hover {
-      background: rgba(255, 255, 255, 0.14);
-      transform: translateY(-2px);
-    }
-    &.is-interactive:focus-visible {
+
+    &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.5);
-    }
-    &.is-selected {
-      background: rgba(99, 102, 241, 0.34);
-      border-color: rgba(199, 210, 254, 0.8);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.5));
     }
   }
 
-  .glass-card-text,
-  .glass-card-title {
+  // ml-card-hover é aplicada tanto quando selected quanto quando clickable (ver
+  // getCardClasses() da base) — a regra genérica cobre o fundo em ambos os casos;
+  // o levantar (translateY) fica restrito ao caso realmente interativo, ancorado
+  // no utilitário Tailwind cursor-pointer que só é emitido junto com clickable.
+  .ml-card-hover:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .ml-card-hover.cursor-pointer:hover {
+    transform: translateY(-2px);
+  }
+
+  // "selected" não tem classe ml-* própria na base (reaproveita ml-card-hover);
+  // ancorado no atributo estrutural aria-selected. Precisa vir DEPOIS das regras
+  // de hover acima para vencer o empate de especificidade quando hover+selected coincidem.
+  .ml-card[aria-selected='true'] {
+    background: rgba(99, 102, 241, 0.34);
+    border-color: rgba(199, 210, 254, 0.8);
+  }
+
+  .ml-label {
+    font-weight: var(--ml-font-weight-medium, 600);
     color: #fff;
   }
-  .glass-card-desc {
-    color: rgba(255, 255, 255, 0.68);
+
+  .ml-text {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.92));
   }
-  .glass-card-content {
+  // ml-text é emitida tanto no wrapper de header customizado (card-header) quanto
+  // no de conteúdo (card-content) com valores antigos diferentes — colisão N-para-1
+  // resolvida ancorando na classe literal irmã que a base sempre emite junto.
+  .card-header.ml-text {
+    color: #fff;
+  }
+  .card-content.ml-text {
     color: rgba(255, 255, 255, 0.88);
   }
-  .glass-card-footer {
+
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.68));
+  }
+  // mesma colisão N-para-1: footer tem valor antigo próprio, mais específico
+  // que a regra genérica (que cobre a descrição).
+  .card-footer.ml-text-muted {
     color: rgba(255, 255, 255, 0.6);
   }
 
-  .glass-skeleton {
-    border-radius: 8px;
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .ml-skeleton {
     background: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
   }
 }

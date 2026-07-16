@@ -1,24 +1,67 @@
 /// <mls fileReference="_102055_/l2/molecules/groupentertext/ml-floating-text-input-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// ML FLOATING TEXT INPUT — GLASSMORPHISM (102055, por herança)
+// ML FLOATING TEXT INPUT — GLASSMORPHISM (mls-102055, Strategy D theme sheet)
 // =============================================================================
+// Folha COMPLETA: o .less base escopa sob a tag base e não alcança a tag
+// -glass. Seletores apontam para o inventário ml-* do render() herdado;
+// valores visuais vêm do .less glass antigo (precedência da migração).
 groupentertext--ml-floating-text-input-glass {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+
+  // ---- glass theme tokens (somente os consumidos; valores antigos vencem) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-radius-sm: 12px;
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.25);
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.85);
+  --ml-surface: rgba(255, 255, 255, 0.1);
+  --ml-on-surface: rgba(255, 255, 255, 0.95);
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.7);
+  --ml-on-surface-faint: rgba(255, 255, 255, 0.6);
+  --ml-error: #ffb4ab;
+  --ml-shadow-1: 0 4px 16px rgba(0, 0, 0, 0.16);
+  --ml-transition: 250ms ease;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.35);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 10px;
+
+  // ---- texto ----
+  .ml-text {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.95));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // prefix/suffix e label do view mode (div) — 0.7
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.7));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
+
+  // label flutuante (único <label> com ml-text-muted) — 0.75 (one-off do antigo)
+  label.ml-text-muted {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  // label inline — 0.6
+  .ml-text-faint {
+    color: var(--ml-on-surface-faint, rgba(255, 255, 255, 0.6));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+  }
 
   // ---- campo (superfície de vidro) ----
-  .glass-input-container {
-    position: relative;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
-    transition: border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
-    cursor: text;
+  .ml-input-container {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.1));
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.25));
+    border-radius: var(--ml-radius-sm, 12px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    box-shadow: var(--ml-shadow-1, 0 4px 16px rgba(0, 0, 0, 0.16));
+    transition: border-color var(--ml-transition, 250ms ease), box-shadow var(--ml-transition, 250ms ease), background var(--ml-transition, 250ms ease);
 
+    // borda especular (só topo, como no antigo)
     &::before {
       content: '';
       position: absolute;
@@ -28,61 +71,47 @@ groupentertext--ml-floating-text-input-glass {
       pointer-events: none;
     }
 
-    &:focus-within:not(.is-error) {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.35), 0 4px 16px rgba(0, 0, 0, 0.16);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.85);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    &:focus-within:not(.ml-input-container-error) {
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.35)),
+        var(--ml-shadow-1, 0 4px 16px rgba(0, 0, 0, 0.16));
     }
   }
 
+  .ml-input-container-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.85));
+  }
+
   // ---- input ----
-  .glass-input-field {
-    color: rgba(255, 255, 255, 0.95);
+  .ml-input {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.95));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
     caret-color: rgba(199, 210, 254, 1);
     &::placeholder {
       color: rgba(255, 255, 255, 0.55);
     }
-    &.is-readonly {
-      cursor: default;
-    }
   }
 
-  // ---- labels ----
-  .glass-input-inline-label {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  .glass-input-floating-label {
-    color: rgba(255, 255, 255, 0.75);
-  }
-
-  // ---- prefix / suffix ----
-  .glass-input-affix {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .glass-input-spinner {
+  // ---- spinner ----
+  .ml-spinner {
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-top-color: rgba(255, 255, 255, 0.9);
   }
 
   // ---- feedback ----
-  .glass-input-error {
-    color: #ffb4ab;
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
-  .glass-input-helper {
+  .ml-helper {
     color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
   }
 
-  // ---- view mode ----
-  .glass-input-view-label {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .glass-input-view-value {
-    color: rgba(255, 255, 255, 0.95);
+  // ---- estados ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

@@ -1,91 +1,102 @@
 /// <mls fileReference="_102055_/l2/molecules/groupexpandcontent/ml-reveal-overlay-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// REVEAL OVERLAY — GLASSMORPHISM
-// O overlay fosco cobre o conteúdo (backdrop-filter) até ser revelado.
-// Fundo escuro/rico atrás. Layout via Tailwind no template.
+// REVEAL OVERLAY — GLASSMORPHISM (Strategy D)
+// O render() herdado (mls-102040) emite classes semânticas ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// O overlay fosco cobre o conteúdo (backdrop-filter) até ser revelado; a
+// transição de opacidade/pointer-events do estado aberto já vem do Tailwind
+// herdado no template (opacity-0/opacity-100, pointer-events-none) — não
+// redeclarada aqui.
 // =============================================================================
 groupexpandcontent--ml-reveal-overlay-glass {
   display: block;
   font-family: 'Inter', system-ui, sans-serif;
 
-  .glass-reveal-loading {
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+  --ml-radius-sm: 12px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.18);
+  --ml-on-surface: rgba(255, 255, 255, 0.92);
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.6);
+  --ml-surface: rgba(255, 255, 255, 0.1);
+  --ml-transition: 200ms ease;
+  --ml-backdrop-blur: 10px;
+  --ml-disabled-opacity: 0.5;
+
+  // ---- loading ----
+  .ml-skeleton {
+    border-radius: var(--ml-radius-sm);
+    border: 1px solid var(--ml-outline-variant);
     background: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.6);
   }
 
-  // ---- header ----
-  .glass-reveal-header {
-    position: relative;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: rgba(255, 255, 255, 0.92);
-    cursor: pointer;
-    transition: background 200ms ease;
+  // ---- textos muted: default (loading) / rótulo de ação no header ----
+  // a base reaproveita ml-text-muted no texto de loading, no rótulo de ação
+  // do trigger e (combinado com ml-reveal-panel) no aviso — diferenciados por
+  // contexto/companion class.
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted);
+  }
+  .ml-reveal-trigger .ml-text-muted {
+    color: rgba(199, 210, 254, 0.95);
+  }
 
-    &:not(.is-disabled):hover {
+  // ---- cabeçalho (trigger) ----
+  // cursor: a base já aplica "cursor-pointer" via Tailwind quando habilitado.
+  .ml-reveal-trigger {
+    position: relative;
+    border-radius: var(--ml-radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: var(--ml-surface);
+    backdrop-filter: blur(var(--ml-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur));
+    color: var(--ml-on-surface);
+    transition: background var(--ml-transition);
+
+    &:not(.ml-disabled):hover {
       background: rgba(255, 255, 255, 0.16);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
     &:focus-visible {
       outline: none;
       box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
     }
   }
-  .glass-reveal-action {
-    color: rgba(199, 210, 254, 0.95);
-  }
 
-  .glass-reveal-warning {
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.07);
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  // ---- container do conteúdo ----
-  .glass-reveal-container {
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.05);
-    overflow: hidden;
-    &.is-disabled {
-      opacity: 0.5;
+  // ---- ml-reveal-panel: 3 usos (aviso / container / conteúdo revelado) ----
+  // diferenciados por companion class / relação estrutural:
+  //  - aviso: também carrega ml-text-muted
+  //  - container: único que contém .ml-reveal-overlay como filho direto
+  //  - conteúdo revelado: único que carrega a utility "p-4"
+  .ml-reveal-panel {
+    &.ml-text-muted {
+      border-radius: 10px;
+      border: 1px solid var(--ml-outline-variant);
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.7);
+    }
+    &:has(> .ml-reveal-overlay) {
+      border-radius: var(--ml-radius-sm);
+      border: 1px solid var(--ml-outline-variant);
+      background: rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+    }
+    &.p-4 {
+      color: rgba(255, 255, 255, 0.9);
     }
   }
-  .glass-reveal-content {
-    color: rgba(255, 255, 255, 0.9);
-  }
 
-  // ---- overlay fosco (esconde até revelar) ----
-  .glass-reveal-overlay {
-    border-radius: 12px;
+  // ---- overlay fosco ----
+  .ml-reveal-overlay {
+    border-radius: var(--ml-radius-sm);
     background: rgba(20, 18, 50, 0.45);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    opacity: 1;
     transition: opacity 300ms ease;
-
-    &.is-open {
-      opacity: 0;
-      pointer-events: none;
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      pointer-events: none;
-    }
   }
 
-  // ---- botão revelar ----
-  .glass-reveal-btn {
+  // ---- botão revelar/ocultar ----
+  // cursor: botão nativo sem utility Tailwind de cursor na base — mantido
+  // explícito (não é redundante aqui).
+  .ml-reveal-close {
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     background: rgba(255, 255, 255, 0.14);
@@ -93,13 +104,16 @@ groupexpandcontent--ml-reveal-overlay-glass {
     -webkit-backdrop-filter: blur(6px);
     color: #fff;
     cursor: pointer;
-    transition: background 200ms ease;
-    &:not(.is-disabled):hover {
+    transition: background var(--ml-transition);
+
+    &:not(.ml-disabled):hover {
       background: rgba(255, 255, 255, 0.24);
     }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

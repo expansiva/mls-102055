@@ -1,82 +1,120 @@
 /// <mls fileReference="_102055_/l2/molecules/grouprateitem/ml-star-rating-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// STAR RATING — GLASSMORPHISM (102055, por herança)
-// Caixa translúcida com estrelas; ativas em dourado luminoso.
+// STAR RATING — GLASSMORPHISM (mls-102055, Strategy D)
 // =============================================================================
+// COMPLETE theme sheet: the base .less is scoped under the base tag and never
+// reaches this one. Selectors target the ml-* inventory emitted by the
+// inherited render() (mls-102040 ml-star-rating).
 grouprateitem--ml-star-rating-glass {
-  display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  // ---- glass theme tokens (migration: old .less values win) ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-radius-md: 12px; // container (old value, matches skill default)
+  --ml-outline-variant: rgba(255, 255, 255, 0.18); // old value (skill default 0.25)
+  --ml-outline-focus: rgba(199, 210, 254, 0.9);
+  --ml-outline-error: rgba(255, 120, 120, 0.7); // old value (skill default 0.85)
+  --ml-surface: rgba(255, 255, 255, 0.07); // old value
+  --ml-on-surface: rgba(255, 255, 255, 0.7); // old .glass-sr-label value (skill default 0.95)
+  --ml-on-surface-muted: rgba(255, 255, 255, 0.65); // old .glass-helper value
+  --ml-error: #ffb4ab;
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 8px; // old value (skill default 10px)
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.25); // old value (skill default 0.3)
 
-  .glass-sr-label {
-    color: rgba(255, 255, 255, 0.7);
+  display: block;
+  font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+
+  // ---- text roles ----
+  .ml-label {
+    color: var(--ml-on-surface, rgba(255, 255, 255, 0.7));
     display: block;
   }
-  .glass-helper {
-    color: rgba(255, 255, 255, 0.65);
+  .ml-helper {
+    color: var(--ml-on-surface-muted, rgba(255, 255, 255, 0.65));
   }
-  .glass-error-text {
-    color: #ffb4ab;
+  .ml-error-text {
+    color: var(--ml-error, #ffb4ab);
   }
-  .glass-sr-empty {
-    color: rgba(255, 255, 255, 0.45);
+  .ml-text-muted {
+    color: rgba(255, 255, 255, 0.45); // old .glass-sr-empty
+  }
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
-  // ---- caixa ----
-  .glass-sr-box {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 12px;
-    width: fit-content;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  // ---- glass surface: the radiogroup container (old .glass-sr-box) ----
+  .ml-surface {
+    position: relative; // anchors the ::before specular edge
+    width: fit-content; // old value — base emits no width utility here to conflict with
+    background: var(--ml-surface, rgba(255, 255, 255, 0.07));
+    border-radius: var(--ml-radius-md, 12px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 8px));
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+    }
+  }
+
+  .ml-border {
+    border-color: var(--ml-outline-variant, rgba(255, 255, 255, 0.18));
+  }
+  .ml-border-error {
+    border-color: var(--ml-outline-error, rgba(255, 120, 120, 0.7));
+  }
+
+  .ml-focus-within {
     &:focus-within {
-      border-color: rgba(199, 210, 254, 0.9);
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.25);
-    }
-    &.is-error {
-      border-color: rgba(255, 120, 120, 0.7);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      border-color: var(--ml-outline-focus, rgba(199, 210, 254, 0.9));
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.25));
     }
   }
 
-  // ---- opção ----
-  .glass-sr-option {
+  // ---- star option button (old .glass-sr-option) — always-present wrapper class ----
+  .ml-rating-star-hover {
     background: transparent;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
     transition: background 0.12s ease;
 
-    &:hover:not(.is-disabled) {
+    &:hover:not(.ml-disabled) {
       background: rgba(255, 255, 255, 0.08);
     }
     &:focus-visible {
       outline: none;
       box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.6);
     }
-    &.is-selected {
-      background: rgba(199, 210, 254, 0.16);
-    }
-    &.is-disabled {
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
   }
 
-  // ---- estrela ----
-  .glass-sr-star {
-    color: rgba(255, 255, 255, 0.25);
-    transition: color 0.12s ease, filter 0.12s ease;
+  // N-to-1: ml-rating-star-filled is emitted on both the <button> (only when
+  // selected) and the <svg> (when active, incl. hover-preview) — disambiguate
+  // by element so the button's selected background doesn't leak onto the icon.
+  button.ml-rating-star-filled {
+    background: rgba(199, 210, 254, 0.16); // old .is-selected
+  }
 
-    &.is-active {
-      color: #fbbf24;
-      filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.5));
-    }
+  // ---- star icon (old .glass-sr-star) ----
+  .ml-rating-star {
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  svg.ml-rating-star,
+  svg.ml-rating-star-filled {
+    transition: color 0.12s ease, filter 0.12s ease;
+  }
+
+  svg.ml-rating-star-filled {
+    color: #fbbf24;
+    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.5));
   }
 }

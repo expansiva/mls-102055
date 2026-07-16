@@ -1,45 +1,83 @@
 /// <mls fileReference="_102055_/l2/molecules/grouptriggeraction/ml-icon-button-glass.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// ICON BUTTON — GLASSMORPHISM
-// Botão de ícone translúcido. Fundo escuro/rico atrás. Tamanho via Tailwind.
+// ICON BUTTON — GLASSMORPHISM (Strategy D — theme sheet COMPLETO)
+// Botão de ícone translúcido. Requer fundo escuro/rico atrás.
+// Tamanho e layout vêm das utilities Tailwind do render() herdado.
 // =============================================================================
 grouptriggeraction--ml-icon-button-glass {
   display: inline-block;
 
-  .glass-icon-btn {
-    position: relative;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.25);
-    cursor: pointer;
-    transition: background 200ms ease, box-shadow 200ms ease, transform 120ms ease;
-    appearance: none;
+  // ---- glass theme tokens ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 600;
+  --ml-radius-sm: 10px; // valor do .less antigo (fonte da verdade na migração)
+  --ml-border-width: 1px;
+  --ml-outline-variant: rgba(255, 255, 255, 0.25);
+  --ml-surface: rgba(255, 255, 255, 0.1);
+  --ml-on-surface: #ffffff;
+  // inset highlight do design antigo removido — a aresta especular ::before cobre o efeito
+  --ml-shadow-1: 0 4px 14px rgba(0, 0, 0, 0.16);
+  --ml-transition: 200ms ease;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(199, 210, 254, 0.5);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 10px;
 
-    &:not(.is-disabled):hover {
-      background: rgba(255, 255, 255, 0.18);
+  .ml-button {
+    position: relative; // ancora a aresta especular ::before
+    overflow: hidden; // clipa a aresta (botão)
+    appearance: none;
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    font-weight: var(--ml-font-weight-medium, 600);
+    border-radius: var(--ml-radius-sm, 10px);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    box-shadow: var(--ml-shadow-1, 0 4px 14px rgba(0, 0, 0, 0.16));
+    cursor: pointer;
+    transition: background var(--ml-transition, 200ms ease),
+                box-shadow var(--ml-transition, 200ms ease),
+                border-color var(--ml-transition, 200ms ease),
+                transform 120ms ease;
+
+    &::before { // aresta especular — CSS puro, nunca markup
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
     }
-    &:not(.is-disabled):active {
-      transform: translateY(1px);
-    }
+
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.5);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    &.is-loading {
-      cursor: wait;
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(199, 210, 254, 0.5));
     }
   }
 
-  .glass-icon-btn-icon {
+  .ml-button-secondary {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.1));
+    color: var(--ml-on-surface, #ffffff);
+    border: var(--ml-border-width, 1px) solid var(--ml-outline-variant, rgba(255, 255, 255, 0.25));
+
+    &:not(.ml-disabled):hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+    &:not(.ml-disabled):active {
+      transform: translateY(1px);
+    }
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Wrapper do ícone: o render() herdado não emite classe ml-* nele
+  // (só Tailwind w-full h-full); alvo via atributo aria-hidden.
+  .ml-button > span[aria-hidden='true'] {
     color: rgba(255, 255, 255, 0.92);
     padding: 22%;
   }

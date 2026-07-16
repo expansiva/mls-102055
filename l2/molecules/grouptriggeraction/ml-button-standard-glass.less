@@ -2,25 +2,48 @@
 
 // =============================================================================
 // BUTTON STANDARD — GLASSMORPHISM
-// Aparência self-contained, escopada sob a tag real. Assume fundo escuro/rico
-// atrás (contrato de container): texto claro e backdrop-filter visível.
-// Layout (padding, gap, flex) vem do Tailwind no template.
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -glass) e redefine toda a aparência.
+// Assume fundo escuro/rico atrás (contrato de container): texto claro e
+// backdrop-filter visível. Layout (padding, gap, flex) vem do Tailwind no template.
 // =============================================================================
 grouptriggeraction--ml-button-standard-glass {
   display: inline-block;
 
-  .glass-btn {
+  // ---- tokens do tema glass ----
+  --ml-font-family: 'Inter', system-ui, sans-serif;
+  --ml-font-weight-medium: 600;
+  --ml-radius-sm: 12px;
+  --ml-border-width: 1px;
+  --ml-border-style: solid;
+  --ml-outline-variant: rgba(255, 255, 255, 0.25);
+  --ml-primary: rgba(99, 102, 241, 0.55);
+  --ml-on-primary: #ffffff;
+  --ml-surface: rgba(255, 255, 255, 0.14);
+  --ml-error: rgba(244, 63, 94, 0.55);
+  --ml-shadow-1: 0 4px 18px rgba(0, 0, 0, 0.18);
+  --ml-shadow-2: 0 6px 24px rgba(0, 0, 0, 0.26);
+  --ml-transition: 250ms ease;
+  --ml-focus-ring-width: 3px;
+  --ml-focus-ring-color: rgba(255, 255, 255, 0.5);
+  --ml-disabled-opacity: 0.5;
+  --ml-backdrop-blur: 10px; // novo token — assinatura do glass
+
+  .ml-button {
     position: relative;
     overflow: hidden;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 600;
-    color: #fff;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
-    transition: background 250ms ease, border-color 250ms ease, box-shadow 250ms ease, transform 120ms ease;
+    border-radius: var(--ml-radius-sm, 12px);
+    border: var(--ml-border-width, 1px) var(--ml-border-style, solid) var(--ml-outline-variant, rgba(255, 255, 255, 0.25));
+    font-family: var(--ml-font-family, 'Inter', system-ui, sans-serif);
+    font-weight: var(--ml-font-weight-medium, 600);
+    color: var(--ml-on-primary, #ffffff);
+    backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--ml-backdrop-blur, 10px));
+    box-shadow: var(--ml-shadow-1, 0 4px 18px rgba(0, 0, 0, 0.18));
+    transition: background var(--ml-transition, 250ms ease),
+                border-color var(--ml-transition, 250ms ease),
+                box-shadow var(--ml-transition, 250ms ease),
+                transform 120ms ease;
     cursor: pointer;
 
     // aresta especular do vidro
@@ -36,52 +59,49 @@ grouptriggeraction--ml-button-standard-glass {
 
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5), 0 4px 18px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 0 0 var(--ml-focus-ring-width, 3px) var(--ml-focus-ring-color, rgba(255, 255, 255, 0.5)),
+                  var(--ml-shadow-1, 0 4px 18px rgba(0, 0, 0, 0.18));
     }
-    &:not(.is-disabled):hover {
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.26);
+    &:not(.ml-disabled):hover {
+      box-shadow: var(--ml-shadow-2, 0 6px 24px rgba(0, 0, 0, 0.26));
     }
-    &:not(.is-disabled):active {
+    &:not(.ml-disabled):active {
       transform: translateY(1px);
-    }
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
   }
 
   // ---- variants (tom translúcido, não preenchimento opaco) ----
-  .glass-btn--primary {
-    background: rgba(99, 102, 241, 0.55);
-  }
-  .glass-btn--primary:not(.is-disabled):hover {
-    background: rgba(99, 102, 241, 0.68);
-  }
-
-  .glass-btn--secondary {
-    background: rgba(255, 255, 255, 0.14);
-  }
-  .glass-btn--secondary:not(.is-disabled):hover {
-    background: rgba(255, 255, 255, 0.22);
+  .ml-button-primary {
+    background: var(--ml-primary, rgba(99, 102, 241, 0.55));
+    &:not(.ml-disabled):hover {
+      background: rgba(99, 102, 241, 0.68);
+    }
   }
 
-  .glass-btn--danger {
-    background: rgba(244, 63, 94, 0.55);
-  }
-  .glass-btn--danger:not(.is-disabled):hover {
-    background: rgba(244, 63, 94, 0.68);
+  .ml-button-secondary {
+    background: var(--ml-surface, rgba(255, 255, 255, 0.14));
+    &:not(.ml-disabled):hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
   }
 
-  .glass-btn--ghost {
+  .ml-button-danger {
+    background: var(--ml-error, rgba(244, 63, 94, 0.55));
+    &:not(.ml-disabled):hover {
+      background: rgba(244, 63, 94, 0.68);
+    }
+  }
+
+  .ml-button-ghost {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(255, 255, 255, 0.15);
-  }
-  .glass-btn--ghost:not(.is-disabled):hover {
-    background: rgba(255, 255, 255, 0.12);
+    &:not(.ml-disabled):hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
   }
 
   // link: sem vidro, sem borda
-  .glass-btn--link {
+  .ml-button-link {
     background: transparent;
     border-color: transparent;
     backdrop-filter: none;
@@ -91,9 +111,15 @@ grouptriggeraction--ml-button-standard-glass {
     &::before {
       display: none;
     }
-    &:not(.is-disabled):hover {
+    &:not(.ml-disabled):hover {
       text-decoration: underline;
       box-shadow: none;
     }
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }
